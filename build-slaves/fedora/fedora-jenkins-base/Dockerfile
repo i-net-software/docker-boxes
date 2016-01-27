@@ -7,6 +7,9 @@ MAINTAINER contact@inetsoftware.de
 RUN dnf install -y openssh-server auto-buildrequires && \
     mkdir /var/run/sshd && \
     adduser jenkins && \
-    echo jenkins:jenkins | chpasswd
+    echo jenkins:jenkins | chpasswd && \
+    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && \
+    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
+    ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
 
 CMD /usr/sbin/sshd -D
