@@ -52,8 +52,8 @@ if [ ! -z "$AUTOSETUP" ]; then
         
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
-            cp "$AUTOSETUP_TMP/config/*.groovy" /usr/share/jenkins/ref/init.groovy.d/
-            cp "$AUTOSETUP_TMP/config/*.xml" "$JENKINS_HOME/"
+            find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp {} /usr/share/jenkins/ref/init.groovy.d/ \;
+            find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp {} "$JENKINS_HOME/" \;
         fi
     done        
 fi
@@ -79,6 +79,7 @@ interpolate_env() {
 }
 
 for FILE in "$JENKINS_HOME/*.xml"; do
+    echo "Interpolating env in file: '$FILE'"
     interpolate_env "$FILE"
 done
 ######################################################################
