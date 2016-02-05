@@ -17,7 +17,6 @@ if [ ! -z "$AUTOSETUP" ]; then
         
         EXTS=( ${SETUP:0:3} ${AUTOSETUP:${#SETUP}<3?0:-3} )
         for EXT in ${EXTS[@]}; do
-            echo $EXT
             case $EXT in
                 git )
                     git clone --depth=1 --quiet "$SETUP" "$AUTOSETUP_TMP"
