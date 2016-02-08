@@ -51,8 +51,8 @@ if [ ! -z "$AUTOSETUP" ]; then
         
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
-            find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp {} /usr/share/jenkins/ref/init.groovy.d/ \;
-            find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp {} "$JENKINS_HOME/" \;
+            find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp -v {} /usr/share/jenkins/ref/init.groovy.d/ \;
+            find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp -v {} "$JENKINS_HOME/" \;
         fi
     done        
 fi
