@@ -20,7 +20,7 @@ plugins.each {
   
     logger.info("Checking " + pluginName + " Version:" + checkVersion)
     def pl = pm.getPlugin(pluginName);
-    if (!pl || (pl.hasUpdate() && pl.isOlderThan(checkVersion) ) ) {
+    if (!pl || (pl.hasUpdate() && ( pl.isOlderThan(checkVersion) || checkVersion=="latest" ) ) ) {
         logger.info("\tLooking at UpdateCenter for: " + pluginName)
         if (!initialized) {
             uc.updateAllSites()
