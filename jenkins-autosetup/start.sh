@@ -44,9 +44,8 @@ if [ ! -z "$AUTOSETUP" ]; then
         
         # initialise Plugins
         if [ -f "$AUTOSETUP_TMP/plugins.txt" ]; then
-            echo "Setting up Plugins"
+            echo "Setting up Plugins - will be loaded on startup using the managePlugins.groovy"
             cp "$AUTOSETUP_TMP/plugins.txt" /usr/share/jenkins/ref/
-            /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
         fi
         
         if [ -d "$AUTOSETUP_TMP/config" ]; then

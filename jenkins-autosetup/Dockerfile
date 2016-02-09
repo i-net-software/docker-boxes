@@ -16,5 +16,6 @@ USER jenkins
 
 # custom start script
 COPY start.sh /usr/local/bin/
+COPY managePlugins.groovy "$JENKINS_HOME/jobs/"
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
