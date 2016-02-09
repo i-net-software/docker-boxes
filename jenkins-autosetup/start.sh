@@ -51,12 +51,14 @@ if [ ! -z "$AUTOSETUP" ]; then
         
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
+            mkdir -p "${JENKINS_REF}init.groovy.d/"
             find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp -v {} "${JENKINS_REF}init.groovy.d/" \;
             find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp -v {} "${JENKINS_REF}" \;
         fi
 
         if [ -d "$AUTOSETUP_TMP/jobs" ]; then
             echo "Copying job files"
+            mkdir -p "${JENKINS_REF}jobs/"
             find "$AUTOSETUP_TMP/jobs" -name "*.xml" -exec cp -v {} "${JENKINS_REF}jobs/" \;
         fi
     done
