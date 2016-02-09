@@ -20,7 +20,7 @@ plugins.each {
   
     logger.info("Checking " + pluginName + " Version:" + checkVersion)
     def pl = pm.getPlugin(pluginName);
-    if (!pl || (pl.hasUpdate() || pl.isOlderThan(checkVersion) ) ) {
+    if (!pl || (pl.hasUpdate() && pl.isOlderThan(checkVersion) ) ) {
         logger.info("\tLooking at UpdateCenter for: " + pluginName)
         if (!initialized) {
             uc.updateAllSites()
@@ -29,7 +29,7 @@ plugins.each {
 
         def plugin = uc.getPlugin(pluginName)
         if (plugin) {
-            logger.info( "\t" +(pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
+            logger.info( "\t" +(pl && pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
             plugin.deploy()
             installed = true
         }

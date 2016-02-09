@@ -84,8 +84,8 @@ interpolate_env() {
 }
 
 for FILE in $(find "${JENKINS_REF}" -type f); do
-    echo "Interpolating env in file: '${JENKINS_REF}$FILE'"
-    interpolate_env "${JENKINS_REF}$FILE"
+    echo "Interpolating env in file: '${JENKINS_REF}.$FILE'"
+    interpolate_env "${JENKINS_REF}.$FILE"
 done
 ######################################################################
 
