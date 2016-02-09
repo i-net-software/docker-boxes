@@ -1,4 +1,5 @@
 import jenkins.model.*
+import hudson.util.VersionNumber
 import java.util.logging.Logger
 
 def logger = Logger.getLogger("")
@@ -15,10 +16,12 @@ uc.updateAllSites()
 
 plugins.each {
     def (pluginName, version) = it.tokenize( ':' )
-
-    logger.info("Checking " + pluginName)
-    if (!pm.getPlugin(pluginName)) {
-        logger.info("Looking UpdateCenter for " + pluginName)
+    def checkVersion = new VersionNumber(!version?"latest":version)
+  
+    logger.info("Checking " + pluginName + " Version:" + checkVersion)
+    def pl = pm.getPlugin(pluginName);
+    if (!pl || (pl.hasUpdate() || pl.isOlderThan(checkVersion) ) ) {
+        logger.info("\tLooking at UpdateCenter for: " + pluginName)
         if (!initialized) {
             uc.updateAllSites()
             initialized = true
@@ -26,7 +29,7 @@ plugins.each {
 
         def plugin = uc.getPlugin(pluginName)
         if (plugin) {
-            logger.info("Installing " + pluginName)
+            logger.info( "\t" +(pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
             plugin.deploy()
             installed = true
         }
