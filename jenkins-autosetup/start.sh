@@ -1,6 +1,7 @@
 #!/bin/bash
 
 AUTOSETUP_TMP=/tmp/autosetup
+JENKINS_REF=/usr/share/jenkins/ref/
 
 ######################################################################
 # Check for a configuration URL for startup
@@ -45,20 +46,21 @@ if [ ! -z "$AUTOSETUP" ]; then
         # initialise Plugins
         if [ -f "$AUTOSETUP_TMP/plugins.txt" ]; then
             echo "Setting up Plugins - will be loaded on startup using the managePlugins.groovy"
-            cp "$AUTOSETUP_TMP/plugins.txt" /usr/share/jenkins/ref/
+            cp "$AUTOSETUP_TMP/plugins.txt" "${JENKINS_REF}"
         fi
         
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
-            find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp -v {} /usr/share/jenkins/ref/init.groovy.d/ \;
-            find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp -v {} "$JENKINS_HOME/" \;
+            find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp -v {} "${JENKINS_REF}init.groovy.d/" \;
+            find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp -v {} "${JENKINS_REF}" \;
         fi
 
         if [ -d "$AUTOSETUP_TMP/jobs" ]; then
             echo "Copying job files"
-            find "$AUTOSETUP_TMP/jobs" -name "*.xml" -exec cp -v {} "$JENKINS_HOME/jobs/" \;
+            find "$AUTOSETUP_TMP/jobs" -name "*.xml" -exec cp -v {} "${JENKINS_REF}jobs/" \;
         fi
-    done        
+    done
+    rm -rf "$AUTOSETUP_TMP"
 fi
 
 ######################################################################
@@ -81,9 +83,9 @@ interpolate_env() {
 	done
 }
 
-for FILE in "$JENKINS_HOME/*.xml"; do
-    echo "Interpolating env in file: '$FILE'"
-    interpolate_env "$FILE"
+for FILE in $(find "${JENKINS_REF}" -type f); do
+    echo "Interpolating env in file: '${JENKINS_REF}$FILE'"
+    interpolate_env "${JENKINS_REF}$FILE"
 done
 ######################################################################
 

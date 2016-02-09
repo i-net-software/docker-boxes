@@ -16,6 +16,6 @@ USER jenkins
 
 # custom start script
 COPY start.sh /usr/local/bin/
-COPY managePlugins.groovy "$JENKINS_HOME/init.groovy.d/"
+COPY managePlugins.groovy "/usr/share/jenkins/ref/init.groovy.d/"
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
