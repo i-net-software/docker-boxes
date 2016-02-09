@@ -65,28 +65,4 @@ fi
 
 ######################################################################
 
-######################################################################
-# Modify configuration files with environment variables
-#
-# Env variable interpolation functions
-value_of() {
-	eval echo \${$1}
-}
-
-interpolate_env() {
-	FILE=$1
-	for env_var in `cat ${FILE} | grep {| awk -F "{" '{print $2}' | awk -F "}" '{print $1}'`; do
-		SUBST=`value_of ${env_var}`
-		if [ -n "$SUBST" ]; then
-			sed -ie 's|${'"$env_var"'}|'"$SUBST"'|g' $FILE
-		fi
-	done
-}
-
-for FILE in $(find "${JENKINS_REF}" -type f); do
-    echo "Interpolating env in file: '${JENKINS_REF}.$FILE'"
-    interpolate_env "${JENKINS_REF}.$FILE"
-done
-######################################################################
-
 /bin/tini -- /usr/local/bin/jenkins.sh $*
