@@ -10,4 +10,5 @@ RUN apt-get update \
 && echo jenkins:jenkins | chpasswd \
 && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+EXPOSE 22
 CMD /usr/sbin/sshd -D
