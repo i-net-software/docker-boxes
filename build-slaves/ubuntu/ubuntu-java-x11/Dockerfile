@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 				x11vnc \
 				x11-utils \
 				x11-xserver-utils \
-		&& rm -rf /var/lib/apt/lists/*
+		&& rm -rf /var/lib/apt/lists/* \
+		&6 mkdir ~/.vnc
 
-# start x11vnc and expose its port
-ENV DISPLAY :0.0
-EXPOSE 5900
+EXPOSE 5900 22
