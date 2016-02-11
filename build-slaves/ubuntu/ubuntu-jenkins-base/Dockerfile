@@ -7,7 +7,7 @@ RUN apt-get update \
     && apt-get install -y openssh-server git subversion fakeroot \
     && apt-get autoclean \
     && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir /var/run/sshd \
     && adduser --quiet --disabled-password --gecos "User" jenkins \
     && echo jenkins:jenkins | chpasswd \
