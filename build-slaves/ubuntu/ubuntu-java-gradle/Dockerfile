@@ -7,4 +7,6 @@ RUN add-apt-repository ppa:webupd8team/java && \
 
 RUN apt-get update && apt-get install -y oracle-java8-installer gradle oracle-java8-set-default \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
+    && apt-get autoclean \
+    && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
