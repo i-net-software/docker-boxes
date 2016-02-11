@@ -51,6 +51,10 @@ if [ ! -z "$AUTOSETUP" ]; then
             mkdir -p "${JENKINS_REF}init.groovy.d/"
             find "$AUTOSETUP_TMP/config" -name "*.groovy" -exec cp -v {} "${JENKINS_REF}init.groovy.d/" \;
             find "$AUTOSETUP_TMP/config" -name "*.xml" -exec cp -v {} "${JENKINS_REF}" \;
+
+            # Override functions
+            find "$AUTOSETUP_TMP/config" -name "*.groovy.override" -exec cp -v {} "${JENKINS_REF}init.groovy.d/" \;
+            find "$AUTOSETUP_TMP/config" -name "*.xml.override" -exec cp -v {} "${JENKINS_REF}" \;
         fi
 
         if [ -d "$AUTOSETUP_TMP/jobs" ]; then
