@@ -7,7 +7,10 @@ MAINTAINER contact@inetsoftware.de
 USER root
 
 # More stuff
-# RUN apt-get update && apt-get install -y vim
+RUN apt-get update && apt-get install -y gradle \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
 
 ######################################################################
 # drop back to the regular jenkins user - good practice
