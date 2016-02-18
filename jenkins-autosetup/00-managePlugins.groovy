@@ -30,7 +30,12 @@ plugins.each {
         def plugin = uc.getPlugin(pluginName)
         if (plugin) {
             logger.info( "\t" +(pl && pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
-            plugin.deploy()
+            def exec = plugin.deploy()
+            while( !exec.isDone() ) {
+                sleep(100)
+            }
+
+            logger.info( "\tDone for " + pluginName)
             installed = true
         }
     }
@@ -39,8 +44,9 @@ plugins.each {
 if (installed) {
     logger.info("Plugins installed, initializing a restart!")
     instance.save()
-    // instance.doSafeRestart()
     
     // Just do it. Plugins are the very earliest.
-    instance.restart()
+    if ( uc.isRestartRequiredForCompletion() ) {
+        instance.restart()
+    }
 }
