@@ -39,5 +39,8 @@ plugins.each {
 if (installed) {
     logger.info("Plugins installed, initializing a restart!")
     instance.save()
-    instance.doSafeRestart()
+    // instance.doSafeRestart()
+    
+    // Just do it. Plugins are the very earliest.
+    instance.restart()
 }
