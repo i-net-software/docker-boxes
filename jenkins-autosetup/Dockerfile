@@ -6,7 +6,12 @@ MAINTAINER contact@inetsoftware.de
 ######################################################################
 USER root
 
-# More stuff
+# Setup the PPA capability
+RUN apt-get update \
+    && apt-get install -y software-properties-common python-software-properties \
+    && add-apt-repository ppa:cwchien/gradle && \
+
+# Install gradle
 RUN apt-get update && apt-get install -y gradle \
     && apt-get autoclean \
     && apt-get autoremove \
