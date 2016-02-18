@@ -7,15 +7,15 @@ MAINTAINER contact@inetsoftware.de
 USER root
 
 # Setup the PPA capability
-RUN apt-get update \
-    && apt-get install -y software-properties-common python-software-properties \
-    && add-apt-repository ppa:cwchien/gradle
+# RUN apt-get update \
+#    && apt-get install -y software-properties-common python-software-properties \
+#    && add-apt-repository ppa:cwchien/gradle
 
 # Install gradle
-RUN apt-get update && apt-get install -y gradle \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y gradle \
+#    && apt-get autoclean \
+#    && apt-get autoremove \
+#    && rm -rf /var/lib/apt/lists/*
 
 ######################################################################
 # drop back to the regular jenkins user - good practice
