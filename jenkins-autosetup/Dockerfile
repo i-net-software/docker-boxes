@@ -9,7 +9,7 @@ USER root
 # Setup the PPA capability
 RUN apt-get update \
     && apt-get install -y software-properties-common python-software-properties \
-    && add-apt-repository ppa:cwchien/gradle && \
+    && add-apt-repository ppa:cwchien/gradle
 
 # Install gradle
 RUN apt-get update && apt-get install -y gradle \
