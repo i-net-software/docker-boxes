@@ -16,7 +16,7 @@ services:
             - "53:53"
             - "8400:8400"
             - "8500:8500"
-        command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=10.10.11.37"
+        command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS"
     
     registrator:
         image: "gliderlabs/registrator:latest"
