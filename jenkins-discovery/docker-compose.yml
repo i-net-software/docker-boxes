@@ -1,28 +1,37 @@
-consul-server:
-    image: "voxxit/consul:latest"
-    container_name: "consul-server"
-    hostname: "consul-server"
-    ports:
-        - "8400:8400"
-        - "8500:8500"
-        - "53:53"
-    command: "agent -data-dir /data -server -bootstrap -ui-dir /ui -client=0.0.0.0"
+version: '2'
 
-registrator:
-    command: "consul://consul-server:8500"
-    image: "gliderlabs/registrator:latest"
-    links:
-        - "consul-server"
-    volumes:
-        - "/var/run/docker.sock:/tmp/docker.sock"
+services:
+    # Build the Data Image from the current folder
+    # It contains
+    jenkins-discovery-data:
+        build: "."
+        container_name: "discovery-data"
+        image: "inetsoftware/jenkins-discovery"
 
-jenkins-discovery-data:
-    image: "inetsoftware/jenkins-discovery"
-
-router:
-    image: "seges/nginx-consul:1.9.0"
-    volumes_from:
-        - "jenkins-discovery-data"
-    ports:
-        - "80:80"
-        - "443:443"
+    consul-server:
+        image: "voxxit/consul:latest"
+        container_name: "consul-server"
+        hostname: "consul-server"
+        ports:
+            - "53:53"
+            - "8400:8400"
+            - "8500:8500"
+        command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=10.10.11.37"
+    
+    registrator:
+        image: "gliderlabs/registrator:latest"
+        command: "consul://consul-server:8500"
+        container_name: "registrator"
+        links:
+            - "consul-server"
+        volumes:
+            - "/var/run/docker.sock:/tmp/docker.sock"
+    
+    router:
+        image: "seges/nginx-consul:1.9.9"
+        container_name: "router"
+        volumes_from:
+            - "jenkins-discovery-data"
+        ports:
+            - "80:80"
+            - "443:443"
