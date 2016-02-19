@@ -1,6 +1,6 @@
 # Jenkins Discovery
 
-##Preparatrions
+##Preparations
 
 You need ```docker-compose``` to run the current setup and you need to specify ```HOST_IP``` as environment variable.
 
