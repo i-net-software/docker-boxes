@@ -6,7 +6,7 @@ services:
     jenkins-discovery-data:
         build: "."
         container_name: "discovery-data"
-        image: "inetsoftware/jenkins-discovery"
+        image: "inetsoftware/jenkins-discovery-data"
         restart: "always"
 
     consul-server:
