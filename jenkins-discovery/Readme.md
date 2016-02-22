@@ -1,18 +1,28 @@
 # Jenkins Discovery
 
-##Preparations
+##Quickstart
 
-You need ```docker-compose``` to run the current setup and you need to specify ```HOST_IP``` as environment variable.
+Run the folliwng command from the bash:
+
+    curl -fsSL https://raw.githubusercontent.com/i-net-software/docker-boxes/master/jenkins-discovery/build.sh | bash -s --
+
+It will download the newest version of the ```build.sh``` (then the repository) and and tries to run ```docker-compose -f <yml> up -d``` to start the whole discovery setup.
+
+##Manual start
+
+###Preparations
+
+You need ```docker-compose``` to run the current setup and you need to specify ```HOST_ADDRESS``` as environment variable.
 
   * For ```docker-compose```:
 
         pip install docker-compose
 
-  * The ```HOST_IP``` - this IP will be used to advertise the correct IP to Nginx for the redirects.
+  * The ```HOST_ADDRESS``` - this IP will be used to advertise the correct IP to Nginx for the redirects.
 
-        export HOST_IP=X.X.X.X
+        export HOST_ADDRESS=X.X.X.X
 
-## Running the discovery
+### Running the discovery
 
 From this directory run:
 

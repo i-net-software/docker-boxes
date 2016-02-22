@@ -52,7 +52,7 @@ In short words:
 
   - We use a single Swarm Manager as connection point from our build "cloud" to the  Jenkins Masters.
   - We can add multiple Swarm Agents dynamically into the Swarm with just one command line on the new host
-  - The Jenkins Master can be brought up very easy and quickly. Multiple times. [See 'Jenkins Autosetup' for details](./jenkins-autosetup)
+  - The Jenkins Master (CR, HD, PDFC - our product names) can be brought up very easy and quickly. Multiple times. [See 'Jenkins Autosetup' for details](./jenkins-autosetup)
   - Registrator takes the new Jenkins Master and adds its properties to Consul (for the Discovery)
   - Consul-Template and Nginx fetches this information and creates URL-extension proxies. You could also use subdomains but they would have to be registered in the DNS. [See 'Jenkins Discovery' for details.](./jenkins-discovery)
 
