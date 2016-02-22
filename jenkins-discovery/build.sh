@@ -35,7 +35,7 @@ export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
 echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
 
 if [ -z $@ ]; then
-    docker-compose up -d
+    docker-compose $DOCKER_COMPOSE_OPTS up -d
     echo "Started the docker-compose.yml content as daemon."
     echo "Check with: 'docker ps'"
 else
