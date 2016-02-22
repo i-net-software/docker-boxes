@@ -31,7 +31,7 @@ if [ ! -f "./docker-compose.yml" ]; then
     echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 fi
 
-HOST_ADDRESS=$(hostname -I | awk '{print $1}')
+export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
 echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
 
 if [ -z $0 ]; then
