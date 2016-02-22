@@ -46,3 +46,6 @@ if [ $NEEDS_CLEANUP == 1 ]; then
     echo "Cleaning up after me"
     rm -rf "$CHECKOUT_ROOT"
 fi
+
+# newline
+echo
