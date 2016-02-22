@@ -27,7 +27,7 @@ if [ ! -f "./docker-compose.yml" ]; then
     
     # cd back and forth to preserver the history
     cd -
-    DOCKER_COMPOSE_OPTS="-f $CHECKOUT_ROOT/jenkins-discovery/docker-compose.yml
+    DOCKER_COMPOSE_OPTS="-f $CHECKOUT_ROOT/jenkins-discovery/docker-compose.yml"
     echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 fi
 
