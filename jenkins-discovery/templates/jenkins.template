@@ -9,6 +9,12 @@ server {
     listen 80 default_server;
     server_name fileserver2;
 
+    # Default location
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+    
     # Nginx configuration specific to Jenkins
     # Note that regex takes precedence, so use of "^~" ensures earlier evaluation
     {{ range services }}{{ if .Tags | contains "jenkins" }}

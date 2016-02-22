@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jenkins auto discovery overview!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+    .empty, ul:empty {
+        display: none;
+    }
+    ul:empty + .empty {
+        display: block;
+        color: #555;
+    }
+    ul li a {
+        text-transform: capitalize;
+    }
+</style>
+</head>
+<body>
+<h1>Welcome to the Jenkins auto discovery overview!</h1>
+<p>The following contexts are registered.</p>
+
+<ul>
+{{ range services }}{{ if .Tags | contains "jenkins" }}
+    <li><a href="/{{ .Name }}">{{ .Name }}</a></li>
+{{ end }}{{ end }}
+</ul>
+<p class="empty">No contexts registered yet.</p>
+
+
+</body>
+</html>
