@@ -7,13 +7,16 @@ services:
         build: "."
         container_name: "discovery-data"
         image: "inetsoftware/jenkins-discovery"
+        restart: "always"
 
     consul-server:
-        image: "voxxit/consul:latest"
         container_name: "consul-server"
+        image: "voxxit/consul:latest"
+        restart: "always"
         hostname: "consul-server"
         ports:
             - "53:53"
+            - "8300:8300"
             - "8400:8400"
             - "8500:8500"
         command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS"
@@ -22,6 +25,7 @@ services:
         image: "gliderlabs/registrator:latest"
         command: "consul://consul-server:8500"
         container_name: "registrator"
+        restart: "always"
         links:
             - "consul-server"
         volumes:
@@ -30,6 +34,7 @@ services:
     router:
         image: "seges/nginx-consul:1.9.9"
         container_name: "router"
+        restart: "always"
         volumes_from:
             - "jenkins-discovery-data"
         ports:
