@@ -32,6 +32,7 @@ if [ ! -f "./docker-compose.yml" ]; then
 fi
 
 HOST_ADDRESS=$(hostname -I | awk '{print $1}')
+echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
 
 if [ -z $0 ]; then
     docker-compose up -d
