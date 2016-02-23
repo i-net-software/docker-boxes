@@ -15,7 +15,7 @@ services:
         restart: "always"
         hostname: "consul-server"
         ports:
-            - "53:53"
+            # - "53:53"
             - "8400:8400"
             - "8500:8500"
         command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS"
