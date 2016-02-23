@@ -19,7 +19,7 @@ You need ```docker-compose``` to run the current setup and you need to specify `
   * For ```docker-compose```:
 
 		apt-get install python-pip # if you are on Ubuntu or similar
-        pip install docker-compose
+        pip install docker-compose functools32
 
   * The ```HOST_ADDRESS``` - this IP will be used to advertise the correct IP to Nginx for the redirects.
 

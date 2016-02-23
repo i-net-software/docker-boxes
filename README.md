@@ -101,6 +101,10 @@ Start the Swarm Manager now - The image will be restarted on reboots:
 
     jenkins-host@bash:~/$ docker run -dp 2375:2375 --restart=always --name=swarm-manager swarm manage token://<DOCKER_SWARM_TOKEN>
 
+On our internal server we are using dockerui to check images that are running
+
+	docker run -dp 9000:9000 --restart=always --name=dockerui  dockerui/dockerui
+
 ### 'fileserver' (10.10.10.10) - Setup
 
 Start the first Swarm Node - beware the ```--addr=``` which represents the current computer IP
