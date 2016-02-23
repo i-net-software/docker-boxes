@@ -4,7 +4,8 @@ MAINTAINER contact@inetsoftware.de
 # Install basic components: open ssh, git, svn and PPA abilities.
 RUN apt-get update \
     && apt-get install -y software-properties-common python-software-properties \
-    && apt-get install -y openssh-server git subversion fakeroot \
+    && apt-get install -y openssh-server git subversion fakeroot language-pack-en-base \
+    && dpkg-reconfigure locales \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* \

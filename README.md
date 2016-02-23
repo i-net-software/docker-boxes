@@ -58,14 +58,61 @@ In short words:
 
 ### Conclusion
 
+Here is the [example project](https://github.com/i-net-software/docker-boxes-demo).
+
 There seems to be a lot of Voodoo here ;) - I'll try to add examples so this will be easier to understand. But know this:
 
   - The Discovery is strictly decoupled from the Swarm setup
   - The Jenkins configuration is decoupled from the Discovery Service
-  - We have a Gradle project (doh, something new again) which sets up the Jenkins Masters with just one line
+  - We have a Gradle project (doh, something new again - but the demo project has you covered) which sets up the Jenkins Masters with just one line
   
-        gradle jenkins:start -DPRODUCT=<NAME>
+        gradle jenkins:start
 
     - This starts a jenkins-autosetup image with the correct SVN Url
     - brings up the master and configures it (e.g. the Swarm Manager connection)
     - auto deploys the build jobs
+  
+
+##Swarm Setup
+
+We're using the following hosts for documentation purposes:
+
+  - fileserver (10.10.10.10) → Ubuntu with SSH, Docker and Artifactory
+  - fileserver2 (10.10.10.11) → Ubuntu with SSH and Docker
+  - jenkins-host (10.10.10.12) → this where the discovery service and the Jenkins master will run
+
+### General hosts setup
+
+The following lines apply to all hosts from the list above.
+
+  - Make sure that ```/etc/default/docker``` has the line:
+    * ```DOCKER_OPTS="-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"```
+    * it makes docker available to other hosts on port ```4243```
+    * run ```service docker restart``` if needed
+
+### 'jenkins-host' (10.10.10.12) setup
+
+The following command creates the docker Swarm Token. It has to be used from now on when adding a new swarm node and is used for autodiscovery of the Swarm Manager:
+
+    jenkins-host@bash:~/$ docker run --rm swarm create
+    <DOCKER_SWARM_TOKEN>
+
+Start the Swarm Manager now - The image will be restarted on reboots:
+
+    jenkins-host@bash:~/$ docker run -dp 2375:2375 --restart=always --name=swarm-manager swarm manage token://<DOCKER_SWARM_TOKEN>
+
+### 'fileserver' (10.10.10.10) - Setup
+
+Start the first Swarm Node - beware the ```--addr=``` which represents the current computer IP
+
+    fileserver@bash:~/$ docker run -d --restart=always --name=swarm-agent swarm join --addr=10.10.10.10:4243 token://<DOCKER_SWARM_TOKEN>
+
+### 'fileserver2' (10.10.10.11) - Setup
+
+Start the second
+
+    fileserver2@bash:~/$ docker run -d --restart=always --name=swarm-agent swarm join --addr=10.10.10.11:4243 token://<DOCKER_SWARM_TOKEN>
+
+### Generalized
+
+    host@bash:~/$ docker run -d --restart=always --name=swarm-agent swarm join --addr=$(hostname -I | awk '{print $1}'):4243 token://<DOCKER_SWARM_TOKEN>
