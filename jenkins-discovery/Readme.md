@@ -12,10 +12,13 @@ It will download the newest version of the ```build.sh``` (then the repository) 
 
 ###Preparations
 
+You need ```docker``` [see here](https://docs.docker.com/engine/installation/)
+
 You need ```docker-compose``` to run the current setup and you need to specify ```HOST_ADDRESS``` as environment variable.
 
   * For ```docker-compose```:
 
+		apt-get install python-pip # if you are on Ubuntu or similar
         pip install docker-compose
 
   * The ```HOST_ADDRESS``` - this IP will be used to advertise the correct IP to Nginx for the redirects.
