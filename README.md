@@ -89,6 +89,7 @@ The following lines apply to all hosts from the list above.
     * ```DOCKER_OPTS="-H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock"```
     * it makes docker available to other hosts on port ```4243```
     * run ```service docker restart``` if needed
+    * __Attention:__ [check the docs](https://docs.docker.com/engine/admin/systemd/) especially if you use systemctl - or these options might not work.
 
 ### 'jenkins-host' (10.10.10.12) setup
 
