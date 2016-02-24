@@ -11,4 +11,6 @@ RUN dnf install -y openssh-server auto-buildrequires git subversion && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
     ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
 
+EXPOSE 22
+
 CMD /usr/sbin/sshd -D
