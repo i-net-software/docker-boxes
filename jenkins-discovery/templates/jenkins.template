@@ -6,8 +6,8 @@ upstream {{ .Name }} {
 {{ end }}{{ end }}
 
 server {
-    listen 80 default_server;
-    server_name fileserver2;
+    listen 80 jenkins-container;
+    server_name jenkins-container;
 
     # Default location
     location / {

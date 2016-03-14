@@ -6,8 +6,8 @@ upstream {{ .Name }} {
 {{ end }}{{ end }}
 
 server {
-    listen 80 default_server;
-    server_name fileserver2;
+    listen 80 web-container;
+    server_name web-container;
 
     # Nginx configuration specific to Jenkins
     # Note that regex takes precedence, so use of "^~" ensures earlier evaluation

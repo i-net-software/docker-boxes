@@ -4,7 +4,7 @@
 
 Run the folliwng command from the bash:
 
-    curl -fsSL http://j.mp/jenkins-discovery build.sh | bash -s --
+    curl -fsSL http://j.mp/jenkins-discovery | bash -s --
 
 It will download the newest version of the ```build.sh``` (then the repository) and and tries to run ```docker-compose -f <yml> up -d``` to start the whole discovery setup.
 
