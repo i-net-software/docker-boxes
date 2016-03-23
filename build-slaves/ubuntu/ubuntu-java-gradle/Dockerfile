@@ -17,3 +17,11 @@ RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
     && apt-get install -y gradle \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
+
+# mudraw
+RUN apt-get update \
+    && apt-get install -y mupdf-tools \
+	&& apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
+	
