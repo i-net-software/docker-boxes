@@ -29,7 +29,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # MS-TTFonts
+# Attention: this needs to enable the multiverse repositories
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
+    && apt-add-repository multiverse
     && apt-get update \
     && apt-get install ttf-mscorefonts-installer \
     && apt-get autoclean \
