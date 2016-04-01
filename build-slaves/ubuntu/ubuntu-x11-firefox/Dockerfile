@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install -y --force-yes --no-install-recommends firefox \
     && apt-get autoclean \
     && apt-get autoremove \
-	&& rm -rf /var/lib/apt/lists/* \
+	&& rm -rf /var/lib/apt/lists/*
 
-ADD install-phantomjs.sh
-RUN install-phantomjs.sh
+COPY install-phantomjs.sh /tmp/
+RUN bash /tmp/install-phantomjs.sh && rm /tmp/install-phantomjs.sh
