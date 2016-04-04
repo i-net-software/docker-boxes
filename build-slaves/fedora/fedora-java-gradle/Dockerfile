@@ -2,4 +2,7 @@ FROM inetsoftware/fedora-jenkins-base
 MAINTAINER contact@inetsoftware.de
 
 ENV TERM linux
-RUN dnf install -y java-1.8.0-openjdk-headless gradle
+RUN dnf updateinfo && dnf install -y java-1.8.0-openjdk-headless wget which
+
+COPY install-gradle.sh /tmp
+RUN bash /tmp/install-gradle.sh && rm /tmp/install-gradle.sh
