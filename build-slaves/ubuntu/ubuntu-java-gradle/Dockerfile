@@ -33,7 +33,10 @@ RUN apt-get update \
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
     && apt-add-repository multiverse \
     && apt-get update \
-    && apt-get install -y ttf-mscorefonts-installer fonts-dejavu \
+    && apt-get install -y fontconfig ttf-mscorefonts-installer fonts-dejavu \
+    && dpkg-reconfigure fontconfig \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
+
+# BTW: the problem was not to install the needed fonts, but how to enable them for java. Installing fontconfig solved that.
