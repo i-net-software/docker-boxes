@@ -28,12 +28,12 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-# MS-TTFonts
+# MS-TTFonts and dejavu fonts
 # Attention: this needs to enable the multiverse repositories
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
     && apt-add-repository multiverse \
     && apt-get update \
-    && apt-get install -y ttf-mscorefonts-installer \
+    && apt-get install -y ttf-mscorefonts-installer fonts-dejavu \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
