@@ -10,7 +10,7 @@ if [[ $EUID -ne 0 ]]; then
 	exit 1
 fi
 
-PHANTOM_VERSION="phantomjs-1.9.8"
+PHANTOM_VERSION="phantomjs-1.9.7"
 ARCH=$(uname -m)
 
 if ! [ $ARCH = "x86_64" ]; then
@@ -33,3 +33,4 @@ sudo tar xvjf $PHANTOM_JS.tar.bz2
 
 sudo mv $PHANTOM_JS /usr/local/share
 sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
+sudo rm $PHANTOM_JS.tar.bz2
