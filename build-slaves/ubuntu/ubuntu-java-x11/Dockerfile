@@ -15,6 +15,7 @@ RUN apt-get update \
                 gtk2-engines-murrine \
                 ttf-ubuntu-font-family \
                 imagemagick \
+                ghostscript \
         && apt-get autoclean \
         && apt-get autoremove \
 		&& rm -rf /var/lib/apt/lists/* \
