@@ -23,7 +23,7 @@ RUN apt-get update \
 
 # mudraw
 RUN apt-get update \
-    && apt-get install -y mupdf-tools \
+    && apt-get install -y mupdf-tools qpdf \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
