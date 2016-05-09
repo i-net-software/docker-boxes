@@ -32,6 +32,7 @@ if [ ! -f "./docker-compose.yml" ]; then
 fi
 
 export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
+#export HOST_ADDRESS=$(ipconfig getifaddr en0)
 echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
 
 if [ $# -eq 0 ]; then

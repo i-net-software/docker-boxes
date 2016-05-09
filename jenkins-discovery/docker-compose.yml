@@ -8,6 +8,8 @@ services:
         container_name: "discovery-data"
         image: "inetsoftware/jenkins-discovery-data"
         restart: "always"
+        volumes:
+            - "/tmp/consul-output:/etc/consul-template/output"
 
     consul-server:
         container_name: "consul-server"

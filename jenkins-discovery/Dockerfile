@@ -2,6 +2,7 @@ FROM ubuntu
 
 VOLUME /etc/consul-template/templates
 VOLUME /etc/consul-template/conf
+VOLUME /etc/consul-template/output
 
 COPY conf/* /etc/consul-template/conf/
 COPY templates/* /etc/consul-template/templates/
