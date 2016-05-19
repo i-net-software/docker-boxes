@@ -12,7 +12,14 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-# Java 8
+# Java 9
+RUN apt-get update \
+    && apt-get install -y oracle-java9-installer \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+# Java 8 (Dafault)
 RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
     && apt-get install -y gradle \
