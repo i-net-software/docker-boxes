@@ -13,6 +13,9 @@ RUN choco install -y jdk8
 #register service and start it
 RUN choco install win32-openssh
 
+# Set up the ssh service,
+# set a default password for the users in the virtual machine
+# allow the admin to log in (boooh)
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     Set-Location \"$env:ProgramFiles\OpenSSH-Win64\" ; \
     .\ssh-keygen.exe -A ; \
@@ -26,4 +29,5 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 
 EXPOSE 22
 
+# run endlessly
 CMD powershell
