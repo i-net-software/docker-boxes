@@ -14,11 +14,15 @@ RUN choco install -y jdk8
 RUN choco install win32-openssh
 
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
-	Set-Location \"$env:ProgramFiles\OpenSSH-Win64\" ; \
-	.\ssh-keygen.exe -A ; \
-	.\install-sshd.ps1 ; \
-	Set-Service -Name \"SSHD\" -Description \"SSH Service for Windows\" -StartupType Automatic ; \
-	Start-Service SSHD"
+    Set-Location \"$env:ProgramFiles\OpenSSH-Win64\" ; \
+    .\ssh-keygen.exe -A ; \
+    .\install-sshd.ps1 ; \
+    Set-Service -Name \"SSHD\" -Description \"SSH Service for Windows\" -StartupType Automatic ; \
+    Start-Service SSHD ; \
+    net user administrator /active:yes ; \
+    Get-WmiObject win32_useraccount | Foreach-Object { \
+    ([adsi](\"WinNT://\"+$_.caption).replace(\"\\\",\"/\")).SetPassword(\"JenkinsPassword1\") \
+    }"
 
 EXPOSE 22
 
