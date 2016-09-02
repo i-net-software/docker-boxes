@@ -43,7 +43,7 @@ else
     docker-compose $DOCKER_COMPOSE_OPTS $@
 fi
 
-if [ $NEEDS_CLEANUP == 1 ]; then
+if [ $NEEDS_CLEANUP -eq 1 ]; then
     echo "Cleaning up after me"
     rm -rf "$CHECKOUT_ROOT"
 fi

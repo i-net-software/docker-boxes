@@ -1,4 +1,4 @@
-FROM inetsoftware/ubuntu-java-gradle
+FROM inetsoftware/ubuntu-java-gradle:v1
 MAINTAINER contact@inetsoftware.de
 
 ENV DEBIAN_FRONTEND noninteractive

@@ -2,8 +2,8 @@ version: '2'
 services:
     base:
         build: ./fedora-jenkins-base
-        image: 'inetsoftware/fedora-jenkins-base'
+        image: 'inetsoftware/fedora-jenkins-base:v1'
     
     java:
         build: ./fedora-java-gradle
-        image: 'inetsoftware/fedora-java-gradle'
+        image: 'inetsoftware/fedora-java-gradle:v1'
