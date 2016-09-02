@@ -2,4 +2,4 @@ version: '2'
 services:
     jenkins:
         build: '.'
-        image: 'inetsoftware/jenkins-autosetup:v1'
+        image: 'inetsoftware/jenkins-autosetup:${TAG}'
