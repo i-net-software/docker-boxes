@@ -30,22 +30,22 @@ for IMG in $IMAGES; do
     docker-compose -f "$DOCKERCOMPOSEFILE" build "$IMG"
 done
 
+ARTIFACTS=`docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
 if [ "$GITBRANCH" == "master" ]; then
     
-    ARTIFACTS=`docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
     for ARTIFACT in $ARTIFACTS; do
         docker tag "$ARTIFACT" "${ARTIFACT%%:*}"
     done
 
     if [ "$2" == "push" ]; then
         for ARTIFACT in $ARTIFACTS; do
-            docker push "$ARTIFACT"
+            docker push "${ARTIFACT%%:*}:latest"
         done
     fi
 fi
 
 if [ "$2" == "push" ]; then
-    for IMG in $IMAGES; do
-        docker-compose "$DOCKERCOMPOSEFILE" push "$IMG"
+    for ARTIFACT in $ARTIFACTS; do
+        docker push "$ARTIFACT"
     done
 fi
