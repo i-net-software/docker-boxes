@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="v2"
+TAG="v1"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 ROOT=`readlink -f $(dirname $0) | xargs dirname`
 
