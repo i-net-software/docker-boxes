@@ -23,7 +23,7 @@ export TAG
 DOCKERCOMPOSEFILE="$(dirname $ENVFILE)/docker-compose.yml"
 source "$ENVFILE"
 
-[ -z $IMAGES ] && echo "No images set to be build." && exit 2 || :
+[ -z "$IMAGES" ] && echo "No images set to be build." && exit 2 || :
 
 # build the image
 for IMG in $IMAGES; do
