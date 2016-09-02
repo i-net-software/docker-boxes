@@ -2,7 +2,8 @@
 cd /root
 
 # find the most recent version
-GRADLE_PACKAGE=`curl -s http://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | head -1`
+GRADLE_VERSION_DESIRED=""
+GRADLE_PACKAGE=`curl -s http://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1`
 GRADLE_VERSION=`ls ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 mkdir /opt/gradle
 wget -N http://services.gradle.org/distributions/${GRADLE_PACKAGE}

@@ -1,4 +1,4 @@
-FROM inetsoftware/fedora-jenkins-base
+FROM inetsoftware/fedora-jenkins-base:v2
 MAINTAINER contact@inetsoftware.de
 
 ENV TERM linux
