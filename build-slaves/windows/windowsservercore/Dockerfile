@@ -3,14 +3,14 @@ FROM windowsservercore
 # install chocolaty
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
-#allow global confirmation for choco
+# allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
 
 # install java
 RUN choco install -y jdk8
 
-#install ssh
-#register service and start it
+# install ssh
+# register service and start it
 RUN choco install win32-openssh
 
 # Set up the ssh service,
