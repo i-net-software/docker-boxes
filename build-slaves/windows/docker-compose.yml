@@ -1,0 +1,5 @@
+version: '2'
+services:
+    base:
+        build: ./windowsservercore
+        image: 'inetsoftware/windows-jenkins-base:${TAG}'
