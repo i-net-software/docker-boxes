@@ -1,13 +1,10 @@
-FROM windowsservercore
+FROM windowsservercore:10.0.14300.1000
 
 # install chocolaty
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
 # allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
-
-# install java
-RUN choco install -y jdk8
 
 # install ssh
 # register service and start it
@@ -28,6 +25,12 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     }"
 
 EXPOSE 22
+
+# install java
+RUN choco install -y jdk8
+
+# install gradle
+RUN choco install gradle -version 2.14.1
 
 # run endlessly
 CMD powershell
