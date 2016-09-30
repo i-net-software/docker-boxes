@@ -1,14 +1,14 @@
 FROM microsoft/windowsservercore
 
 # install chocolaty
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
 # allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
 
 # install ssh
 # register service and start it
-RUN choco install win32-openssh
+RUN choco install openssh
 
 # Set up the ssh service,
 # set a default password for the users in the virtual machine
@@ -30,7 +30,7 @@ EXPOSE 22
 RUN choco install -y jdk8
 
 # install gradle
-RUN choco install gradle -version 2.14.1
+RUN choco install gradle --version 2.14.1
 
 #install git
 RUN choco install git
