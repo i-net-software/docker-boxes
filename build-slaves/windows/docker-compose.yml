@@ -3,3 +3,9 @@ services:
     base:
         build: ./windowsservercore
         image: 'inetsoftware/windows-jenkins-base:${TAG}'
+    dotnet:
+        build: ./dotnet
+        image: 'inetsoftware/windows-dotnet:${TAG}'
+    setupbuilder:
+        build: ./setupbuilder
+        image: 'inetsoftware/windows-setupbuilder:${TAG}'

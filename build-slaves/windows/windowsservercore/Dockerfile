@@ -32,5 +32,11 @@ RUN choco install -y jdk8
 # install gradle
 RUN choco install gradle -version 2.14.1
 
+#install git
+RUN choco install git
+
+#install git
+RUN choco install svn
+
 # run endlessly
 CMD powershell
