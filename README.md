@@ -125,6 +125,8 @@ Start the second
 
 ### Adding a Windows Swarm node
 
+The Windows Swarm node will be used together with our custom [Windows Docker Images](./build-slaves/windows).
+
 You need to have a __windows__ docker server running (tested with Windows Server 2016. [See here for reference of the swarm image used.](https://github.com/StefanScherer/docker-windows-box/blob/master/swarm-demo/scripts/run-swarm-agent.ps1)
 
     $TOKEN=<DOCKER_SWARM_TOKEN>
