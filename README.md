@@ -121,3 +121,14 @@ Start the second
 ### Generalized
 
     host@bash:~/$ docker run -d --restart=always --name=swarm-agent swarm join --addr=$(hostname -I | awk '{print $1}'):4243 token://<DOCKER_SWARM_TOKEN>
+
+
+### Adding a Windows Swarm node
+
+You need to have a __windows__ docker server running (tested with Windows Server 2016. [See here for reference of the swarm image used.](https://github.com/StefanScherer/docker-windows-box/blob/master/swarm-demo/scripts/run-swarm-agent.ps1)
+
+    $TOKEN=<DOCKER_SWARM_TOKEN>
+	$ip=( (Get-NetIPAddress | Where-Object -FilterScript { $_.InterfaceAlias -Eq "Ethernet" } | select-object IPAddress)[1].IPAddress)
+
+	Write-Host "Adding host $($ip):2375 to swarm"
+	docker run --restart=always -d --name=swarm-agent stefanscherer/swarm-windows:latest-nano join "--addr=$($ip):2375" "token://$TOKEN"
