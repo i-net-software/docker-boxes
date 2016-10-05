@@ -38,5 +38,7 @@ RUN choco install git
 #install git
 RUN choco install svn
 
+ADD ServiceMonitor.exe /ServiceMonitor.exe
+
 # run endlessly
-CMD powershell
+ENTRYPOINT ["C:\\ServiceMonitor.exe", "sshd"]
