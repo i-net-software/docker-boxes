@@ -1,11 +1,12 @@
 #!/bin/bash
 
-TAG="v2"
+TAG="v1"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
-ROOT=`readlink -f $(dirname $0) | xargs dirname`
+# ROOT=`readlink -f $(dirname $0) | xargs dirname`
+ROOT=../
 
 case "$1" in
-    ubuntu|fedora)
+    ubuntu|fedora|windows)
         ENVFILE="${ROOT}/build-slaves/$1/build.env"
     ;;
     jenkins)
@@ -19,7 +20,6 @@ case "$1" in
         exit 1
 esac
 
-export TAG
 DOCKERCOMPOSEFILE="$(dirname $ENVFILE)/docker-compose.yml"
 source "$ENVFILE"
 
@@ -31,21 +31,18 @@ for IMG in $IMAGES; do
 done
 
 ARTIFACTS=`docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
-if [ "$GITBRANCH" == "master" ]; then
-    
-    for ARTIFACT in $ARTIFACTS; do
-        docker tag "$ARTIFACT" "${ARTIFACT%%:*}"
-    done
-
-    if [ "$2" == "push" ]; then
-        for ARTIFACT in $ARTIFACTS; do
-            docker push "${ARTIFACT%%:*}:latest"
-        done
-    fi
-fi
+for ARTIFACT in $ARTIFACTS; do
+    docker tag "$ARTIFACT" "${ARTIFACT%%:*}:${TAG}"
+done
 
 if [ "$2" == "push" ]; then
     for ARTIFACT in $ARTIFACTS; do
         docker push "$ARTIFACT"
     done
+
+    if [ "$GITBRANCH" == "master" ]; then
+        for ARTIFACT in $ARTIFACTS; do
+            docker push "${ARTIFACT%%:*}:latest"
+        done
+    fi
 fi

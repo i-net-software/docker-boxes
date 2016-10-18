@@ -1,11 +1,17 @@
 version: '2'
 services:
     base:
-        build: ./windowsservercore
-        image: 'inetsoftware/windows-jenkins-base:${TAG}'
+        build: ./windows-jenkins-base
+        image: 'inetsoftware/windows-jenkins-base'
+
+    java:
+        build: ./windows-java-gradle
+        image: 'inetsoftware/windows-java-gradle'
+
     dotnet:
         build: ./dotnet
-        image: 'inetsoftware/windows-dotnet:${TAG}'
+        image: 'inetsoftware/windows-dotnet'
+
     setupbuilder:
         build: ./setupbuilder
-        image: 'inetsoftware/windows-setupbuilder:${TAG}'
+        image: 'inetsoftware/windows-setupbuilder'
