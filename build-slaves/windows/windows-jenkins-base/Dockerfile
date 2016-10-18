@@ -51,5 +51,9 @@ RUN bash -c "mkpasswd -l -u jenkins > /etc/passwd && mkdir -p /home/jenkins"
 ADD sshd_config C:/sshd_config
 RUN cp C:/sshd_config C:/tools/cygwin/etc/
 
+# add an environment script to make sure that all variables from the system are available
+ADD env.sh /env.sh
+RUN cp C:/env.sh C:/tools/cygwin/etc/profile.d/
+
 # run endlessly
 CMD ["C:\\ServiceMonitor.exe", "sshd"]
