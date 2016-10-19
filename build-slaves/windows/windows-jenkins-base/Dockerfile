@@ -35,7 +35,7 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 # set a well know password
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     net user Administrator /active:yes ; \
-    net user jenkins /add ; \
+    net user jenkins /add /expires:never ; \
     net localgroup Administrators /add jenkins ; \
     Get-WmiObject win32_useraccount | Foreach-Object { \
     ([adsi](\"WinNT://\"+$_.caption).replace(\"\\\",\"/\")).SetPassword(\"jenkins\") } \
@@ -45,7 +45,7 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 RUN bash -c "ssh-host-config -y -u jenkins -w jenkins"
 
 # link the previously created user account
-RUN bash -c "mkpasswd -l -u jenkins > /etc/passwd && mkdir -p /home/jenkins"
+RUN bash -c "mkpasswd -l -u jenkins > /etc/passwd && mkgroup  -l > /etc/group && mkdir -p /home/jenkins"
 
 # add the config for sshd
 ADD sshd_config C:/sshd_config
