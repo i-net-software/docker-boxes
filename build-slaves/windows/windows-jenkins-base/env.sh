@@ -1,4 +1,4 @@
-if [ "$SSH_TTY" ]; then
+if [ "$SSH_CONNECTION" ]; then
 pushd . >/dev/null
 for __dir in \
 /proc/registry/HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Session\ Manager/Environment \
