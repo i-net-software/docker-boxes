@@ -36,7 +36,7 @@
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
-#LogLevel INFO
+#LogLevel DEBUG3
 
 # Authentication:
 
@@ -94,7 +94,7 @@ KerberosOrLocalPasswd yes
 # If you just want the PAM account and session checks to run without
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
-UsePAM  yes
+#UsePAM  yes
 
 AllowAgentForwarding yes
 #AllowTcpForwarding yes
