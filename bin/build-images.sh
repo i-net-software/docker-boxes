@@ -2,7 +2,7 @@
 
 TAG="v1"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
-ROOT=`readlink -f $(dirname $0) | xargs dirname`
+ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))
 
 case "$1" in
     ubuntu|fedora|windows)
