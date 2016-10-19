@@ -45,7 +45,7 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 RUN bash -c "ssh-host-config -y -u jenkins -w jenkins"
 
 # link the previously created user account
-RUN bash -c "mkpasswd -l -u jenkins > /etc/passwd && mkgroup  -l > /etc/group && mkdir -p /home/jenkins"
+RUN bash -c "mkpasswd -l -u jenkins > /etc/passwd && mkgroup -l > /etc/group && mkdir -p /home/jenkins"
 
 # add the config for sshd
 ADD sshd_config C:/sshd_config

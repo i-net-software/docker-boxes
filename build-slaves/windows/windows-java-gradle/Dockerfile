@@ -5,7 +5,7 @@ MAINTAINER contact@inetsoftware.de
 RUN cyg-get git subversion
 
 # install java
-RUN choco install -y jdk8
+RUN choco install -y jdk8 -params "both=true"
 
 # install gradle
 RUN choco install gradle --version 2.14.1
