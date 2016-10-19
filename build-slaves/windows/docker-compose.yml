@@ -1,0 +1,17 @@
+version: '2'
+services:
+    base:
+        build: ./windows-jenkins-base
+        image: 'inetsoftware/windows-jenkins-base'
+
+    java:
+        build: ./windows-java-gradle
+        image: 'inetsoftware/windows-java-gradle'
+
+    dotnet:
+        build: ./dotnet
+        image: 'inetsoftware/windows-dotnet'
+
+    setupbuilder:
+        build: ./setupbuilder
+        image: 'inetsoftware/windows-setupbuilder'

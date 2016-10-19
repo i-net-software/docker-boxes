@@ -2,16 +2,16 @@ version: '2'
 services:
     base:
         build: ./ubuntu-jenkins-base
-        image: 'inetsoftware/ubuntu-jenkins-base:${TAG}'
-    
+        image: 'inetsoftware/ubuntu-jenkins-base'
+
     java:
         build: ./ubuntu-java-gradle
-        image: 'inetsoftware/ubuntu-java-gradle:${TAG}'
-    
+        image: 'inetsoftware/ubuntu-java-gradle'
+
     x11:
         build: ./ubuntu-java-x11
-        image: 'inetsoftware/ubuntu-java-x11:${TAG}'
+        image: 'inetsoftware/ubuntu-java-x11'
 
     firefox:
         build: ./ubuntu-x11-firefox
-        image: 'inetsoftware/ubuntu-x11-firefox:${TAG}'
+        image: 'inetsoftware/ubuntu-x11-firefox'
