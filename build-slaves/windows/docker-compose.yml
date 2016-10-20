@@ -1,5 +1,9 @@
 version: '2'
 services:
+    choco:
+        build: ./windows-chocolatey
+        image: 'inetsoftware/windows-chocolatey'
+
     base:
         build: ./windows-jenkins-base
         image: 'inetsoftware/windows-jenkins-base'
@@ -9,9 +13,11 @@ services:
         image: 'inetsoftware/windows-java-gradle'
 
     dotnet:
-        build: ./dotnet
+        build: ./windows-dotnet
         image: 'inetsoftware/windows-dotnet'
+        volumes_from:
+            - dotnet-assemblies
 
     setupbuilder:
-        build: ./setupbuilder
+        build: ./windows-setupbuilder
         image: 'inetsoftware/windows-setupbuilder'
