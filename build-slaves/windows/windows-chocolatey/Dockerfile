@@ -6,3 +6,6 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:chocolateyUseW
 
 # allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
+
+# add the nuget command line
+RUN choco install nuget.commandline
