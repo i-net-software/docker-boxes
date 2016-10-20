@@ -1,11 +1,5 @@
-FROM microsoft/windowsservercore
+FROM inetsoftware/windows-chocolatey
 MAINTAINER contact@inetsoftware.de
-
-# install chocolaty
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:chocolateyUseWindowsCompression = 'false' ; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex"
-
-# allow global confirmation for choco
-RUN choco feature enable -n allowGlobalConfirmation
 
 EXPOSE 22
 
@@ -54,6 +48,8 @@ RUN cp C:/sshd_config C:/tools/cygwin/etc/
 # add an environment script to make sure that all variables from the system are available
 ADD env.sh /env.sh
 RUN cp C:/env.sh C:/tools/cygwin/etc/profile.d/
+
+RUN mkdir C:\jenkins
 
 # run endlessly
 CMD ["C:\\ServiceMonitor.exe", "sshd"]
