@@ -15,8 +15,6 @@ services:
     dotnet:
         build: ./windows-dotnet
         image: 'inetsoftware/windows-dotnet'
-        volumes_from:
-            - dotnet-assemblies
 
     setupbuilder:
         build: ./windows-setupbuilder
