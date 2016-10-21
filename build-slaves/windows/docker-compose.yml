@@ -25,5 +25,5 @@ services:
         image: 'inetsoftware/windows-visualstudio'
 
     setupbuilder:
-        build: ./windows-setupbuilder
+        build: ./windows-visualstudio
         image: 'inetsoftware/windows-setupbuilder'
