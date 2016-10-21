@@ -16,6 +16,14 @@ services:
         build: ./windows-dotnet
         image: 'inetsoftware/windows-dotnet'
 
+    wixtoolset:
+        build: ./windows-wixtoolset
+        image: 'inetsoftware/windows-wixtoolset'
+
+    visualstudio:
+        build: ./windows-visualstudio
+        image: 'inetsoftware/windows-visualstudio'
+
     setupbuilder:
         build: ./windows-setupbuilder
         image: 'inetsoftware/windows-setupbuilder'
