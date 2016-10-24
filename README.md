@@ -129,7 +129,7 @@ The Windows Swarm node will be used together with our custom [Windows Docker Ima
 
 You need to have a __windows__ docker server running (tested with Windows Server 2016. [See here for reference of the swarm image used.](https://github.com/StefanScherer/docker-windows-box/blob/master/swarm-demo/scripts/run-swarm-agent.ps1)
 
-    $TOKEN=<DOCKER_SWARM_TOKEN>
+    $TOKEN="<DOCKER_SWARM_TOKEN>"
 	$ip=( (Get-NetIPAddress | Where-Object -FilterScript { $_.InterfaceAlias -Eq "Ethernet" } | select-object IPAddress)[1].IPAddress)
 
 	Write-Host "Adding host $($ip):2375 to swarm"

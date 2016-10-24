@@ -12,6 +12,10 @@ services:
         build: ./windows-java-gradle
         image: 'inetsoftware/windows-java-gradle'
 
+    toolset:
+        build: ./windows-toolset
+        image: 'inetsoftware/windows-toolset'
+
     dotnet:
         build: ./windows-dotnet
         image: 'inetsoftware/windows-dotnet'
