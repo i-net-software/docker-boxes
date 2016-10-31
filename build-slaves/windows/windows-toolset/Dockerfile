@@ -13,3 +13,9 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     rm \"$file\" ; \
     SETX Path \"$storageDir\$muVersion\;%PATH%\" \
     ; "
+
+# Access treiber for mdb
+RUN choco install msaccess2010-redist-x64
+
+# ODBC Driver for SQL-Server
+RUN choco install sqlserver-odbcdriver
