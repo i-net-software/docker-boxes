@@ -28,6 +28,10 @@ services:
         build: ./windows-visualstudio
         image: 'inetsoftware/windows-visualstudio'
 
+    wixtoolset:
+        build: ./windows-wixtoolset
+        image: 'inetsoftware/windows-wixtoolset'
+
     setupbuilder:
-        build: ./windows-visualstudio
+        build: ./windows-wixtoolset
         image: 'inetsoftware/windows-setupbuilder'
