@@ -1,4 +1,4 @@
-FROM inetsoftware/windows-wixtoolset
+FROM inetsoftware/windows-dotnet
 MAINTAINER contact@inetsoftware.de
 
 # testing ... things ...

@@ -1,4 +1,4 @@
-FROM inetsoftware/windows-dotnet
+FROM inetsoftware/windows-visualstudio
 MAINTAINER contact@inetsoftware.de
 
 # install wixtoolset
