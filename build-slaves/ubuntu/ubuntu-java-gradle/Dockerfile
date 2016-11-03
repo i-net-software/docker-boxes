@@ -1,4 +1,4 @@
-FROM inetsoftware/ubuntu-jenkins-base
+FROM inetsoftware/ubuntu-jenkins-base:v1
 MAINTAINER contact@inetsoftware.de
 
 RUN add-apt-repository ppa:webupd8team/java && \
@@ -22,7 +22,7 @@ RUN apt-get update \
 # Java 8 (Dafault)
 RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
-    && apt-get install -y gradle \
+    && apt-get install -y gradle-2.14.1 \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
     && apt-get autoclean \
     && apt-get autoremove \

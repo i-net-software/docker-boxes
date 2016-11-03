@@ -1,4 +1,4 @@
-FROM inetsoftware/ubuntu-java-x11
+FROM inetsoftware/ubuntu-java-x11:v1
 MAINTAINER contact@inetsoftware.de
 
 # Install xvfb as X-Server and x11vnc as VNC-Server

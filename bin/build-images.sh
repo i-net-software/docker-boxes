@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="v2"
+TAG="v1"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))
 

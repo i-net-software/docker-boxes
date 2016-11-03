@@ -1,4 +1,4 @@
-FROM jenkins
+FROM jenkins:1.651.3
 MAINTAINER contact@inetsoftware.de
 
 ######################################################################
