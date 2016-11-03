@@ -1,4 +1,4 @@
-FROM microsoft/windowsservercore
+FROM microsoft/dotnet-framework:3.5
 MAINTAINER contact@inetsoftware.de
 
 # install chocolaty
