@@ -12,26 +12,18 @@ services:
         build: ./windows-java-gradle
         image: 'inetsoftware/windows-java-gradle'
 
-    toolset:
-        build: ./windows-toolset
-        image: 'inetsoftware/windows-toolset'
+    sdk:
+        build: ./windows-sdk
+        image: 'inetsoftware/windows-sdk'
 
-    dotnet:
-        build: ./windows-dotnet
-        image: 'inetsoftware/windows-dotnet'
-
-    wixtoolset:
-        build: ./windows-wixtoolset
-        image: 'inetsoftware/windows-wixtoolset'
-
-    visualstudio:
-        build: ./windows-visualstudio
-        image: 'inetsoftware/windows-visualstudio'
+    reportreader:
+        build: ./windows-reportreader
+        image: 'inetsoftware/windows-reportreader'
 
     wixtoolset:
         build: ./windows-wixtoolset
         image: 'inetsoftware/windows-wixtoolset'
 
-    setupbuilder:
-        build: ./windows-wixtoolset
-        image: 'inetsoftware/windows-setupbuilder'
+    crystalreports:
+        build: ./windows-crystalreports
+        image: 'inetsoftware/windows-crystalreports'
