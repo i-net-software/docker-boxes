@@ -21,7 +21,7 @@ services:
             - "8400:8400"
             - "8500:8500"
         command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS"
-    
+
     registrator:
         image: "gliderlabs/registrator:latest"
         command: "consul://consul-server:8500"
@@ -31,7 +31,7 @@ services:
             - "consul-server"
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
-    
+
     router:
         image: "seges/nginx-consul:1.9.9"
         container_name: "router"
@@ -41,3 +41,21 @@ services:
         ports:
             - "80:80"
             - "443:443"
+
+    portainer:
+        image: "portainer/portainer"
+        container_name: "portainer"
+        restart: "always"
+        ports:
+            - "9000:9000"
+        command: "-H tcp://lenovo:2375"
+
+    registry-ui:
+        image: "konradkleine/docker-registry-frontend:v2"
+        container_name: "docker-registry-ui"
+        restart: "always"
+        ports:
+            - "8080:80"
+        environment:
+            - ENV_DOCKER_REGISTRY_HOST=fileserver
+            - ENV_DOCKER_REGISTRY_PORT=5000
