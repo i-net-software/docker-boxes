@@ -19,8 +19,14 @@
         text-transform: capitalize;
     }
 </style>
+<script>
+function setHref() {
+    document.getElementById('portainer').href = window.location.protocol + "//" + window.location.hostname + ":9000/";
+    document.getElementById('registry').href = window.location.protocol + "//" + window.location.hostname + ":8080/";
+}
+</script>
 </head>
-<body>
+<body onload="setHref()">
 <h1>Welcome to the Jenkins auto discovery overview!</h1>
 <p>The following contexts are registered.</p>
 
@@ -31,6 +37,10 @@
 </ul>
 <p class="empty">No contexts registered yet.</p>
 
-
+<h2>Extra Services</h2>
+<ul>
+    <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
+    <li><a href="/" id="registry">Private Docker Repository Management</a></li>
+</ul>
 </body>
 </html>
