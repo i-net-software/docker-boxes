@@ -20,6 +20,9 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     SETX Path \"$storageDir\$muVersion\;%PATH%\" \
     ; "
 
+# Ghostscript
+RUN choco install ghostscript.app -version 9.20
+
 # Access treiber for mdb
 RUN choco install msaccess2010-redist-x64
 
