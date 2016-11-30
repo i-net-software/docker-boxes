@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM alpine
 
 VOLUME /etc/consul-template/templates
 VOLUME /etc/consul-template/conf
