@@ -47,3 +47,8 @@ RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula selec
     && rm -rf /var/lib/apt/lists/*
 
 # BTW: the problem was not to install the needed fonts, but how to enable them for java. Installing fontconfig solved that.
+
+# Try the docker container to have a syne method set for determining the memory derive by the cgroup limit.
+# see https://github.com/jenkinsci/docker/pull/182/commits/50cb8506b0dabc7db8cad66af2f915a3e61b07c4
+COPY docker-jvm-opts.sh /usr/local/bin/docker-jvm-opts.sh
+RUN echo "export _JAVA_OPTIONS=$(/usr/local/bin/docker-jvm-opts.sh)" | tee -a /home/jenkins/.profile
