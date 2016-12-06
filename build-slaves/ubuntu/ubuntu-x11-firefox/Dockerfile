@@ -2,8 +2,12 @@ FROM inetsoftware/ubuntu-java-x11:v1
 MAINTAINER contact@inetsoftware.de
 
 # Install xvfb as X-Server and x11vnc as VNC-Server
+# Also prepare for phantomjs
 RUN apt-get update \
     && apt-get install -y --force-yes --no-install-recommends firefox curl \
+    && apt-get install build-essential chrpath libssl-dev libxft-dev -y \
+    && apt-get install libfreetype6 libfreetype6-dev -y \
+    && apt-get install libfontconfig1 libfontconfig1-dev -y \
     && apt-get autoclean \
     && apt-get autoremove \
 	&& rm -rf /var/lib/apt/lists/*
