@@ -23,25 +23,28 @@ DOCKERCOMPOSEFILE="$(dirname $ENVFILE)/docker-compose.yml"
 source "$ENVFILE"
 
 [ -z "$IMAGES" ] && echo "No images set to be build." && exit 2 || :
-
-# build the image
-for IMG in $IMAGES; do
-    docker-compose -f "$DOCKERCOMPOSEFILE" build "$IMG"
-done
-
 ARTIFACTS=`docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
-for ARTIFACT in $ARTIFACTS; do
-    docker tag "$ARTIFACT" "${ARTIFACT%%:*}:${TAG}"
-done
+echo $ARTIFACTS
 
-if [ "$2" == "push" ]; then
-    for ARTIFACT in $ARTIFACTS; do
-        docker push "$ARTIFACT"
+if [ -z "$2" ] || [ "build" == "$2" ] || [ "push" == "$2" ]; then
+   # build the images if nothing else is set
+   for IMG in $IMAGES; do
+        docker-compose -f "$DOCKERCOMPOSEFILE" build "$IMG"
     done
 
-    if [ "$GITBRANCH" == "master" ]; then
+    for ARTIFACT in $ARTIFACTS; do
+        docker tag "$ARTIFACT" "${ARTIFACT%%:*}:${TAG}"
+    done
+fi
+
+if [ "pull" == "$2" ] || [ "push" == "$2" ]; then
+    for ARTIFACT in $ARTIFACTS; do
+        docker $2 "${ARTIFACT%%:*}:${TAG}"
+    done
+
+    if [ "$GITBRANCH" == "master" ] || [ "pull" == "$2" ]; then
         for ARTIFACT in $ARTIFACTS; do
-            docker push "${ARTIFACT%%:*}:latest"
+            docker $2 "${ARTIFACT%%:*}:latest"
         done
     fi
 fi
