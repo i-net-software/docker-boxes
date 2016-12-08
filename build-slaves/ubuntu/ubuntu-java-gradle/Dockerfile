@@ -1,4 +1,4 @@
-FROM inetsoftware/ubuntu-jenkins-base:v1
+FROM inetsoftware/ubuntu-jenkins-base
 MAINTAINER contact@inetsoftware.de
 
 RUN add-apt-repository ppa:webupd8team/java && \
