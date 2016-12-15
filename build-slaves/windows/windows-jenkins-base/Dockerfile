@@ -31,7 +31,6 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     net user Administrator /active:yes ; \
     net user jenkins /add /expires:never ; \
     net localgroup Administrators /add jenkins ; \
-    WMIC USERACCOUNT SET PasswordExpires=FALSE ; \
     Get-WmiObject win32_useraccount | Foreach-Object { \
     ([adsi](\"WinNT://\"+$_.caption).replace(\"\\\",\"/\")).SetPassword(\"jenkins\") } \
     ; "
@@ -51,6 +50,9 @@ ADD env.sh /env.sh
 RUN cp C:/env.sh C:/tools/cygwin/etc/profile.d/
 
 RUN mkdir C:\jenkins
+
+# Make the passwords of the currently existing users to never expire.
+RUN WMIC USERACCOUNT SET PasswordExpires=FALSE
 
 # run endlessly
 CMD ["C:\\ServiceMonitor.exe", "sshd"]
