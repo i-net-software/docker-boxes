@@ -1,10 +1,12 @@
-FROM jenkins:1.651.3
+FROM jenkins:alpine
 MAINTAINER contact@inetsoftware.de
 
 ######################################################################
 # Be root for a moment
 ######################################################################
 USER root
+
+RUN apk update && apk add subversion
 
 ######################################################################
 # drop back to the regular jenkins user - good practice
