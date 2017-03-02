@@ -48,18 +48,7 @@ services:
         restart: "always"
         ports:
             - "9000:9000"
-        command: "-H tcp://lenovo:2375"
-
-# Currently has no edit/delete for tags.
-#    registry-ui:
-#        image: "konradkleine/docker-registry-frontend:v2"
-#        container_name: "docker-registry-ui"
-#        restart: "always"
-#        ports:
-#            - "8080:80"
-#        environment:
-#            - ENV_DOCKER_REGISTRY_HOST=fileserver
-#            - ENV_DOCKER_REGISTRY_PORT=5000
+        command: "-H tcp://10.10.10.1:2375"
 
     registry-web:
         image: "hyper/docker-registry-web"
