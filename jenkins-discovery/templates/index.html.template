@@ -37,6 +37,10 @@ function setHref() {
 </ul>
 <p class="empty">No contexts registered yet.</p>
 
+<h2>Jenkins</h2>
+<ul>
+    <li><a href="http://jenkins:81/">VirtualBox Management</a></li>
+</ul>
 <h2>Fileserver</h2>
 <ul>
     <li><a href="http://fileserver/">Artifactory</a></li>
