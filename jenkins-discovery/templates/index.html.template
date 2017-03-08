@@ -23,6 +23,7 @@
 function setHref() {
     document.getElementById('portainer').href = window.location.protocol + "//" + window.location.hostname + ":9000/";
     document.getElementById('registry').href = window.location.protocol + "//" + window.location.hostname + ":8080/";
+    document.getElementById('virtualbox').href = window.location.protocol + "//" + window.location.hostname + ":81/";
 }
 </script>
 </head>
@@ -37,17 +38,10 @@ function setHref() {
 </ul>
 <p class="empty">No contexts registered yet.</p>
 
-<h2>Jenkins</h2>
-<ul>
-    <li><a href="http://jenkins:81/">VirtualBox Management</a></li>
-</ul>
-<h2>Fileserver</h2>
-<ul>
-    <li><a href="http://fileserver/">Artifactory</a></li>
-    <li><a href="http://fileserver/virtualbox">VirtualBox Management</a></li>
-</ul>
 <h2>Extra Services</h2>
 <ul>
+    <li><a href="http://fileserver/">Artifactory</a></li>
+    <li><a href="/" id="virtualbox">VirtualBox Management</a></li>
     <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
     <li><a href="/" id="registry">Private Docker Repository Management</a></li>
 </ul>
