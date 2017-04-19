@@ -10,9 +10,9 @@ RUN choco install windows-sdk-8.1
 # Donwload version 1.9 of mutools from their website.
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     $storageDir = \"C:\tools\" ; \
-    $muVersion = \"mupdf-1.10a-windows\" ; \
+    $muVersion = \"mupdf-1.11-windows\" ; \
     $webclient = New-Object System.Net.WebClient ; \
-    $url = \"http://www.mupdf.com/downloads/$muVersion.zip\" ; \
+    $url = \"http://www.mupdf.com/downloads/archive/$muVersion.zip\" ; \
     $file = \"$storageDir\mupdf.zip\" ; \
     $webclient.DownloadFile($url,$file) ; \
     Expand-Archive -LiteralPath \"$file\" -DestinationPath \"$storageDir\" ; \
