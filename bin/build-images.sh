@@ -13,26 +13,31 @@ case "$1" in
     ;;
     *)
         echo "Usage: $0 <type> (push)"
-        echo "Please use the type you want to build first (ubuntu, fedora or jenkins)"
+        echo "Please use the type you want to build first (ubuntu, fedora, windows or jenkins)"
         echo "Use 'push' as second option if you want to push the results to hub.docker"
         echo
         exit 1
 esac
 
 DOCKERCOMPOSEFILE="$(dirname $ENVFILE)/docker-compose.yml"
+echo "Compose File: '$DOCKERCOMPOSEFILE'"
+echo "Sourcing Environment: '$ENVFILE'"
 source "$ENVFILE"
 
 [ -z "$IMAGES" ] && echo "No images set to be build." && exit 2 || :
-ARTIFACTS=`docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
-echo $ARTIFACTS
+ARTIFACTS=`cd $(dirname $ENVFILE); docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
+echo "Artifacts"
+echo "${ARTIFACTS}"
+echo "----------------------------------------------------------"
 
 if [ -z "$2" ] || [ "build" == "$2" ] || [ "push" == "$2" ]; then
-   # build the images if nothing else is set
-   for IMG in $IMAGES; do
+    # build the images if nothing else is set
+    for IMG in $IMAGES; do
         docker-compose -f "$DOCKERCOMPOSEFILE" build "$IMG"
     done
 
     for ARTIFACT in $ARTIFACTS; do
+        echo "Tagging: '${ARTIFACT}' with '${TAG}'"
         docker tag "$ARTIFACT" "${ARTIFACT%%:*}:${TAG}"
     done
 fi
