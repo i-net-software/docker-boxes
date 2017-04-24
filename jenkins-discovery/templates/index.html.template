@@ -44,6 +44,7 @@ function setHref() {
     <li><a href="/" id="virtualbox">VirtualBox Management</a></li>
     <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
     <li><a href="/" id="registry">Private Docker Repository Management</a></li>
+    <li><a href="http://diskstation.inetsoftware.local:8080" id="deobfuscate">i-net deObfuscation Tool </a></li>
 </ul>
 </body>
 </html>
