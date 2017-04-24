@@ -1,16 +1,21 @@
-if [ "$SSH_CONNECTION" ]; then
+if [ "$SSH_CONNECTION" ] && [ -z "$ENV_DONE" ]; then
 pushd . >/dev/null
+
 for __dir in \
 /proc/registry/HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Session\ Manager/Environment \
 /proc/registry/HKEY_CURRENT_USER/Environment
 do
-    cd "$__dir"
-    for __var in *
+    for __var in `ls "$__dir"`
     do
-        __var=`echo $__var | tr '[a-z]' '[A-Z]'`
-        test -z "${!__var}" && export $__var="`cat $__var`" >/dev/null 2>&1
+        if [ ! -z "${__var}" ]; then
+            __val=$(cat "$__dir/$__var" | xargs --null printf "%s" | sed 's/%(.*?)%)/$\\1/g')
+            __var=$(echo "$__var" | sed 's/\(\W\)/_/g' | tr [a-z] [A-Z])
+            [ ! -z "${__val}" ] && [ -z "${!__var}" ] && export ${__var}="${__val%\"}" && echo "Exported '${__var}'" || echo "SKIPPED: '${__var}'"
+        fi
     done
 done
+
+export ENV_DONE=true
 unset __dir
 unset __var
 popd >/dev/null
