@@ -6,11 +6,19 @@ RUN add-apt-repository ppa:webupd8team/java && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 
 # Java 7
-RUN apt-get update \
-    && apt-get install -y oracle-java7-installer \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update \
+#    && apt-get install -y oracle-java7-installer \
+#    && apt-get autoclean \
+#    && apt-get autoremove \
+#    && rm -rf /var/lib/apt/lists/*
+
+# Java 7
+# Oracle has removed the sources from their server - at least PPA does not support it any more.
+# We're using our own internal now. This will break automatic builds outside of our environment
+RUN mkdir -p /usr/lib/jvm/ \
+    && wget -O- http://fileserver/artifactory/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz | tar xz \
+    && wget -O-  http://fileserver/artifactory/inet-static-libraries/lib/java/7/java-7-oracle.jinfo > /usr/lib/jvm/.java-7-oracle.jinfo \
+    && mv jdk1.7.0_80 /usr/lib/jvm/java-7-oracle
 
 # Java 9
 RUN apt-get update \
