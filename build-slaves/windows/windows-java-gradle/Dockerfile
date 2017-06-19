@@ -1,8 +1,11 @@
 FROM inetsoftware/windows-jenkins-base
 MAINTAINER contact@inetsoftware.de
 
-#install git and svn
-RUN cyg-get git subversion
+#install git
+RUN choco install -y git
+
+#install svn
+RUN choco install -y svn
 
 # install java
 RUN choco install -y jdk8 -params "both=true"
@@ -11,5 +14,5 @@ RUN choco install -y jdk8 -params "both=true"
 RUN choco install gradle --version 3.1
 
 # Jenkins will call a gradle.bat file
-ADD gradle.bat /gradle.bat
-RUN cp C:/gradle.bat C:/Windows/System32/gradle.bat
+ADD gradle.bat /Windows/System32/gradle.bat
+# RUN move C:/gradle.bat C:/Windows/System32/gradle.bat

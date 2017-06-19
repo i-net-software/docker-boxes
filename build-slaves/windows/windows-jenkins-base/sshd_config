@@ -36,12 +36,12 @@
 # Logging
 # obsoletes QuietMode and FascistLogging
 #SyslogFacility AUTH
-#LogLevel DEBUG3
+LogLevel DEBUG3
 
 # Authentication:
 
 #LoginGraceTime 2m
-PermitRootLogin yes
+#PermitRootLogin yes
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -69,15 +69,15 @@ AuthorizedKeysFile      .ssh/authorized_keys
 #IgnoreRhosts yes
 
 # To disable tunneled clear text passwords, change to no here!
-PasswordAuthentication yes
-PermitEmptyPasswords no
+# PasswordAuthentication yes
+# PermitEmptyPasswords no
 
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
 
 # Kerberos options
 #KerberosAuthentication no
-KerberosOrLocalPasswd yes
+#KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
 #KerberosGetAFSToken no
 
@@ -96,34 +96,32 @@ KerberosOrLocalPasswd yes
 # and ChallengeResponseAuthentication to 'no'.
 #UsePAM  yes
 
-AllowAgentForwarding yes
+#AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
 #X11DisplayOffset 10
 #X11UseLocalhost yes
-PermitTTY yes
 #PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
-UsePrivilegeSeparation yes
-PermitUserEnvironment yes
+#UsePrivilegeSeparation yes
+#PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
 #ClientAliveCountMax 3
-#UseDNS no
+#UseDNS yes
 #PidFile /var/run/sshd.pid
-#MaxStartups 10:30:100
+#MaxStartups 10
 #PermitTunnel no
 #ChrootDirectory none
-#VersionAddendum none
 
 # no default banner path
 #Banner none
 
 # override default of no subsystems
-Subsystem       sftp    /usr/sbin/sftp-server
+Subsystem       sftp    sftp-server.exe
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
