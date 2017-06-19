@@ -7,9 +7,11 @@ ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] &
 case "$1" in
     ubuntu|fedora|windows)
         ENVFILE="${ROOT}/build-slaves/$1/build.env"
+        shift 1
     ;;
     jenkins)
         ENVFILE="${ROOT}/jenkins-autosetup/build.env"
+        shift 1
     ;;
     *)
         echo "Usage: $0 <type> (push)"
@@ -18,6 +20,10 @@ case "$1" in
         echo
         exit 1
 esac
+
+# Remove the consumed argument
+COMMAND="$1"
+shift 1
 
 DOCKERCOMPOSEFILE="$(dirname $ENVFILE)/docker-compose.yml"
 echo "Compose File: '$DOCKERCOMPOSEFILE'"
@@ -30,10 +36,15 @@ echo "Artifacts"
 echo "${ARTIFACTS}"
 echo "----------------------------------------------------------"
 
-if [ -z "$2" ] || [ "build" == "$2" ] || [ "push" == "$2" ]; then
+if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; then
+
+    echo "Images to build: ${IMAGES}"
+    echo "----------------------------------------------------------"
+
     # build the images if nothing else is set
     for IMG in $IMAGES; do
-        docker-compose -f "$DOCKERCOMPOSEFILE" build "$IMG"
+        echo "Building Image for: $IMG"
+        docker-compose -f "$DOCKERCOMPOSEFILE" build "$@" "$IMG"
     done
 
     for ARTIFACT in $ARTIFACTS; do
@@ -42,14 +53,14 @@ if [ -z "$2" ] || [ "build" == "$2" ] || [ "push" == "$2" ]; then
     done
 fi
 
-if [ "pull" == "$2" ] || [ "push" == "$2" ]; then
+if [ "pull" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; then
     for ARTIFACT in $ARTIFACTS; do
-        docker $2 "${ARTIFACT%%:*}:${TAG}"
+        docker $COMMAND "${ARTIFACT%%:*}:${TAG}"
     done
 
-    if [ "$GITBRANCH" == "master" ] || [ "pull" == "$2" ]; then
+    if [ "$GITBRANCH" == "master" ] || [ "pull" == "$COMMAND" ]; then
         for ARTIFACT in $ARTIFACTS; do
-            docker $2 "${ARTIFACT%%:*}:latest"
+            docker $COMMAND "${ARTIFACT%%:*}:latest"
         done
     fi
 fi
