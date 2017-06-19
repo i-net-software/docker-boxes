@@ -5,12 +5,17 @@ services:
         image: 'inetsoftware/windows-chocolatey'
 
     base:
+#        build: ./windows-openssh
         build: ./windows-jenkins-base
         image: 'inetsoftware/windows-jenkins-base'
 
     java:
         build: ./windows-java-gradle
         image: 'inetsoftware/windows-java-gradle'
+
+    tools:
+        build: ./windows-tools
+        image: 'inetsoftware/windows-tools'
 
     sdk:
         build: ./windows-sdk
@@ -27,3 +32,7 @@ services:
     crystalreports:
         build: ./windows-crystalreports
         image: 'inetsoftware/windows-crystalreports'
+
+    uwp:
+        build: ./windows-uwp
+        image: 'inetsoftware/windows-uwp'

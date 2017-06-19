@@ -1,54 +1,29 @@
-FROM inetsoftware/windows-java-gradle
+FROM inetsoftware/windows-tools
 MAINTAINER contact@inetsoftware.de
 
-# signtool
-RUN choco install windows-sdk-8.1
-
-# dev package .NET 4.5.2 - includes msbuild
-# RUN choco install netfx-4.5.2-devpack
-
-# Donwload version 1.9 of mutools from their website.
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
-    $storageDir = \"C:\tools\" ; \
-    $muVersion = \"mupdf-1.11-windows\" ; \
-    $webclient = New-Object System.Net.WebClient ; \
-    $url = \"http://www.mupdf.com/downloads/archive/$muVersion.zip\" ; \
-    $file = \"$storageDir\mupdf.zip\" ; \
-    $webclient.DownloadFile($url,$file) ; \
-    Expand-Archive -LiteralPath \"$file\" -DestinationPath \"$storageDir\" ; \
-    rm \"$file\" ; \
-    SETX Path \"$storageDir\$muVersion\;%PATH%\" \
-    ; "
-
-# Ghostscript
-RUN choco install ghostscript.app -version 9.20
-
-# Access treiber for mdb
-RUN choco install msaccess2010-redist-x64
-
-# ODBC Driver for SQL-Server
-RUN choco install sqlserver-odbcdriver
-
-# testing ... things ...
-# This is THE ONLY package that allows to install parts of VS to compile our
-# SDK/Unit-based samples without installing the whole VS edition.
-RUN choco install visualstudio2015testagents
-
-# Visual C++ Build Tools - takes very long!
-RUN choco install visualcppbuildtools
-
-# Set Environment
-RUN @echo off \
-    && call "%VS140COMNTOOLS%vsvars32.bat" \
-    && set >> C:\environment.properties \ 
-    && @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
-        Get-Content C:\environment.properties | Foreach-Object { \
-            $key = $_.trim() -replace '(.*?)=(.*)','$1' ; \
-            $value = $_.trim() -replace '(.*?)=(.*)','$2' ; \
-            setx /m $key \"$value\" ; \
-        } \
-    " \
-    && del C:\environment.properties
-
-# Unit Test Framework to create unit test tools - installed by the testagents already
-# RUN nuget install Microsoft.VisualStudio.QualityTools.UnitTestFramework
+# https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-sdk-10.1/Dockerfile
+RUN powershell -Command \
+    Invoke-WebRequest https://coderobin.blob.core.windows.net/public/fakenet/x64/FakeNet.exe -OutFile $env:temp\fakenet64.exe; \
+    Invoke-WebRequest https://coderobin.blob.core.windows.net/public/fakenet/x86/FakeNet.exe -OutFile $env:temp\fakenet.exe; \
+    Copy C:\Windows\System32\net.exe C:\Windows\System32\net.exe.bak; \
+    Copy C:\Windows\SysWOW64\net.exe C:\Windows\SysWOW64\net.exe.bak; \
+    $acl1 = Get-Acl C:\Windows\System32\net.exe; \
+    $acl11 = Get-Acl C:\Windows\System32\net.exe; \
+    $acl2 = Get-Acl C:\Windows\SysWOW64\net.exe; \
+    $acl21 = Get-Acl C:\Windows\SysWOW64\net.exe; \
+    $permission = 'BUILTIN\Administrators','FullControl','Allow'; \
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission; \
+    $acl11.SetAccessRule($accessRule); \
+    Set-Acl C:\Windows\System32\net.exe -AclObject $acl11; \
+    $acl21.SetAccessRule($accessRule); \
+    Set-Acl C:\Windows\SysWOW64\net.exe -AclObject $acl21; \
+    Copy $env:temp\fakenet64.exe C:\Windows\System32\net.exe; \
+    Copy $env:temp\fakenet.exe C:\Windows\SysWOW64\net.exe; \
+    Install-PackageProvider -Name Chocolatey -Force; \
+    Install-Package -Name windows-sdk-10.1 -ProviderName Chocolatey -Force; \
+    Remove-Item C:\Windows\System32\net.exe; \
+    Remove-Item C:\Windows\SysWOW64\net.exe; \
+    Rename-Item C:\Windows\System32\net.exe.bak C:\Windows\System32\net.exe; \
+    Rename-Item C:\Windows\SysWOW64\net.exe.bak C:\Windows\SysWOW64\net.exe; \
+    Set-Acl C:\Windows\System32\net.exe -AclObject $acl1; \
+    Set-Acl C:\Windows\SysWOW64\net.exe -AclObject $acl2;
