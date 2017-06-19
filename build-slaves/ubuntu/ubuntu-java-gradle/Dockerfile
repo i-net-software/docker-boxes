@@ -27,10 +27,10 @@ RUN apt-get update \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-# Java 8 (Dafault)
+# Java 8 + Gradle 3.3 (Dafault)
 RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
-    && apt-get install -y gradle \
+    && apt-get install -y gradle-3.3 \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
     && apt-get autoclean \
     && apt-get autoremove \
