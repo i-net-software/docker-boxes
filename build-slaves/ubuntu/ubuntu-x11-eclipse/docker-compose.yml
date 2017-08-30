@@ -1,0 +1,11 @@
+version: '2'
+services:
+
+    eclipse:
+        build: .
+        image: 'inetsoftware/ubuntu-x11-eclipse'
+        ports:
+            - 5900
+            - 22
+        volumes:
+            - /home/dev/eclipse-docker:/home/jenkins

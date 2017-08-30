@@ -15,3 +15,7 @@ services:
     firefox:
         build: ./ubuntu-x11-firefox
         image: 'inetsoftware/ubuntu-x11-firefox'
+
+    eclipse:
+        build: ./ubuntu-x11-eclipse
+        image: 'inetsoftware/ubuntu-x11-eclipse'
