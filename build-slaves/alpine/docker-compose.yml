@@ -1,0 +1,9 @@
+version: '2'
+services:
+    base:
+        build: ./alpine-jenkins-base
+        image: 'inetsoftware/alpine-jenkins-base'
+
+    docker:
+        build: ./alpine-docker-compose
+        image: 'inetsoftware/alpine-docker-compose'

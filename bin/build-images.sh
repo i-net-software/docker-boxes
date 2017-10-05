@@ -5,7 +5,7 @@ GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))
 
 case "$1" in
-    ubuntu|fedora|windows)
+    alpine|ubuntu|fedora|windows)
         ENVFILE="${ROOT}/build-slaves/$1/build.env"
         shift 1
     ;;
@@ -15,7 +15,7 @@ case "$1" in
     ;;
     *)
         echo "Usage: $0 <type> (push)"
-        echo "Please use the type you want to build first (ubuntu, fedora, windows or jenkins)"
+        echo "Please use the type you want to build first (alpine, ubuntu, fedora, windows or jenkins)"
         echo "Use 'push' as second option if you want to push the results to hub.docker"
         echo
         exit 1
