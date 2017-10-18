@@ -1,4 +1,4 @@
-FROM jenkins:alpine
+FROM jenkins/jenkins:alpine
 MAINTAINER contact@inetsoftware.de
 
 ######################################################################
