@@ -11,12 +11,12 @@ export TINI_SUBREAPER=1
 # export AUTOSETUP="svn://<url>/<path> https://github.com/<path>.git"
 #
 if [ ! -z "$AUTOSETUP" ]; then
-    
+
     for SETUP in ${AUTOSETUP[@]}; do
         if [ -d "$AUTOSETUP_TMP" ]; then
             rm -rf "$AUTOSETUP_TMP"
         fi
-        
+
         EXTS=( ${SETUP:0:3} ${AUTOSETUP:${#SETUP}<3?0:-3} )
         for EXT in ${EXTS[@]}; do
             case $EXT in
@@ -27,7 +27,7 @@ if [ ! -z "$AUTOSETUP" ]; then
                 svn )
                     USER=${SETUP#*//}
                     USER=${USER%@*}
-                    
+
                     if [ ! -z "$USER" ]; then
                         PASSWORD=${USER#*:}
                         USER=${USER%:*}
@@ -35,18 +35,21 @@ if [ ! -z "$AUTOSETUP" ]; then
                     else
                         svn checkout "$SETUP" "$AUTOSETUP_TMP"
                     fi
-                    
+
                     break
                     ;;
             esac
         done
-        
+
         # initialise Plugins
-        if [ -f "$AUTOSETUP_TMP/plugins.txt" ]; then
+        if [ "$IS_DEVELOPMENT" == "true" ] && [ -f "$AUTOSETUP_TMP/plugins_dev.txt" ]; then
+            echo "Setting up DEVELOPMENT Plugins - will be loaded on startup using the managePlugins.groovy"
+            cp "$AUTOSETUP_TMP/plugins_dev.txt" "${JENKINS_REF}/plugins.txt"
+        elif [ -f "$AUTOSETUP_TMP/plugins.txt" ]; then
             echo "Setting up Plugins - will be loaded on startup using the managePlugins.groovy"
             cp "$AUTOSETUP_TMP/plugins.txt" "${JENKINS_REF}"
         fi
-        
+
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
             mkdir -p "${JENKINS_REF}init.groovy.d/"
