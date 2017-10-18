@@ -14,7 +14,7 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 RUN mkdir -p /opt/node/node_modules && chown -R jenkins:jenkins /opt/node
 RUN apt-get install -y nodejs \
     && apt-get autoclean \
