@@ -12,7 +12,4 @@ RUN dnf updateinfo && dnf install -y openssh-server auto-buildrequires git subve
     ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
 
 EXPOSE 22
-
-COPY ./entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
-CMD daemon
+CMD /usr/sbin/sshd -D -p 22
