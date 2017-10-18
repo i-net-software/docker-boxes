@@ -29,4 +29,3 @@ EXPOSE 5900 22
 
 COPY ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
-CMD daemon
