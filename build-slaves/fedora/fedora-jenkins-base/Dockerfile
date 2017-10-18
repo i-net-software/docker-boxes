@@ -13,4 +13,6 @@ RUN dnf updateinfo && dnf install -y openssh-server auto-buildrequires git subve
 
 EXPOSE 22
 
-CMD /usr/sbin/sshd -D
+COPY ./entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+CMD daemon

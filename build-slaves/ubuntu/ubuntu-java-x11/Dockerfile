@@ -26,4 +26,7 @@ ADD supervisord.conf /etc/supervisor/conf.d/
 ENV DISPLAY_RESOLUTION="1200x800"
 
 EXPOSE 5900 22
-ENTRYPOINT /usr/bin/supervisord -n
+
+COPY ./entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+CMD daemon

@@ -21,3 +21,7 @@ RUN powershell -Command \
     rm BuildTools_MSBuildNuGet.zip; \
     rm -Recurse -Force BuildTools_MSBuildNuGet; \
     wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile C:\nuget.exe;
+
+RUN powershell -Command \
+    choco install -y dotnetcore; \
+    choco install -y dotnetcoresdk;

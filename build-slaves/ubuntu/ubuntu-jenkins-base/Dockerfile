@@ -21,4 +21,6 @@ ENV LANGUAGE en_US:e
 ENV LC_ALL en_US.UTF-8
 
 EXPOSE 22
-CMD /usr/sbin/sshd -D
+COPY ./entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+CMD daemon
