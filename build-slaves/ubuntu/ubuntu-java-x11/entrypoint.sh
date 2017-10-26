@@ -22,14 +22,10 @@ if test -t 0; then
 
 # Detached mode? Run supervisord in foreground, which will stay until container is stopped.
 else
-  # If some extra params were passed, execute them before.
-  # @TODO It is a bit confusing that the passed command runs *before* supervisord, 
-  #       while in interactive mode they run *after* supervisor.
-  #       Not sure about that, but maybe when any command is passed to container,
-  #       it should be executed *always* after supervisord? And when the command ends,
-  #       container exits as well.
   if [[ $@ ]]; then 
+    /usr/bin/supervisord $SUPERVISOR_PARAMS
     eval $@
+  else
+    /usr/bin/supervisord -n $SUPERVISOR_PARAMS
   fi
-  /usr/bin/supervisord -n $SUPERVISOR_PARAMS
 fi
