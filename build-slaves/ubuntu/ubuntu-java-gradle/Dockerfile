@@ -1,6 +1,8 @@
 FROM inetsoftware/ubuntu-jenkins-base
 MAINTAINER contact@inetsoftware.de
 
+ENV TERM xterm
+
 RUN add-apt-repository ppa:webupd8team/java && \
     add-apt-repository ppa:cwchien/gradle && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
@@ -15,26 +17,29 @@ RUN add-apt-repository ppa:webupd8team/java && \
 # Java 7
 # Oracle has removed the sources from their server - at least PPA does not support it any more.
 # We're using our own internal now. This will break automatic builds outside of our environment
-RUN mkdir -p /usr/lib/jvm/ \
-    && wget -O- http://fileserver/artifactory/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz | tar xz \
-    && wget -O-  http://fileserver/artifactory/inet-static-libraries/lib/java/7/java-7-oracle.jinfo > /usr/lib/jvm/.java-7-oracle.jinfo \
-    && mv jdk1.7.0_80 /usr/lib/jvm/java-7-oracle
+RUN mkdir -p /var/cache/oracle-jdk7-installer/ \
+    && wget -O /var/cache/oracle-jdk7-installer/jdk-7u80-linux-x64.tar.gz http://fileserver/artifactory/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz \
+    && apt-get update \
+    && apt-get install -y oracle-java7-installer \
+    ; apt-get autoclean \
+    ; apt-get autoremove \
+    ; rm -rf /var/lib/apt/lists/*
 
 # Java 9
 RUN apt-get update \
-    && apt-get install -y oracle-java9-installer \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends oracle-java9-installer \
+    ; apt-get autoclean \
+    ; apt-get autoremove \
+    ; rm -rf /var/lib/apt/lists/*
 
 # Java 8 + Gradle 3.3 (Dafault)
 RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
     && apt-get install -y gradle-3.3 \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
-    && apt-get autoclean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/*
+    ; apt-get autoclean \
+    ; apt-get autoremove \
+    ; rm -rf /var/lib/apt/lists/*
 
 # mudraw
 RUN apt-get update \
