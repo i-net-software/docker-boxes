@@ -54,5 +54,11 @@ RUN mkdir C:\jenkins
 # Make the passwords of the currently existing users to never expire.
 RUN WMIC USERACCOUNT SET PasswordExpires=FALSE
 
+# Temporary Hack for the 50-char-paste-bug see: https://github.com/moby/moby/issues/29646
+# TODO: Remove.
+WORKDIR "Program Files"
+RUN rd /S /Q WindowsPowerShell\Modules\PSReadLine
+WORKDIR /
+
 # run endlessly
 CMD ["C:\\ServiceMonitor.exe", "sshd"]
