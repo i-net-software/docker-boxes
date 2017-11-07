@@ -1,6 +1,7 @@
 FROM inetsoftware/windows-java-gradle
 MAINTAINER contact@inetsoftware.de
 
+
 # signtool - see sdk
 # RUN choco install windows-sdk-8.1
 
@@ -9,12 +10,16 @@ MAINTAINER contact@inetsoftware.de
 
 # Donwload version 1.9 of mutools from their website.
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
+    $progressPreference = 'silentlyContinue' ; \
     $storageDir = \"C:\tools\" ; \
-    $muVersion = \"mupdf-1.11-windows\" ; \
-    $url = \"http://www.mupdf.com/downloads/archive/$muVersion.zip\" ; \
+    $url = \"http://www.mupdf.com/downloads\" ; \
+    $r=iwr $url -UseBasicParsing ; \
+    $l=$r.Links |?{$_.href -match \"windows.zip\"} | select \"href\" | select -last 1 ; \
+    $muVersion=$l.href.substring(0, $l.href.length -4) ; \
     $file = \"$storageDir\mupdf.zip\" ; \
     mkdir $storageDir; \
-    Invoke-WebRequest -Uri $url -OutFile $file; \
+    echo \"Loading: '$url/$muVersion.zip'\" ; \
+    Invoke-WebRequest -Uri \"$url/$muVersion.zip\" -OutFile $file; \
     Expand-Archive -LiteralPath \"$file\" -DestinationPath \"$storageDir\" ; \
     rm \"$file\" ; \
     SETX Path \"$storageDir\$muVersion\;%PATH%\" \
