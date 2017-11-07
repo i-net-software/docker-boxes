@@ -5,8 +5,8 @@ services:
         image: 'inetsoftware/windows-chocolatey'
 
     base:
-#        build: ./windows-openssh
-        build: ./windows-jenkins-base
+        build: ./windows-openssh
+#        build: ./windows-jenkins-base
         image: 'inetsoftware/windows-jenkins-base'
 
     java:
