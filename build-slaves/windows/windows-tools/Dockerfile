@@ -27,6 +27,10 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 
 # Ghostscript
 RUN choco install ghostscript.app -version 9.20
+RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
+    $gs=dir \"$env:ProgramFiles/gs\" | select Name ;\
+    SETX Path ( \"$env:ProgramFiles/gs/\" + ($gs | select -ExpandProperty \"Name\" ) + \"/bin;%PATH%\") ; \
+    ;"
 
 # Access treiber for mdb
 RUN choco install msaccess2010-redist-x64
