@@ -28,8 +28,9 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
 # Ghostscript
 RUN choco install ghostscript.app -version 9.20
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
-    $gs=dir \"$env:ProgramFiles/gs\" | select Name ;\
-    SETX Path ( \"$env:ProgramFiles/gs/\" + ($gs | select -ExpandProperty \"Name\" ) + \"/bin;%PATH%\") ; \
+    $gs=dir \"$env:ProgramFiles\gs\" | select Name ;\
+    SETX Path ( \"$env:ProgramFiles\gs\\\" + ($gs | select -ExpandProperty \"Name\" ) + \"\bin;%PATH%\") ; \
+    $env:path=( \"$env:ProgramFiles\gs\\\" + ($gs | select -ExpandProperty \"Name\" ) + \"\bin;$env:path\") ; \
     ;"
 
 # Access treiber for mdb
