@@ -11,7 +11,7 @@ RUN choco install -y svn
 RUN choco install -y jdk8 -params "both=true"
 
 # install gradle
-RUN choco install gradle --version 3.1
+RUN choco install gradle --version 4.3.1
 
 # Jenkins will call a gradle.bat file
 ADD gradle.bat /Windows/System32/gradle.bat
