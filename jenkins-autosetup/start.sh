@@ -50,6 +50,9 @@ if [ ! -z "$AUTOSETUP" ]; then
             cp "$AUTOSETUP_TMP/plugins.txt" "${JENKINS_REF}"
         fi
 
+        # install plugins
+        cat /usr/share/jenkins/ref/plugins.txt | xargs /usr/local/bin/install-plugins.sh
+
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
             mkdir -p "${JENKINS_REF}init.groovy.d/"
