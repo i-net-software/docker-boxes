@@ -12,14 +12,15 @@ LABEL maintainer contact@inetsoftware.de
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
     $progressPreference = 'silentlyContinue' ; \
     $storageDir = \"C:\tools\" ; \
-    $url = \"http://www.mupdf.com/downloads\" ; \
+    $url = \"https://www.mupdf.com/downloads\" ; \
     $r=iwr $url -UseBasicParsing ; \
     $l=$r.Links |?{$_.href -match \"windows.zip\"} | select \"href\" | select -last 1 ; \
     $muVersion=$l.href.substring(0, $l.href.length -4) ; \
     $file = \"$storageDir\mupdf.zip\" ; \
     mkdir $storageDir; \
-    echo \"Loading: '$url/$muVersion.zip'\" ; \
-    Invoke-WebRequest -Uri \"$url/$muVersion.zip\" -OutFile $file; \
+    echo \"Loading: '$url/$muVersion.zip' to: $file\" ; \
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
+    ((New-Object System.Net.WebClient).DownloadFile(\"$url/$muVersion.zip\", \"$file\")) ; \
     Expand-Archive -LiteralPath \"$file\" -DestinationPath \"$storageDir\" ; \
     rm \"$file\" ; \
     SETX Path \"$storageDir\$muVersion\;%PATH%\" \
