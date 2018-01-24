@@ -1,5 +1,5 @@
 FROM inetsoftware/ubuntu-java-gradle
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm

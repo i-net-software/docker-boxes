@@ -1,5 +1,5 @@
 FROM inetsoftware/windows-tools
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-sdk-10.1/Dockerfile
 RUN powershell -Command \

@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # Install basic components: open ssh, git, svn and PPA abilities.
 RUN apt-get update \

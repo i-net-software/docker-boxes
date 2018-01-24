@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:alpine
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 ######################################################################
 # Be root for a moment

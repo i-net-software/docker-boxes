@@ -1,5 +1,5 @@
 FROM openjdk:8-jre-alpine
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # Tools
 RUN apk add --update --no-cache linux-pam openssh sshpass rsync git subversion bash curl jq

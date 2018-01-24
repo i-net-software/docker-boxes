@@ -1,5 +1,5 @@
 FROM inetsoftware/windows-java-gradle
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 
 # signtool - see sdk

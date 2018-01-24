@@ -1,5 +1,5 @@
 FROM inetsoftware/windows-chocolatey
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 EXPOSE 22
 

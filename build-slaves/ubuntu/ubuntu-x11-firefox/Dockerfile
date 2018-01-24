@@ -1,5 +1,5 @@
 FROM inetsoftware/ubuntu-java-x11
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # Install xvfb as X-Server and x11vnc as VNC-Server
 # Also prepare for phantomjs

@@ -1,5 +1,5 @@
 FROM fedora
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # Install OpenSSH Server, rpm build tools, git and subversion
 # Create jenkins user and set password

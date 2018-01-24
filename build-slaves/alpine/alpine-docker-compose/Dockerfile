@@ -1,5 +1,5 @@
 FROM inetsoftware/alpine-jenkins-base
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # Tools
 RUN apk add --update --no-cache docker py-pip \

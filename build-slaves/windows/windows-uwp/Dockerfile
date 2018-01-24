@@ -1,5 +1,5 @@
 FROM inetsoftware/windows-sdk
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 #see https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-build-uwp-461/Dockerfile
 RUN powershell -Command \

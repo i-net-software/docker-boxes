@@ -1,5 +1,5 @@
 FROM inetsoftware/windows-jenkins-base
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 #install git
 RUN choco install -y git

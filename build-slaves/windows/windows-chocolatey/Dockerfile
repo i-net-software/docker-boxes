@@ -1,5 +1,5 @@
 FROM microsoft/dotnet-framework:3.5
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 # install chocolaty
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:chocolateyUseWindowsCompression = 'false' ; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex"
