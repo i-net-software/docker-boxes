@@ -49,18 +49,18 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
 
     for ARTIFACT in $ARTIFACTS; do
         echo "Tagging: '${ARTIFACT}' with '${TAG}'"
-        docker tag "$ARTIFACT" "${ARTIFACT%%:*}:${TAG}"
+        docker tag "$ARTIFACT" "${ARTIFACT}:${TAG}"
     done
 fi
 
 if [ "pull" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; then
     for ARTIFACT in $ARTIFACTS; do
-        docker $COMMAND "${ARTIFACT%%:*}:${TAG}"
+        docker $COMMAND "${ARTIFACT}:${TAG}"
     done
 
     if [ "$GITBRANCH" == "master" ] || [ "pull" == "$COMMAND" ]; then
         for ARTIFACT in $ARTIFACTS; do
-            docker $COMMAND "${ARTIFACT%%:*}:latest"
+            docker $COMMAND "${ARTIFACT}:latest"
         done
     fi
 fi
