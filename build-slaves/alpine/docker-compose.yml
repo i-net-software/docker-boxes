@@ -7,3 +7,11 @@ services:
     docker:
         build: ./alpine-docker-compose
         image: 'inetsoftware/alpine-docker-compose'
+
+    gradle:
+        build: ./alpine-java-gradle
+        image: 'inetsoftware/alpine-java-gradle'
+
+    tesseract:
+        build: ./alpine-gradle-tesseract
+        image: 'inetsoftware/alpine-gradle-tesseract'
