@@ -8,7 +8,7 @@ ENV TERM xterm
 RUN apt-get update \
     && apt-get install -y --force-yes --no-install-recommends \
             supervisor \
-            openbox xvfb \
+            openbox xvfb xterm \
             x11vnc \
             x11-utils \
             x11-xserver-utils \
@@ -19,7 +19,8 @@ RUN apt-get update \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir ~/.vnc
+    && mkdir ~/.vnc \
+    && mkdir -p /home/jenkins/.config/openbox && echo "x-terminal-emulator &" >> /home/jenkins/.config/openbox/autostart
 
 ADD supervisord.conf /etc/supervisor/conf.d/
 
