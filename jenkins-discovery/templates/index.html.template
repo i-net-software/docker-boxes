@@ -24,6 +24,7 @@ function setHref() {
     document.getElementById('portainer').href = window.location.protocol + "//" + window.location.hostname + ":9000/";
     document.getElementById('registry').href = window.location.protocol + "//" + window.location.hostname + ":8080/";
     document.getElementById('virtualbox').href = window.location.protocol + "//" + window.location.hostname + ":81/";
+    document.getElementById('grafana').href = window.location.protocol + "//" + window.location.hostname + ":3000/";
 }
 </script>
 </head>
@@ -41,6 +42,7 @@ function setHref() {
 <h2>Extra Services</h2>
 <ul>
     <li><a href="http://fileserver/">Artifactory</a></li>
+    <li><a href="/" id="grafana">Grafana - Docker Status</a></li>
     <li><a href="/" id="virtualbox">VirtualBox Management</a></li>
     <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
     <li><a href="/" id="registry">Private Docker Repository Management</a></li>
