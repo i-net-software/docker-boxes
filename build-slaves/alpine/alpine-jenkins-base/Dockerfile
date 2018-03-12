@@ -10,7 +10,8 @@ RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && \
 # Create User that we can log in with
 RUN adduser -D -g "User" jenkins \
     && echo jenkins:jenkins | chpasswd \
-    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers \
+    && echo "UseDNS no >> /etc/ssh/sshd_config"
 
 EXPOSE 22
 CMD /usr/sbin/sshd -D

@@ -12,7 +12,8 @@ RUN apt-get update \
     && mkdir /var/run/sshd \
     && adduser --quiet --disabled-password --gecos "User" jenkins \
     && echo jenkins:jenkins | chpasswd \
-    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers \
+    && echo "UseDNS no >> /etc/ssh/sshd_config"
 
 # Set the locale
 RUN locale-gen en_US.UTF-8
