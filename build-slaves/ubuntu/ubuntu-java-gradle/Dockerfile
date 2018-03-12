@@ -53,7 +53,7 @@ RUN apt-get update \
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
     && apt-add-repository multiverse \
     && apt-get update \
-    && apt-get install -y fontconfig ttf-mscorefonts-installer fonts-dejavu \
+    && apt-get install -y fontconfig ttf-mscorefonts-installer fonts-dejavu fonts-arkpandora \
     && dpkg-reconfigure fontconfig \
     && apt-get autoclean \
     && apt-get autoremove \
