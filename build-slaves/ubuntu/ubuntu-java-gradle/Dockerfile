@@ -2,6 +2,7 @@ FROM inetsoftware/ubuntu-jenkins-base
 MAINTAINER contact@inetsoftware.de
 
 ENV TERM xterm
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN add-apt-repository ppa:webupd8team/java && \
     add-apt-repository ppa:cwchien/gradle && \
@@ -53,7 +54,7 @@ RUN apt-get update \
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
     && apt-add-repository multiverse \
     && apt-get update \
-    && apt-get install -y fontconfig ttf-mscorefonts-installer fonts-dejavu fonts-arkpandora \
+    && apt-get install -y fontconfig msttcorefonts fonts-dejavu \
     && dpkg-reconfigure fontconfig \
     && apt-get autoclean \
     && apt-get autoremove \
