@@ -41,7 +41,7 @@ if [ ! -z "$AUTOSETUP" ]; then
             esac
         done
 
-        # initialise Plugins
+        # initializep plugins
         if [ "$IS_DEVELOPMENT" == "true" ] && [ -f "$AUTOSETUP_TMP/plugins_dev.txt" ]; then
             echo "Setting up DEVELOPMENT Plugins - will be loaded on startup using the managePlugins.groovy"
             cp "$AUTOSETUP_TMP/plugins_dev.txt" "${JENKINS_REF}/plugins.txt"
