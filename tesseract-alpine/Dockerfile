@@ -1,13 +1,16 @@
-FROM alpine as builder
+FROM alpine:3.8 as builder
 
 RUN set -x \
     # Add testing repository
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     # Install SDK
-    && apk add --update --no-cache alpine-sdk \
+    && apk update \
+    && apk upgrade --no-cache apk-tools \
+    && apk add --no-cache alpine-sdk \
     # Add user to build with
     && adduser -D -g "User" dev \
     && echo dev:dev | chpasswd \
+    && echo "dev ALL=(ALL) ALL" >> /etc/sudoers \
     && echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && addgroup dev abuild \
     && mkdir -p /var/cache/distfiles \
@@ -22,7 +25,7 @@ USER dev
 RUN set -x \
     && cd ~/ \
     # Prepare Environment
-    && abuild-keygen -a -i \
+    && abuild-keygen -a -i -n \
     && abuild checksum \
     # Build
     && abuild -r
