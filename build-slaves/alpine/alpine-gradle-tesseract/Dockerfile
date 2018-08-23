@@ -1,13 +1,15 @@
+FROM inetsoftware/alpine-tesseract as builder
+
+# dummy 
+
 FROM inetsoftware/alpine-java-gradle
 LABEL maintainer contact@inetsoftware.de
 
-RUN set -x && \
-  apk add --update --no-cache tesseract-ocr && \
-  # download traineddata
-  # english
-  # wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata && \
-  # japanese
-  # wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/jpn.traineddata && \
-  # enable to use hocr option
-  # wget -q -P /usr/share/tessdata/ https://github.com/tesseract-ocr/tessdata/raw/master/osd.traineddata && \
-  echo "Done."
+COPY --from=builder /tesseract/tesseract-git-* /tesseract/
+
+RUN set -x \
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk update \
+    && apk add --allow-untrusted /tesseract/tesseract-git-* \
+    && rm  -rf /tesseract \
+    && echo "done"
