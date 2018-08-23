@@ -1,0 +1,43 @@
+# Maintainer: i-net /// software <tools@inetsoftware.de>
+pkgname=tesseract-git
+_sha=18787ea12b2ea9368c8e1c0128d1f8aef2beebc8
+pkgver=4.0.0
+pkgrel=beta4
+pkgdesc="Tesseract Open Source OCR Engine"
+url="https://github.com/tesseract-ocr/tesseract"
+arch="all"
+license="Apache-2.0"
+depends="leptonica icu-libs tiff pango fontconfig cairo musl"
+makedepends="cmake leptonica-dev tiff-dev icu-dev cairo-dev automake autoconf
+    libtool autoconf-archive pango-dev"
+install=""
+replaces="tesseract-ocr"
+subpackages="$pkgname-dev $pkgname-training"
+source="tesseract-$pkgver.tar.gz::https://github.com/tesseract-ocr/tesseract/archive/$_sha.tar.gz"
+builddir="$srcdir/tesseract-$_sha"
+
+build() {
+        cd "$builddir"
+        ./autogen.sh
+        ./configure \
+                --build=$CBUILD \
+                --host=$CHOST \
+                --prefix=/usr \
+                --sysconfdir=/etc \
+                --mandir=/usr/share/man \
+                --infodir=/usr/share/info \
+                --localstatedir=/var \
+                --disable-static
+        make
+        make training
+}
+
+package() {
+    cd "$builddir"
+    make DESTDIR="$pkgdir" install
+}
+
+training() {
+    cd "$builddir"
+    make DESTDIR="$subpkgdir" training-install
+}

@@ -1,0 +1,5 @@
+version: '2'
+services:
+    tesseract:
+        build: '.'
+        image: 'inetsoftware/alpine-tesseract'

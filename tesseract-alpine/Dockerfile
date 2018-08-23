@@ -1,0 +1,37 @@
+FROM alpine as builder
+
+RUN set -x \
+    # Add testing repository
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    # Install SDK
+    && apk add --update --no-cache alpine-sdk \
+    # Add user to build with
+    && adduser -D -g "User" dev \
+    && echo dev:dev | chpasswd \
+    && echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers \
+    && addgroup dev abuild \
+    && mkdir -p /var/cache/distfiles \
+    && chmod a+w /var/cache/distfiles
+
+# Add the APKBUILD File from
+# https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD
+ADD APKBUILD /home/dev/APKBUILD
+
+USER dev
+
+RUN set -x \
+    && cd ~/ \
+    # Prepare Environment
+    && abuild-keygen -a -i \
+    && abuild checksum \
+    # Build
+    && abuild -r
+
+FROM alpine
+
+RUN mkdir -p /tesseract
+
+# Provide the packages in /tesseract folder
+# Install using:
+# apk add --allow-untrusted /tesseract/teseract-git-*
+COPY --from=builder /home/dev/packages/home/x86_64/tesseract-git-* /tesseract/
