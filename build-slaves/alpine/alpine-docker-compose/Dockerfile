@@ -5,5 +5,5 @@ LABEL maintainer contact@inetsoftware.de
 RUN apk add --update --no-cache docker py-pip \
     && pip install docker-compose
 
-RUN apk add --update --no-cache nodejs \
+RUN apk add --update --no-cache nodejs npm \
     && npm install -g dockerfile-template
