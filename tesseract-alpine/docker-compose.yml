@@ -13,4 +13,11 @@ services:
             context: '.'
             args:
                 SHA: 18787ea12b2ea9368c8e1c0128d1f8aef2beebc8
-                PKGVER: beta3
+                PKGVER: beta4
+    tesseract:
+        image: 'inetsoftware/alpine-tesseract'
+        build:
+            context: '.'
+            args:
+                SHA: master
+                PKGVER: 1
