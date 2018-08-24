@@ -1,8 +1,10 @@
 # Maintainer: i-net /// software <tools@inetsoftware.de>
 pkgname=tesseract-git
-_sha=18787ea12b2ea9368c8e1c0128d1f8aef2beebc8
+_sha=$SHA
+pkgrel=$PKGVER
+
+
 pkgver=4.0.0
-pkgrel=beta4
 pkgdesc="Tesseract Open Source OCR Engine"
 url="https://github.com/tesseract-ocr/tesseract"
 arch="all"

@@ -22,6 +22,9 @@ ADD APKBUILD /home/dev/APKBUILD
 
 USER dev
 
+ARG SHA
+ARG PKGVER
+
 RUN set -x \
     && cd ~/ \
     # Prepare Environment
