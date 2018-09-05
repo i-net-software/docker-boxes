@@ -41,10 +41,14 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
     echo "Images to build: ${IMAGES}"
     echo "----------------------------------------------------------"
 
+    if [ ! -z "$REGISTRY" ]; then
+        REGISTRY_ARG="--build-arg REGISTRY=$REGISTRY"
+    fi
+
     # build the images if nothing else is set
     for IMG in $IMAGES; do
         echo "Building Image for: $IMG"
-        docker-compose -f "$DOCKERCOMPOSEFILE" build "$@" "$IMG"
+        docker-compose -f "$DOCKERCOMPOSEFILE" build $REGISTRY_ARG "$@" "$IMG"
     done
 
     for ARTIFACT in $ARTIFACTS; do
