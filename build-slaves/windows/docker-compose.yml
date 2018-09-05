@@ -2,37 +2,47 @@ version: '2.1'
 services:
     choco:
         build: ./windows-chocolatey
-        image: 'inetsoftware/windows-chocolatey'
+        image: '${REGISTRY}inetsoftware/windows-chocolatey'
 
     base:
         build: ./windows-openssh
 #        build: ./windows-jenkins-base
-        image: 'inetsoftware/windows-jenkins-base'
+        image: '${REGISTRY}inetsoftware/windows-jenkins-base'
 
     java:
         build: ./windows-java-gradle
-        image: 'inetsoftware/windows-java-gradle'
+        image: '${REGISTRY}inetsoftware/windows-java-gradle'
 
     tools:
         build: ./windows-tools
-        image: 'inetsoftware/windows-tools'
+        image: '${REGISTRY}inetsoftware/windows-tools'
 
     sdk:
         build: ./windows-sdk
-        image: 'inetsoftware/windows-sdk'
+        image: '${REGISTRY}inetsoftware/windows-sdk'
 
     reportreader:
         build: ./windows-reportreader
-        image: 'inetsoftware/windows-reportreader'
+        image: '${REGISTRY}inetsoftware/windows-reportreader'
 
     wixtoolset:
         build: ./windows-wixtoolset
-        image: 'inetsoftware/windows-wixtoolset'
+        image: '${REGISTRY}inetsoftware/windows-wixtoolset'
 
-    crystalreports:
-        build: ./windows-crystalreports
-        image: 'inetsoftware/windows-crystalreports'
+#    crystalreports:
+#        build: ./windows-crystalreports
+#        image: 'inetsoftware/windows-crystalreports'
 
     uwp:
         build: ./windows-uwp
-        image: 'inetsoftware/windows-uwp'
+        image: '${REGISTRY}inetsoftware/windows-uwp'
+
+    vs2015:
+        build: ./windows-vs-2015
+        image: '${REGISTRY}inetsoftware/windows-vs-2015'
+
+
+    vs2017:
+        build: ./windows-vs-2017
+        image: '${REGISTRY}inetsoftware/windows-vs-2017'
+        
