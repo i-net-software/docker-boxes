@@ -8,6 +8,10 @@ services:
         build: ./ubuntu-java-gradle
         image: 'inetsoftware/ubuntu-java-gradle'
 
+    tesseract:
+        build: ./ubuntu-gradle-tesseract
+        image: 'inetsoftware/ubuntu-gradle-tesseract'
+
     x11:
         build: ./ubuntu-java-x11
         image: 'inetsoftware/ubuntu-java-x11'
