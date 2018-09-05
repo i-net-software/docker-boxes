@@ -24,6 +24,7 @@ USER dev
 
 ARG SHA
 ARG PKGVER
+ARG ADDITIONAL_OPTIONS
 
 RUN set -x \
     && cd ~/ \

@@ -1,12 +1,5 @@
 version: '2'
 services:
-    tesseract-beta3:
-        image: 'inetsoftware/alpine-tesseract:4.0.0-beta3'
-        build:
-            context: '.'
-            args:
-                SHA: b1f7990d9b94bb583d74c7004e85dffb1499fe8c
-                PKGVER: beta3
     tesseract-beta4:
         image: 'inetsoftware/alpine-tesseract:4.0.0-beta4'
         build:
@@ -21,3 +14,19 @@ services:
             args:
                 SHA: master
                 PKGVER: 1
+    tesseract-beta4-tess4j:
+        image: 'inetsoftware/alpine-tesseract:4.0.0-beta4-tess4j'
+        build:
+            context: '.'
+            args:
+                SHA: 18787ea12b2ea9368c8e1c0128d1f8aef2beebc8
+                PKGVER: beta4
+                ADDITIONAL_OPTIONS: --disable-openmp
+    tesseract-tess4j:
+        image: 'inetsoftware/alpine-tesseract:tess4j'
+        build:
+            context: '.'
+            args:
+                SHA: master
+                PKGVER: 1
+                ADDITIONAL_OPTIONS: --disable-openmp
