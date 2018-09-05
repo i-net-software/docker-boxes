@@ -15,7 +15,7 @@
         display: block;
         color: #555;
     }
-    ul li a {
+    ul li a:not(.noUC) {
         text-transform: capitalize;
     }
 </style>
@@ -41,7 +41,11 @@ function setHref() {
 
 <h2>Extra Services</h2>
 <ul>
-    <li><a href="http://fileserver/">Artifactory</a></li>
+    <li><a class="noUC" href="http://fileserver/">Archiva Overview</a></li>
+    <li><a class="noUC" href="http://fileserver/repository/inet-snapshot">Archiva Repository: i-net Build</a></li>
+    <li><a class="noUC" href="http://fileserver/repository/inet-product">Archiva Repository: i-net Produkte</a></li>
+<ul>
+</ul>
     <li><a href="/" id="grafana">Grafana - Docker Status</a></li>
     <li><a href="/" id="virtualbox">VirtualBox Management</a></li>
     <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
