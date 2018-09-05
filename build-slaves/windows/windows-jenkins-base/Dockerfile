@@ -1,4 +1,5 @@
-FROM inetsoftware/windows-chocolatey
+ARG REGISTRY
+FROM ${REGISTRY}inetsoftware/windows-chocolatey
 LABEL maintainer contact@inetsoftware.de
 
 EXPOSE 22

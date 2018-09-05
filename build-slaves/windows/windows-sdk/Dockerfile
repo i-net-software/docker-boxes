@@ -1,4 +1,5 @@
-FROM inetsoftware/windows-tools
+ARG REGISTRY
+FROM ${REGISTRY}inetsoftware/windows-vs-2015
 LABEL maintainer contact@inetsoftware.de
 
 # https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-sdk-10.1/Dockerfile
