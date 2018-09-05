@@ -8,10 +8,7 @@ GRADLE_VERSION=`echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 
 mkdir -p /opt/gradle
 wget "http://services.gradle.org/distributions/${GRADLE_PACKAGE}" -O "${GRADLE_PACKAGE}"
-unzip -oq ./${GRADLE_PACKAGE} -d /opt/gradle
-
-# Clean package
-rm ./${GRADLE_PACKAGE}
+unzip -oq "${GRADLE_PACKAGE}" -d /opt/gradle
 
 # This is needed a second time, I have no idea why, because it is the same as above.
 GRADLE_VERSION=`ls ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
@@ -22,5 +19,9 @@ JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
 printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin\nexport JAVA_HOME=${JAVA_HOME}" > /etc/profile.d/gradle.sh
 . /etc/profile.d/gradle.sh
 hash -r ; sync
+
+# Clean package
+rm "${GRADLE_PACKAGE}"
+
 # check installation
 gradle -v
