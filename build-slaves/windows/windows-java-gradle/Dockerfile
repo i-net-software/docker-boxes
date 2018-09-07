@@ -1,4 +1,5 @@
-FROM inetsoftware/windows-jenkins-base
+ARG REGISTRY
+FROM ${REGISTRY}inetsoftware/windows-jenkins-base
 LABEL maintainer contact@inetsoftware.de
 
 #install git

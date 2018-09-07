@@ -1,4 +1,5 @@
-FROM inetsoftware/windows-sdk
+ARG REGISTRY
+FROM ${REGISTRY}inetsoftware/windows-sdk
 LABEL maintainer contact@inetsoftware.de
 
 #see https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-build-uwp-461/Dockerfile

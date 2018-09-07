@@ -1,4 +1,5 @@
-FROM inetsoftware/windows-sdk
+ARG REGISTRY
+FROM ${REGISTRY}inetsoftware/windows-sdk
 
 # SDK 6.0 for .NET 3.5 and 2.0. Implies 7zip. About 1.2GB Download!
 # Changed:not needed due to windows-sdk-image having the windows-sdk-8.0 already  
