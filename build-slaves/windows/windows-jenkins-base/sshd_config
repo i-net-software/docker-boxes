@@ -110,12 +110,12 @@ AuthorizedKeysFile	.ssh/authorized_keys
 #Banner none
 
 # override default of no subsystems
-Subsystem	sftp	sftp-server.exe
+Subsystem   sftp    sftp-server.exe
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs
-#	X11Forwarding no
-#	AllowTcpForwarding no
-#	ForceCommand cvs server
+# X11Forwarding no
+# AllowTcpForwarding no
+# ForceCommand cvs server
 # PubkeyAcceptedKeyTypes ssh-ed25519*
 hostkeyagent \\.\pipe\openssh-ssh-agent
