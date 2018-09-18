@@ -11,55 +11,75 @@ COPY Install.cmd C:\TEMP\
 ADD https://aka.ms/vscollect.exe C:\TEMP\collect.exe
 
 # Install Node.js LTS
-#ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-x64.msi C:\TEMP\node-install.msi
-#RUN start /wait msiexec.exe /i C:\TEMP\node-install.msi /l*vx "%TEMP%\MSI-node-install.log" /qn ADDLOCAL=ALL
+# ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-x64.msi C:\TEMP\node-install.msi
+# RUN start /wait msiexec.exe /i C:\TEMP\node-install.msi /l*vx "%TEMP%\MSI-node-install.log" /qn ADDLOCAL=ALL
 
 # Download channel for fixed install.
 ARG CHANNEL_URL=https://aka.ms/vs/15/release/channel
 ADD ${CHANNEL_URL} C:\TEMP\VisualStudio.chman
 
 # Download and install Build Tools for Visual Studio 2017.
-# https://blogs.msdn.microsoft.com/heaths/2018/06/14/no-container-image-for-build-tools-for-visual-studio-2017/
-# https://docs.microsoft.com/en-us/visualstudio/install/advanced-build-tools-container
+# https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Vs2017/Install-VS2017.ps1
 ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:\TEMP\vs_buildtools.exe
 RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --nocache `
+    --allWorkloads --includeRecommended `
+#    --installPath C:\BuildTools `
     --channelUri C:\TEMP\VisualStudio.chman `
     --installChannelUri C:\TEMP\VisualStudio.chman `
-    --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools `
-    --add Microsoft.Net.Component.3.5.DeveloperTools `
-    --add Microsoft.Net.ComponentGroup.4.6.2.DeveloperTools `
-    --add Microsoft.Net.ComponentGroup.TargetingPacks.Common `
-    --add Microsoft.VisualStudio.Component.TestTools.BuildTools `
-    --add Microsoft.VisualStudio.Workload.VCTools `
+    --add Microsoft.Net.Component.4.7.2.SDK `
+    --add Microsoft.Net.Component.4.7.2.TargetingPack `
+    --add Microsoft.Net.ComponentGroup.4.7.2.DeveloperTools `
+#    --add Microsoft.Net.Component.4.7.SDK `
+#    --add Microsoft.Net.Component.4.7.TargetingPack `
+#    --add Microsoft.Net.ComponentGroup.4.7.DeveloperTools `
+#    --add Microsoft.Net.Component.4.7.1.SDK `
+#    --add Microsoft.Net.Component.4.7.1.TargetingPack `
+#    --add Microsoft.Net.ComponentGroup.4.7.1.DeveloperTools `
+    --add Microsoft.Net.Core.Component.SDK.1x `
+    --add Microsoft.NetCore.1x.ComponentGroup.Web `
+#    --add Microsoft.VisualStudio.Component.Azure.Storage.AzCopy `
+#    --add Microsoft.VisualStudio.Component.PowerShell.Tools `
     --add Microsoft.VisualStudio.Component.VC.140 `
+    --add Component.Dotfuscator `
     --add Microsoft.VisualStudio.Component.VC.ATL `
+    --add Microsoft.VisualStudio.Component.VC.ATLMFC `
+    --add Microsoft.VisualStudio.Component.VC.ClangC2 `
     --add Microsoft.VisualStudio.Component.VC.CLI.Support `
-    --add Microsoft.VisualStudio.Component.Windows10SDK.16299.Desktop `
-    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP `
-#    --add Microsoft.VisualStudio.Workload.NodeBuildTools `
-    --add Microsoft.VisualStudio.Component.TypeScript.2.8 `
-    --installPath C:\BuildTools
+    --add Microsoft.VisualStudio.Component.VC.Modules.x86.x64 `
+#    --add Microsoft.VisualStudio.Component.Windows10SDK.10240 `
+#    --add Microsoft.VisualStudio.Component.Windows10SDK.10586 `
+#    --add Microsoft.VisualStudio.Component.Windows10SDK.14393 `
+#    --add Microsoft.VisualStudio.Component.Windows10SDK.15063.Desktop `
+#    --add Component.Unreal `
+#    --add Component.Unreal.Android `
+#    --add Component.Android.SDK23 `
+    --add Microsoft.VisualStudio.Component.TestTools.WebLoadTest `
+    --add Microsoft.VisualStudio.Web.Mvc4.ComponentGroup `
+#    --add Component.CPython2.x64 `
+#    --add Microsoft.Component.PythonTools.UWP `
+    --add Microsoft.Component.VC.Runtime.OSSupport `
+    --add Microsoft.VisualStudio.Component.VC.Tools.ARM `
+    --add Microsoft.VisualStudio.ComponentGroup.UWP.VC `
+    --add Microsoft.VisualStudio.Component.VSSDK `
+#    --add Microsoft.VisualStudio.Component.LinqToSql `
+    --add Microsoft.VisualStudio.Component.TestTools.CodedUITest `
+    --add Microsoft.VisualStudio.Component.TestTools.Core `
+#    --add Microsoft.VisualStudio.Component.TypeScript.2.0 `
+#    --add Microsoft.VisualStudio.Component.TypeScript.2.1 `
+    --add Microsoft.VisualStudio.Component.TypeScript.2.2 `
+#    --add Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
+#    --add Microsoft.VisualStudio.Component.Windows10SDK.16299.Desktop.arm `
+    --add Microsoft.VisualStudio.Component.DslTools `
+#    --add Microsoft.VisualStudio.Component.Windows81SDK `
+#    --add Microsoft.VisualStudio.Component.WinXP `
+#    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Win81 `
+#    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP `
+    --add Microsoft.VisualStudio.ComponentGroup.ArchitectureTools.Managed `
+    --add Microsoft.Component.Blend.SDK.WPF
 
+# Needs to run when connecting:
+# C:\BuildTools\Common7\Tools\VsDevCmd.bat
 
-##########################################
-# Trying to install the rest
-##########################################
-
-# Visual C++ Build Tools - takes very long!
-RUN choco install visualcppbuildtools
-
-# Set Environment
-RUN @echo off `
-    && call "%VS140COMNTOOLS%vsvars32.bat" `
-    && set >> C:\environment.properties `
-    && @powershell -NoProfile -ExecutionPolicy Bypass -Command " `
-        Get-Content C:\environment.properties | Foreach-Object { `
-            $key = $_.trim() -replace '(.*?)=(.*)','$1' ; `
-            $value = $_.trim() -replace '(.*?)=(.*)','$2' ; `
-            setx /m $key \"$value\" ; `
-        } `
-    " `
-    && del C:\environment.properties
-
-# Unit Test Framework to create unit test tools - installed by the testagents already
-# RUN nuget install Microsoft.VisualStudio.QualityTools.UnitTestFramework
+RUN powershell -Command `
+    choco install -y dotnetcore `
+    ;
