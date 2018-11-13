@@ -41,9 +41,9 @@ function setHref() {
 
 <h2>Extra Services</h2>
 <ul>
-    <li><a class="noUC" href="http://fileserver/">Archiva Overview</a></li>
-    <li><a class="noUC" href="http://fileserver/repository/inet-snapshot">Archiva Repository: i-net Build</a></li>
-    <li><a class="noUC" href="http://fileserver/repository/inet-product">Archiva Repository: i-net Produkte</a></li>
+    <li><a class="noUC" href="http://fileserver.inetsoftware.local/">Repository Overview</a></li>
+    <li><a class="noUC" href="http://fileserver.inetsoftware.local/repository/inet-snapshot">Repository: i-net Build</a></li>
+    <li><a class="noUC" href="http://fileserver.inetsoftware.local/repository/inet-product">Repository: i-net Produkte</a></li>
 <ul>
 </ul>
     <li><a href="/" id="grafana">Grafana - Docker Status</a></li>
