@@ -19,24 +19,17 @@ RUN add-apt-repository ppa:webupd8team/java && \
 # Oracle has removed the sources from their server - at least PPA does not support it any more.
 # We're using our own internal now. This will break automatic builds outside of our environment
 RUN mkdir -p /var/cache/oracle-jdk7-installer/ \
-    && wget -O /var/cache/oracle-jdk7-installer/jdk-7u80-linux-x64.tar.gz http://fileserver/repository/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz \
+    && wget -O /var/cache/oracle-jdk7-installer/jdk-7u80-linux-x64.tar.gz http://fileserver.inetsoftware.local/repository/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz \
     && apt-get update \
     && apt-get install -y oracle-java7-installer \
     ; apt-get autoclean \
     ; apt-get autoremove \
     ; rm -rf /var/lib/apt/lists/*
 
-# Java 9
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends oracle-java9-installer \
-    ; apt-get autoclean \
-    ; apt-get autoremove \
-    ; rm -rf /var/lib/apt/lists/*
-
-# Java 8 + Gradle 4.3.1 (Dafault)
+# Java 8 + Gradle 4.10.2 (Default)
 RUN apt-get update \
     && apt-get install -y oracle-java8-installer oracle-java8-set-default \
-    && apt-get install -y gradle-4.3.1 \
+    && apt-get install -y gradle-4.10.2 \
     && ln -s /usr/lib/jvm/java-8-oracle/jre /usr/lib/jvm/default-java \
     ; apt-get autoclean \
     ; apt-get autoremove \
