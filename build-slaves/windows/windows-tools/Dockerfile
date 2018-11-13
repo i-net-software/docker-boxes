@@ -14,6 +14,8 @@ RUN $progressPreference = 'silentlyContinue' ; \
     $muVersion=$l.href.substring(0, $l.href.length -4) ; \
     $file = $storageDir+'\mupdf.zip' ; \
     mkdir $storageDir ; \
+    # TODO: REMOVE, there is a bug in the color model of muPDF 1.13+
+    $muVersio = 'mupdf-1.11-windows' ; \
     echo 'Loading: ' $url/$muVersion.zip ' to: ' $file ; \
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 ; \
     ((New-Object System.Net.WebClient).DownloadFile($url+'/'+$muVersion+'.zip', $file)) ; \
@@ -32,7 +34,7 @@ RUN $gs=dir $env:ProgramFiles/gs | select Name | select -ExpandProperty Name ; \
 SHELL ["cmd", "/S", "/C"]
 
 # VIM '
-RUN choco install vim
+RUN choco install vim-tux
 
 # Access treiber for mdb
 RUN choco install msaccess2010-redist-x64
