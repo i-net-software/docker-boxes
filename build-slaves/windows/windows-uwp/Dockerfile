@@ -7,9 +7,9 @@ LABEL maintainer contact@inetsoftware.de
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Install NuGet CLI
-ENV NUGET_VERSION 4.7.0
-RUN New-Item -Type Directory $Env:ProgramFiles\NuGet; `
-    Invoke-WebRequest -UseBasicParsing https://dist.nuget.org/win-x86-commandline/v$Env:NUGET_VERSION/nuget.exe -OutFile $Env:ProgramFiles\NuGet\nuget.exe;
+# ENV NUGET_VERSION 4.7.0
+# RUN New-Item -Type Directory $Env:ProgramFiles\NuGet; `
+#    Invoke-WebRequest -UseBasicParsing https://dist.nuget.org/win-x86-commandline/v$Env:NUGET_VERSION/nuget.exe -OutFile $Env:ProgramFiles\NuGet\nuget.exe;
 
 RUN New-Item -Type Directory c:\install_logs; `
     # Install .NET Framework 4.6.1 Developer Pack
@@ -28,9 +28,11 @@ RUN New-Item -Type Directory c:\install_logs; `
     # Installer won't detect DOTNET_SKIP_FIRST_TIME_EXPERIENCE if ENV is used, must use setx /M
     setx /M DOTNET_SKIP_FIRST_TIME_EXPERIENCE 1; `
     Start-Process -FilePath 'C:\vs_buildtools.exe' -ArgumentList '--add', 'Microsoft.VisualStudio.Workload.MSBuildTools', '--quiet', '--norestart', '--nocache' -NoNewWindow -Wait; `
-    Remove-Item vs_buildtools.exe; `
-    Remove-Item -Force -Recurse \"${Env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\"; `
-    Remove-Item -Force -Recurse ${Env:TEMP}\*;
+#    try { Remove-Item vs_buildtools.exe; `
+#    Remove-Item -Force -Recurse '${Env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\'; `
+#    Remove-Item -Force -Recurse ${Env:TEMP}\*; `
+#    } catch {} `
+    exit ;
 
 ENV ROSLYN_COMPILER_LOCATION "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\Roslyn"
 
