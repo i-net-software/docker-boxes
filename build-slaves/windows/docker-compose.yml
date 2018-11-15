@@ -32,9 +32,9 @@ services:
 #        build: ./windows-crystalreports
 #        image: 'inetsoftware/windows-crystalreports'
 
-    uwp:
-        build: ./windows-uwp
-        image: 'inetsoftware/windows-uwp'
+    # uwp:
+    #     build: ./windows-uwp
+    #     image: 'inetsoftware/windows-uwp'
 
     vs2015:
         build: ./windows-vs-2015
