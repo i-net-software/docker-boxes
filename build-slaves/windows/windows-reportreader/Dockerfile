@@ -1,10 +1,6 @@
 ARG REGISTRY
 FROM ${REGISTRY}inetsoftware/windows-sdk
 
-# SDK 6.0 for .NET 3.5 and 2.0. Implies 7zip. About 1.2GB Download!
-# Changed:not needed due to windows-sdk-image having the windows-sdk-8.0 already  
-# RUN choco install --allow-empty-checksums windows-sdk-6.0 
-
 # Visual C++ 2005 SP1 installation
 RUN choco install vcredist2005
 
