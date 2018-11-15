@@ -21,6 +21,3 @@ RUN @echo off \
         } \
     " \
     && del C:\environment.properties
-
-# Unit Test Framework to create unit test tools - installed by the testagents already
-# RUN nuget install Microsoft.VisualStudio.QualityTools.UnitTestFramework
