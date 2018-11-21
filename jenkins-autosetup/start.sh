@@ -3,6 +3,7 @@
 AUTOSETUP_TMP=/tmp/autosetup
 JENKINS_REF=/usr/share/jenkins/ref/
 export TINI_SUBREAPER=1
+export ATTEMPTS=${ATTEMPTS-1}
 
 ######################################################################
 # Check for a configuration URL for startup
