@@ -1,10 +1,7 @@
 # escape=`
 
 ARG REGISTRY
-FROM ${REGISTRY}inetsoftware/windows-tools
-
-# Reset the shell.
-SHELL ["cmd", "/S", "/C"]
+FROM ${REGISTRY}inetsoftware/windows-java-gradle:sdk
 
 # Set up environment to collect install errors.
 COPY Install.cmd C:\TEMP\
@@ -26,7 +23,7 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
 #    --installPath C:\BuildTools `
     --channelUri C:\TEMP\VisualStudio.chman `
     --installChannelUri C:\TEMP\VisualStudio.chman `
-    --add Microsoft.Net.Component.4.7.2.SDK `
+#    --add Microsoft.Net.Component.4.7.2.SDK `
     --add Microsoft.Net.Component.4.7.2.TargetingPack `
     --add Microsoft.Net.ComponentGroup.4.7.2.DeveloperTools `
 #    --add Microsoft.Net.Component.4.7.SDK `
@@ -76,8 +73,3 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
 #    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP `
     --add Microsoft.VisualStudio.ComponentGroup.ArchitectureTools.Managed `
     --add Microsoft.Component.Blend.SDK.WPF
-
-# Needs to run when connecting:
-# C:\BuildTools\Common7\Tools\VsDevCmd.bat
-
-RUN choco install -y dotnetcore

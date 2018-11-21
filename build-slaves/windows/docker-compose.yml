@@ -28,19 +28,6 @@ services:
         build: ./windows-wixtoolset
         image: 'inetsoftware/windows-wixtoolset'
 
-#    crystalreports:
-#        build: ./windows-crystalreports
-#        image: 'inetsoftware/windows-crystalreports'
-
-    # uwp:
-    #     build: ./windows-uwp
-    #     image: 'inetsoftware/windows-uwp'
-
     vs2015:
         build: ./windows-vs-2015
         image: 'inetsoftware/windows-vs-2015'
-
-    vs2017:
-        build: ./windows-vs-2017
-        image: 'inetsoftware/windows-vs-2017'
-        

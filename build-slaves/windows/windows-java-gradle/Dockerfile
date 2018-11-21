@@ -1,5 +1,6 @@
 ARG REGISTRY
-FROM ${REGISTRY}inetsoftware/windows-jenkins-base
+ARG SDK_TAG=latest
+FROM ${REGISTRY}inetsoftware/windows-jenkins-base:${SDK_TAG}
 LABEL maintainer contact@inetsoftware.de
 
 #install git

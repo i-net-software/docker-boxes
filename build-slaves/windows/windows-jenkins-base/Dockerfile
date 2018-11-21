@@ -1,5 +1,6 @@
 ARG REGISTRY
-FROM ${REGISTRY}inetsoftware/windows-chocolatey
+ARG SDK_TAG=latest
+FROM ${REGISTRY}inetsoftware/windows-chocolatey:${SDK_TAG}
 LABEL maintainer contact@inetsoftware.de
 
 EXPOSE 22

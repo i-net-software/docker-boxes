@@ -3,9 +3,10 @@
 TAG="v4"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))
+SDK_TAG=latest
 
 case "$1" in
-    alpine|ubuntu|fedora|windows)
+    alpine|ubuntu|fedora|windows|vs2017)
         ENVFILE="${ROOT}/build-slaves/$1/build.env"
         shift 1
     ;;
@@ -31,7 +32,7 @@ echo "Sourcing Environment: '$ENVFILE'"
 source "$ENVFILE"
 
 [ -z "$IMAGES" ] && echo "No images set to be build." && exit 2 || :
-ARTIFACTS=`cd $(dirname $ENVFILE); docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | awk '{print $2}'`
+ARTIFACTS=`cd $(dirname $ENVFILE); docker-compose -f "$DOCKERCOMPOSEFILE" config | grep image: | grep -v ${SDK_TAG} | awk '{print $2}'`
 echo "Artifacts"
 echo "${ARTIFACTS}"
 echo "----------------------------------------------------------"
