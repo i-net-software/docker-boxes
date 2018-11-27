@@ -1,4 +1,4 @@
-FROM inetsoftware/alpine-tesseract:4.0.0-beta4-tess4j as builder
+FROM inetsoftware/alpine-tesseract:tess4j as builder
 
 # dummy 
 
