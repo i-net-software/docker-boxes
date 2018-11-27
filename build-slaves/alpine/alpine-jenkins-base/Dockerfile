@@ -1,4 +1,6 @@
-FROM openjdk:8-jdk-alpine
+# FROM openjdk:8-jdk-alpine
+FROM adoptopenjdk/openjdk8:alpine
+
 LABEL maintainer contact@inetsoftware.de
 
 # Tools
@@ -12,6 +14,9 @@ RUN adduser -D -g "User" jenkins \
     && echo jenkins:jenkins | chpasswd \
     && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && echo "UseDNS no >> /etc/ssh/sshd_config"
+
+# jenkins has specific paths to check for java
+RUN ln -s $(which java) /usr/bin/java
 
 EXPOSE 22
 CMD /usr/sbin/sshd -D
