@@ -33,9 +33,6 @@ RUN $gs=dir $env:ProgramFiles/gs | select Name | select -ExpandProperty Name ; \
 
 SHELL ["cmd", "/S", "/C"]
 
-# VIM '
-RUN choco install vim-tux
-
 # Access treiber for mdb
 RUN choco install msaccess2010-redist-x64
 
