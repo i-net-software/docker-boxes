@@ -1,5 +1,5 @@
 FROM inetsoftware/ubuntu-jenkins-base
-MAINTAINER contact@inetsoftware.de
+LABEL maintainer contact@inetsoftware.de
 
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
@@ -7,24 +7,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN add-apt-repository ppa:webupd8team/java && \
     add-apt-repository ppa:cwchien/gradle && \
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-
-# Java 7
-#RUN apt-get update \
-#    && apt-get install -y oracle-java7-installer \
-#    && apt-get autoclean \
-#    && apt-get autoremove \
-#    && rm -rf /var/lib/apt/lists/*
-
-# Java 7
-# Oracle has removed the sources from their server - at least PPA does not support it any more.
-# We're using our own internal now. This will break automatic builds outside of our environment
-RUN mkdir -p /var/cache/oracle-jdk7-installer/ \
-    && wget -O /var/cache/oracle-jdk7-installer/jdk-7u80-linux-x64.tar.gz http://fileserver.inetsoftware.local/repository/inet-static-libraries/lib/java/7/jdk-7u80-linux-x64.tar.gz \
-    && apt-get update \
-    && apt-get install -y oracle-java7-installer \
-    ; apt-get autoclean \
-    ; apt-get autoremove \
-    ; rm -rf /var/lib/apt/lists/*
 
 # Java 8 + Gradle 4.10.2 (Default)
 RUN apt-get update \
@@ -37,7 +19,7 @@ RUN apt-get update \
 
 # mudraw
 RUN apt-get update \
-    && apt-get install -y mupdf-tools qpdf \
+    && apt-get install -y mupdf-tools qpdf curl \
     && apt-get autoclean \
     && apt-get autoremove \
     && rm -rf /var/lib/apt/lists/*
@@ -47,7 +29,7 @@ RUN apt-get update \
 RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | /usr/bin/debconf-set-selections \
     && apt-add-repository multiverse \
     && apt-get update \
-    && apt-get install -y fontconfig msttcorefonts fonts-dejavu \
+    && apt-get install -y fontconfig ttf-mscorefonts-installer fonts-dejavu \
     && dpkg-reconfigure fontconfig \
     && apt-get autoclean \
     && apt-get autoremove \
