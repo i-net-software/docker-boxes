@@ -8,7 +8,7 @@ RUN set -x ; \
     RELEASE=$(wget -qO- "${BASE_URL}/release.xml" | grep present | sed -e 's/<[^>]*>//g') ; \
     RELEASE_NAME=${RELEASE%%/*} ; \
     RELEASE_VERSION=${RELEASE##*/} ; \
-    wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/${RELEASE}/eclipse-java-${RELEASE_NAME}-${RELEASE_VERSION}-linux-gtk-x86_64.tar.gz -O /tmp/eclipse.tar.gz -q && \
+    wget http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/${RELEASE}/eclipse-java-${RELEASE_NAME}-linux-gtk-x86_64.tar.gz -O /tmp/eclipse.tar.gz -q && \
     echo 'Installing eclipse' && \
     tar -xf /tmp/eclipse.tar.gz -C /opt && \
     rm /tmp/eclipse.tar.gz
