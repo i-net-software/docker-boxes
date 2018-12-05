@@ -18,5 +18,13 @@ RUN adduser -D -g "User" jenkins \
 # jenkins has specific paths to check for java
 RUN ln -s $(which java) /usr/bin/java
 
+# Fix some things adopt missed out
+# https://github.com/AdoptOpenJDK/openjdk-docker/issues/75
+RUN ln -s /lib/libc.musl-x86_64.so.1 /usr/lib/ \
+    && printf "export LD_LIBRARY_PATH=/usr/lib\n" | tee -a /etc/profile.d/ld_library_path.sh
+
+# This is also required for non-login access
+ENV LD_LIBRARY_PATH=/usr/lib
+
 EXPOSE 22
 CMD /usr/sbin/sshd -D

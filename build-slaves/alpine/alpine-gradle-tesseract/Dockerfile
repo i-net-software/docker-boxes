@@ -16,5 +16,6 @@ COPY --from=builder /tesseract/tesseract-git-4.* /tesseract/
 RUN set -x \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     && apk add --update --allow-untrusted /tesseract/tesseract-git-* \
+    && cd /usr/lib/ && ln -s libtesseract.so.4.0.0 libtesseract.so && cd -\
     && rm  -rf /tesseract \
     && echo "done"
