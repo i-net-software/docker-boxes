@@ -7,13 +7,15 @@ services:
             args:
                 SHA: 51316994ccae0b48692d547030f26c0969308214
                 PKGVER: 4.0.0
+                PKGREL: 1
     tesseract-master:
         image: 'inetsoftware/alpine-tesseract:master'
         build:
             context: '.'
             args:
                 SHA: master
-                PKGVER: master
+                PKGVER: 4.0.0
+                PKGREL: 2
     tesseract-tess4j:
         image: 'inetsoftware/alpine-tesseract:tess4j'
         build:
@@ -21,6 +23,7 @@ services:
             args:
                 SHA: 51316994ccae0b48692d547030f26c0969308214
                 PKGVER: 4.0.0
+                PKGREL: 1
                 ADDITIONAL_OPTIONS: --disable-openmp
     tesseract-master-tess4j:
         image: 'inetsoftware/alpine-tesseract:master-tess4j'
@@ -28,5 +31,6 @@ services:
             context: '.'
             args:
                 SHA: master
-                PKGVER: master
+                PKGVER: 4.0.0
+                PKGREL: 2
                 ADDITIONAL_OPTIONS: --disable-openmp
