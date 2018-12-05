@@ -3,6 +3,9 @@
 ARG REGISTRY
 FROM ${REGISTRY}inetsoftware/windows-java-gradle:sdk
 
+# Visual C++ Build Tools
+RUN choco install -y visualcppbuildtools
+
 # Set up environment to collect install errors.
 COPY Install.cmd C:\TEMP\
 ADD https://aka.ms/vscollect.exe C:\TEMP\collect.exe
@@ -72,4 +75,9 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
 #    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Win81 `
 #    --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.WinXP `
     --add Microsoft.VisualStudio.ComponentGroup.ArchitectureTools.Managed `
-    --add Microsoft.Component.Blend.SDK.WPF
+    --add Microsoft.Component.Blend.SDK.WPF `
+    --add Microsoft.VisualStudio.ComponentGroup.TestTools.TestAgent `
+    --add Microsoft.Component.MSBuild
+
+# DocFX for documentation
+RUN choco install -y docfx
