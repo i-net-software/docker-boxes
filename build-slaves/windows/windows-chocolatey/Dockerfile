@@ -1,9 +1,13 @@
 # https://github.com/Microsoft/dotnet-framework-docker/tree/master/4.7.2/sdk/windowsservercore-ltsc2016
 # It says that there are the 4.7.2 sdks as well.
 # and we need it for the vs2015 container
-ARG SDK_TAG=
+ARG SDK_TAG=latest
 # FROM microsoft/dotnet-framework:3.5${SDK_TAG}
-FROM mcr.microsoft.com/dotnet/framework/sdk:3.5${SDK_TAG}
+
+# CAREFUL!!! THIS IS A PSEUDO TAG, DEFINED BY build.env
+FROM mcr.microsoft.com/dotnet/framework:3.5${SDK_TAG}
+
+
 # FROM microsoft/dotnet-framework:3.5-sdk
 # FROM microsoft/dotnet-framework:4.7.2-sdk
 # FROM microsoft/dotnet-framework:4.7.1-sdk

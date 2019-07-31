@@ -24,24 +24,28 @@ WORKDIR /
 # Reset the shell.
 SHELL ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
 
-# disable password policies
-RUN secedit /export /cfg c:\secpol.cfg ; \
-    (gc C:\secpol.cfg).replace('PasswordComplexity = 1', 'PasswordComplexity = 0') | Out-File C:\secpol.cfg ; \
-    secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas SECURITYPOLICY ; \
-    rm -force c:\secpol.cfg -confirm:$false \
-    ;
-
 # set the administrator active
 # create a jenkins user
 RUN net user Administrator /active:yes ; \
     net user jenkins /add /expires:never ; \
     net localgroup Administrators /add jenkins
 
+# disable password policies
+# ADD changepolicy.bat /
+# RUN echo J5nk1ns | runas /user:Administrator C:\changepolicy.bat
+
+#    Set-Content -Path 'C:\secpol.cfg' -Value "[Unicode]`n[System Access]`nPasswordComplexity = 0" \
+#    Set-Content -Path 'C:\secpol.bat' -Value "secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas SECURITYPOLICY" \
+
+# RUN secedit /export /cfg c:\secpol.cfg ; \
+#    (gc C:\secpol.cfg).replace('PasswordComplexity = 1', 'PasswordComplexity = 0') | Out-File C:\secpol.cfg ; \
+#    secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas SECURITYPOLICY ;
+
 # set a well know password, ignore sshd account
-RUN Get-WmiObject win32_useraccount | Where-Object { $_.name -ne 'sshd' } | Foreach-Object { \
+RUN Get-WmiObject win32_useraccount | Where-Object { $_.name -ne 'ssh' } | Foreach-Object { \
     echo $_.caption ; \
-    ([adsi]('WinNT://'+$_.caption).replace('\', '/')).SetPassword('jenkins') \
-    } ;
+    ([adsi]('WinNT://'+$_.caption).replace('\', '/')).SetPassword('J5nk1ns') \
+    } ; 
 # '
 
 # Set Powershell as default
