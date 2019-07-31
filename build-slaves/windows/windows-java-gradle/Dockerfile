@@ -6,8 +6,8 @@ LABEL maintainer contact@inetsoftware.de
 #install git
 RUN choco install -y git
 
-#install svn
-RUN choco install -y svn
+#install svn - tortoisesvn because svn package is broken
+RUN choco install -y tortoisesvn
 
 # install java
 RUN choco install -y jdk8 -params "both=true"

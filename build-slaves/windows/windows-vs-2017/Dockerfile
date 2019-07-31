@@ -3,6 +3,9 @@
 ARG REGISTRY
 FROM ${REGISTRY}inetsoftware/windows-java-gradle:sdk
 
+# Visual Studio 2017 TestAgent
+RUN choco install -y visualstudio2017testagent
+
 # Visual C++ Build Tools
 RUN choco install -y visualcppbuildtools
 
@@ -77,7 +80,8 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --add Microsoft.VisualStudio.ComponentGroup.ArchitectureTools.Managed `
     --add Microsoft.Component.Blend.SDK.WPF `
     --add Microsoft.VisualStudio.ComponentGroup.TestTools.TestAgent `
-    --add Microsoft.Component.MSBuild
+    --add Microsoft.Component.MSBuild `
+    --add Microsoft.Net.Compilers
 
 # DocFX for documentation
 RUN choco install -y docfx
