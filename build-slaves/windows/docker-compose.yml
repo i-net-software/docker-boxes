@@ -35,3 +35,7 @@ services:
     vs2015:
         build: ./windows-vs-2015
         image: 'inetsoftware/windows-vs-2015'
+
+    vs2017:
+        build: ./windows-vs-2017
+        image: 'inetsoftware/windows-vs-2017'
