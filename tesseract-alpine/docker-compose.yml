@@ -5,17 +5,18 @@ services:
         build:
             context: '.'
             args:
-                SHA: 51316994ccae0b48692d547030f26c0969308214
-                PKGVER: 4.0.0
-                PKGREL: 1
-    tesseract-master:
-        image: 'inetsoftware/alpine-tesseract:master'
-        build:
-            context: '.'
-            args:
                 SHA: master
                 PKGVER: 4.1.0
                 PKGREL: 2
+    tesseract410:
+        image: 'inetsoftware/alpine-tesseract:4.1.0'
+        build:
+            context: '.'
+            args:
+#                SHA: 5280bbcade4e2dec5eef439a6e189504c2eadcd9
+                SHA: master
+                PKGVER: 4.1.0
+                PKGREL: 1
     tesseract400:
         image: 'inetsoftware/alpine-tesseract:4.0.0'
         build:
@@ -24,7 +25,7 @@ services:
                 SHA: 51316994ccae0b48692d547030f26c0969308214
                 PKGVER: 4.0.0
                 PKGREL: 1
-    tesseract-tess4j400:
+    tesseract400-tess4j:
         image: 'inetsoftware/alpine-tesseract:4.0.0-tess4j'
         build:
             context: '.'

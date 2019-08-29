@@ -30,8 +30,8 @@ To us the binaries in a custom Dockerfile you can do the following:
 
 ## Available builds and tags
 
-  * tesseract master: `inetsoftware/alpine-tesseract:master`
-  * tesseract 4.1.0: `inetsoftware/alpine-tesseract:latest`
+  * tesseract master: `inetsoftware/alpine-tesseract:master` `inetsoftware/alpine-tesseract:latest`
+  * tesseract 4.1.0: `inetsoftware/alpine-tesseract:4.1.0`
   * tesseract 4.0.0: `inetsoftware/alpine-tesseract:4.0.0` `inetsoftware/alpine-tesseract:4.0.0-tess4j`
   * tesseract beta 4: `inetsoftware/alpine-tesseract:4.0.0-beta4` `inetsoftware/alpine-tesseract:4.0.0-beta4-tess4j`
 
