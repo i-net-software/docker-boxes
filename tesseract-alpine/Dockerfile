@@ -1,4 +1,4 @@
-FROM alpine:3.8 as builder
+FROM alpine:3.10 as builder
 
 RUN set -x \
     # Add testing repository
@@ -26,6 +26,8 @@ RUN set -x \
 # Add the APKBUILD File from
 # https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD
 ADD APKBUILD /home/dev/APKBUILD
+
+ADD *.patch /home/dev/
 
 USER dev
 

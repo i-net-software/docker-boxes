@@ -13,8 +13,7 @@ services:
         build:
             context: '.'
             args:
-#                SHA: 5280bbcade4e2dec5eef439a6e189504c2eadcd9
-                SHA: master
+                SHA: 5280bbcade4e2dec5eef439a6e189504c2eadcd9
                 PKGVER: 4.1.0
                 PKGREL: 1
     tesseract400:
