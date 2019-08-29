@@ -16,6 +16,13 @@ RUN set -x \
     && mkdir -p /var/cache/distfiles \
     && chmod a+w /var/cache/distfiles
 
+RUN set -x \
+    # Add community repository
+    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    # Install SDK
+    && apk update \
+    && apk add --no-cache autoconf-archive
+
 # Add the APKBUILD File from
 # https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD
 ADD APKBUILD /home/dev/APKBUILD

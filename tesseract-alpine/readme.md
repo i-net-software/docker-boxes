@@ -30,8 +30,11 @@ To us the binaries in a custom Dockerfile you can do the following:
 
 ## Available builds and tags
 
-  * tesseract 4.0.0: `inetsoftware/alpine-tesseract:latest` `inetsoftware/alpine-tesseract:tess4j`
-  * tesseract master: `inetsoftware/alpine-tesseract:master` `inetsoftware/alpine-tesseract:master-tess4j`
+  * tesseract master: `inetsoftware/alpine-tesseract:master`
+  * tesseract 4.1.0: `inetsoftware/alpine-tesseract:latest`
+  * tesseract 4.0.0: `inetsoftware/alpine-tesseract:4.0.0` `inetsoftware/alpine-tesseract:4.0.0-tess4j`
   * tesseract beta 4: `inetsoftware/alpine-tesseract:4.0.0-beta4` `inetsoftware/alpine-tesseract:4.0.0-beta4-tess4j`
 
 **Note**: The tess4j build omits libgomp as per [this GitHub issue](https://github.com/tesseract-ocr/tesseract/issues/1860).
+
+**Note**: As per version 4.1.0 omitting libgomp is default and we do not need separated images anymore.
