@@ -27,6 +27,7 @@ RUN set -x \
 # https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD
 ADD APKBUILD /home/dev/APKBUILD
 
+# Add specific Patch files
 ADD *.patch /home/dev/
 
 USER dev
