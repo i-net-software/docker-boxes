@@ -13,6 +13,10 @@ COPY --from=JAVA /opt/java/openjdk /opt/java/openjdk
 ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/opt/java/openjdk/bin:$PATH"
 
+# The link is required for jenkins to start the VM
+RUN mkdir -p /usr/java \
+    && ln -s /opt/java/openjdk/jre /usr/java/default
+
 # Gradle 4.10.2 (Default)
 RUN add-apt-repository ppa:cwchien/gradle \
     && apt-get update \
