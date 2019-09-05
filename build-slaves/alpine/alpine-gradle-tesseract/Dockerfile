@@ -1,4 +1,4 @@
-FROM inetsoftware/alpine-tesseract as builder
+FROM inetsoftware/alpine-tesseract:4.1.0 as builder
 
 # dummy 
 
