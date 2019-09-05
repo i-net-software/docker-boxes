@@ -8,12 +8,14 @@ RUN apt-get update \
     && dpkg-reconfigure locales \
     && apt-get autoclean \
     && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir /var/run/sshd \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /var/run/sshd \
     && adduser --quiet --disabled-password --gecos "User" jenkins \
     && echo jenkins:jenkins | chpasswd \
     && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers \
-    && echo "UseDNS no >> /etc/ssh/sshd_config"
+    && echo "UseDNS no >> /etc/ssh/sshd_config" \
+    && echo "PermitUserEnvironment yes >> /etc/ssh/sshd_config"
 
 # Set the locale
 RUN locale-gen en_US.UTF-8
