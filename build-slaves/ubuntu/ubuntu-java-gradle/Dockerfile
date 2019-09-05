@@ -15,7 +15,9 @@ ENV JAVA_HOME=/opt/java/openjdk \
 
 # The link is required for jenkins to start the VM
 RUN mkdir -p /usr/java \
-    && ln -s /opt/java/openjdk/jre /usr/java/default
+    && ln -s ${JAVA_HOME}/jre /usr/java/default \
+    && ln -s ${JAVA_HOME}/bin/java /usr/local/bin \
+    && ln -s ${JAVA_HOME}/bin/javac /usr/local/bin
 
 # Gradle 4.10.2 (Default)
 RUN add-apt-repository ppa:cwchien/gradle \
@@ -52,3 +54,6 @@ COPY docker-jvm-opts.sh /usr/local/bin/docker-jvm-opts.sh
 # Hack Gradle. This is needed to inject the actual maximum memory for java processes and be able to set the JVM_HEAP_RATIO with jenkins
 RUN awk 'NR==2{print "echo \"Updating JAVA_TOOL_OPTIONS ...\""}NR==3{print "export JAVA_TOOL_OPTIONS=$(/usr/local/bin/docker-jvm-opts.sh)"}1' $(which gradle) > /tmp/gradle \
     && cat /tmp/gradle > $(which gradle) && rm /tmp/gradle
+
+# Add JAVA_HOME to profile.d
+RUN printf "export JAVA_HOME=${JAVA_HOME}\nexport PATH=\$JAVA_HOME/bin:\$PATH:/bin" > /etc/profile.d/java-env.sh
