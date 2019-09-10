@@ -6,7 +6,8 @@ LABEL maintainer contact@inetsoftware.de
 ######################################################################
 USER root
 
-RUN apk update && apk add subversion
+RUN apk add --update --no-cache subversion
+RUN apk add --update --no-cache cyrus-sasl-plain cyrus-sasl-login cyrus-sasl-digestmd5 cyrus-sasl-crammd5 cyrus-sasl-ntlm
 
 ######################################################################
 # drop back to the regular jenkins user - good practice

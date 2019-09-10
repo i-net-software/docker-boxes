@@ -32,9 +32,9 @@ if [ ! -z "$AUTOSETUP" ]; then
                     if [ ! -z "$USER" ]; then
                         PASSWORD=${USER#*:}
                         USER=${USER%:*}
-                        svn checkout --username="$USER" --password="$PASSWORD" "$SETUP" "$AUTOSETUP_TMP"
+                        svn export --username="$USER" --password="$PASSWORD" "$SETUP" "$AUTOSETUP_TMP"
                     else
-                        svn checkout "$SETUP" "$AUTOSETUP_TMP"
+                        svn export "$SETUP" "$AUTOSETUP_TMP"
                     fi
 
                     break
