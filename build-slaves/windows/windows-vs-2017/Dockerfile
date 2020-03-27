@@ -23,6 +23,8 @@ ADD ${CHANNEL_URL} C:\TEMP\VisualStudio.chman
 
 # Download and install Build Tools for Visual Studio 2017.
 # https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Vs2017/Install-VS2017.ps1
+# https://github.com/microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/WindowsContainer1803/Install-VS2017-BuildTools.ps1
+# https://github.com/actions/virtual-environments/blob/master/images/win/scripts/Installers/Windows2016/Install-VS2017.ps1
 ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:\TEMP\vs_buildtools.exe
 RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --nocache `
     --allWorkloads --includeRecommended `
@@ -30,6 +32,7 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --channelUri C:\TEMP\VisualStudio.chman `
     --installChannelUri C:\TEMP\VisualStudio.chman `
 #    --add Microsoft.Net.Component.4.7.2.SDK `
+    --addProductLang en-US `
     --add Microsoft.Net.Component.4.7.2.TargetingPack `
     --add Microsoft.Net.ComponentGroup.4.7.2.DeveloperTools `
 #    --add Microsoft.Net.Component.4.7.SDK `
