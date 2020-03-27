@@ -24,20 +24,22 @@ RUN Invoke-WebRequest -UseBasicParsing $env:GIT_DOWNLOAD_URL -OutFile git.zip; `
 
 RUN mkdir src\github.com\docker
 
-WORKDIR /go/src/github.com/docker
+# Attention: /gopath is the $env:GOPATH
+WORKDIR /gopath/src/github.com/docker
 
 RUN git clone https://github.com/docker/swarm
 
-WORKDIR /go/src/github.com/docker/swarm
+WORKDIR /gopath/src/github.com/docker/swarm
 
 RUN git checkout $env:SWARM_VERSION
 
 RUN go install .
 
 # NOTE: 1803 is required for Server 19 with Docker 18.03
-FROM mcr.microsoft.com/windows/nanoserver:1803
+# NOTE: 1809 is required for Server 19 with Docker 19.03
+FROM mcr.microsoft.com/windows/nanoserver:1809
 
-COPY --from=build /go/bin/swarm.exe /swarm.exe
+COPY --from=build /gopath/bin/swarm.exe /swarm.exe
 
 ENV SWARM_HOST :2375
 
