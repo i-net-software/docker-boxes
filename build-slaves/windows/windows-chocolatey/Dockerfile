@@ -4,6 +4,9 @@
 ARG SDK_TAG=latest
 # FROM microsoft/dotnet-framework:3.5${SDK_TAG}
 
+# Install the Fonts from a generic 3rd party image. They are missing in the current windowsservercore images
+FROM inetsoftware/windows-fonts as FONTS_BASE
+
 # CAREFUL!!! THIS IS A PSEUDO TAG, DEFINED BY build.env
 FROM mcr.microsoft.com/dotnet/framework:3.5${SDK_TAG}
 
@@ -26,3 +29,9 @@ RUN choco install nuget.commandline
 
 # Reset the shell.
 SHELL ["cmd", "/S", "/C"]
+
+# Add the Fonts
+COPY --from=FONTS_BASE /Fonts /Windows/fonts
+ADD LoadFonts.ps1 /
+
+RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "C:\LoadFonts.ps1"

@@ -1,6 +1,6 @@
 ARG REGISTRY
 
-FROM ${REGISTRY}inetsoftware/windows-sdk
+FROM ${REGISTRY}inetsoftware/windows-sdk as SDK
 
 # Visual C++ 2005 SP1 installation
 RUN choco install vcredist2005
@@ -18,13 +18,3 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process 'C:/v
 #ADD http://fileserver.inetsoftware.local/artifactory/inet-snapshot/lib/CrystalReports//13.0.4/install-cr4vs.ps1 /install-cr4vs.ps1
 ADD http://fileserver.inetsoftware.local/repository/inet-snapshot/lib/CrystalReports/13.0.4/install-cr4vs.ps1 /install-cr4vs.ps1
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "C:/install-cr4vs.ps1 ; del C:/install-cr4vs.ps1"
-
-# Install the Fonts from a generic 3rd party image. They are missing in the current windowsservercore images
-FROM inetsoftware/windows-fonts as FONTS_BASE
-FROM SDK
-
-# Add the Fonts
-COPY --from=FONTS_BASE /Fonts /Windows/fonts
-ADD LoadFonts.ps1 /
-
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "C:\LoadFonts.ps1"
