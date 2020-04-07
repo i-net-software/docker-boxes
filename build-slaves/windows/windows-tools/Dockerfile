@@ -25,7 +25,7 @@ RUN $progressPreference = 'silentlyContinue' ; \
     ;
 
 # Ghostscript
-RUN choco install ghostscript.app --version 9.23
+RUN choco install ghostscript.app --version 9.52
 RUN $gs=dir $env:ProgramFiles/gs | select Name | select -ExpandProperty Name ; \
     echo 'GS: ' $gs ; \
     SETX Path $env:ProgramFiles\gs\$gs\bin';%PATH%' \
