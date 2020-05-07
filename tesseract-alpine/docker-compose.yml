@@ -6,8 +6,16 @@ services:
             context: '.'
             args:
                 SHA: master
-                PKGVER: 4.1.0
+                PKGVER: 4.1.1
                 PKGREL: 2
+    tesseract411:
+        image: 'inetsoftware/alpine-tesseract:4.1.0'
+        build:
+            context: '.'
+            args:
+                SHA: 75103040c94ffd7fe5e4e3dfce0a7e67a8420849
+                PKGVER: 4.1.1
+                PKGREL: 1
     tesseract410:
         image: 'inetsoftware/alpine-tesseract:4.1.0'
         build:
@@ -16,20 +24,3 @@ services:
                 SHA: 5280bbcade4e2dec5eef439a6e189504c2eadcd9
                 PKGVER: 4.1.0
                 PKGREL: 1
-    tesseract400:
-        image: 'inetsoftware/alpine-tesseract:4.0.0'
-        build:
-            context: '.'
-            args:
-                SHA: 51316994ccae0b48692d547030f26c0969308214
-                PKGVER: 4.0.0
-                PKGREL: 1
-    tesseract400-tess4j:
-        image: 'inetsoftware/alpine-tesseract:4.0.0-tess4j'
-        build:
-            context: '.'
-            args:
-                SHA: 51316994ccae0b48692d547030f26c0969308214
-                PKGVER: 4.0.0
-                PKGREL: 1
-                ADDITIONAL_OPTIONS: --disable-openmp
