@@ -9,7 +9,7 @@ services:
                 PKGVER: 4.1.1
                 PKGREL: 2
     tesseract411:
-        image: 'inetsoftware/alpine-tesseract:4.1.0'
+        image: 'inetsoftware/alpine-tesseract:4.1.1'
         build:
             context: '.'
             args:
