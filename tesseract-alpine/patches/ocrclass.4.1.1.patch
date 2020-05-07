@@ -1,0 +1,7 @@
+--- a/src/ccutil/ocrclass.h
++++ b/src/ccutil/ocrclass.h
+@@ -28,3 +28,4 @@
+ 
+ #include <chrono>
+ #include <ctime>
++#include <sys/time.h>

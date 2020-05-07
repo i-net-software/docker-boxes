@@ -28,7 +28,7 @@ RUN set -x \
 ADD APKBUILD /home/dev/APKBUILD
 
 # Add specific Patch files
-ADD *.patch /home/dev/
+ADD patches/*.patch /home/dev/
 
 USER dev
 
