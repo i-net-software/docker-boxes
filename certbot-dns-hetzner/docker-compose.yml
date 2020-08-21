@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+    # Build the Data Image from the current folder
+    # It contains
+    certbot-dns-hetzner:
+        build: "."
+        container_name: "certbot-dns-hetzner"
+        image: "inetsoftware/certbot-dns-hetzner"
