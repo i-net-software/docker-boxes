@@ -3,11 +3,11 @@ cd /root
 
 # find the most recent version
 GRADLE_VERSION_DESIRED="4.10.2"
-GRADLE_PACKAGE=`curl -fsSL http://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1`
+GRADLE_PACKAGE=`curl -fsSL https://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1`
 GRADLE_VERSION=`echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 
 mkdir -p /opt/gradle
-wget "http://services.gradle.org/distributions/${GRADLE_PACKAGE}" -O "${GRADLE_PACKAGE}"
+wget "https://services.gradle.org/distributions/${GRADLE_PACKAGE}" -O "${GRADLE_PACKAGE}"
 unzip -oq "${GRADLE_PACKAGE}" -d /opt/gradle
 
 # This is needed a second time, I have no idea why, because it is the same as above.
