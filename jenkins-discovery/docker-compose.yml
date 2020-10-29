@@ -41,3 +41,9 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        environment:
+            CURL_AUTH_USER: "$CURL_AUTH_USER"
+            CURL_AUTH_PASS: "$CURL_AUTH_PASS"
+            CURL_REGISTER: "$CURL_REGISTER"
+            CURL_UNREGISTER: "$CURL_UNREGISTER"
+            BASE_URL: "$BASE_URL"

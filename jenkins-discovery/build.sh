@@ -31,9 +31,13 @@ if [ ! -f "./docker-compose.yml" ]; then
     echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 fi
 
-export HOST_ADDRESS="10.10.10.1"
 #export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
 #export HOST_ADDRESS=$(ipconfig getifaddr en0)
+if [ -z "HOST_ADDRESS" ]; then
+    echo "Host Address missing"
+    exit 1
+fi
+
 echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
 
 if [ $# -eq 0 ]; then
