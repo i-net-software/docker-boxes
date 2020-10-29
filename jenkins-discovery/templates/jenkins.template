@@ -14,7 +14,7 @@ server {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
     }
-    
+
     # Nginx configuration specific to Jenkins
     # Note that regex takes precedence, so use of "^~" ensures earlier evaluation
     {{ range services }}{{ if .Tags | contains "jenkins" }}
@@ -24,27 +24,45 @@ server {
         # local network requests for http://10.0.0.100:8080/jenkins/
         proxy_pass http://{{ .Name }}/{{ .Name }};
         
-        # The following settings from https://wiki.jenkins-ci.org/display/JENKINS/Running+Hudson+behind+Nginx
-        sendfile off;
-        
-        proxy_set_header   Host             $host;
-        proxy_set_header   X-Real-IP        $remote_addr;
-        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-        proxy_max_temp_file_size 0;
-        proxy_http_version 1.1;
-        
-        #this is the maximum upload size
-        client_max_body_size       50m;
-        client_body_buffer_size    128k;
-        
-        proxy_connect_timeout      90;
-        proxy_send_timeout         90;
-        proxy_read_timeout         90;
-        
-        proxy_buffer_size          4k;
-        proxy_buffers              4 32k;
-        proxy_busy_buffers_size    64k;
-        proxy_temp_file_write_size 64k;
+        {{ file "/etc/consul-template/templates/jenkins/proxy-settings.txt" }}
     }
     {{ end }}{{ end }}
 }
+
+{{ with (env "LETSENCRYPT_CERTIFICATE")  }}
+server {
+    listen 443 ssl;
+    server_name jenkins-container;
+
+    keepalive_timeout   70;
+
+    # intermediate configuration
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+
+    ssl_certificate     /etc/letsencrypt/live/{{ env "LETSENCRYPT_CERTIFICATE" }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ env "LETSENCRYPT_CERTIFICATE" }}/privkey.pem;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # Default location
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    # Nginx configuration specific to Jenkins
+    # Note that regex takes precedence, so use of "^~" ensures earlier evaluation
+    {{ range services }}{{ if .Tags | contains "jenkins" }}
+    location ^~ /{{ .Name }} {
+        
+        # Convert inbound WAN requests for https://domain.tld/jenkins/ to 
+        # local network requests for http://10.0.0.100:8080/jenkins/
+        proxy_pass http://{{ .Name }}/{{ .Name }};
+        
+        {{ file "/etc/consul-template/templates/jenkins/proxy-settings.txt" }}
+    }
+    {{ end }}{{ end }}
+}
+{{ end }}
