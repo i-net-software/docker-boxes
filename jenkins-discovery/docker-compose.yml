@@ -34,14 +34,19 @@ services:
 
     router:
         image: "seges/nginx-consul:1.9.9"
+        build: "nginx-consul"
         container_name: "router"
         restart: "always"
         volumes_from:
             - "jenkins-discovery-data"
+        volumes:
+            - /etc/letsencrypt/live:/etc/letsencrypt/live:ro
+            - /etc/letsencrypt/archive:/etc/letsencrypt/archive:ro
         ports:
             - "80:80"
             - "443:443"
         environment:
+            LETSENCRYPT_CERTIFICATE: "$LETSENCRYPT_CERTIFICATE"
             CURL_AUTH_USER: "$CURL_AUTH_USER"
             CURL_AUTH_PASS: "$CURL_AUTH_PASS"
             CURL_REGISTER: "$CURL_REGISTER"
