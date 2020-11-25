@@ -4,13 +4,13 @@ cd /root
 # find the most recent version
 GRADLE_VERSION_DESIRED="6.7.1"
 GRADLE_PACKAGE=`curl -fsSL https://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1`
-GRADLE_VERSION=`ls ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
+GRADLE_VERSION=`echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 mkdir /opt/gradle
 wget -N "https://services.gradle.org/distributions/${GRADLE_PACKAGE}"
 unzip -oq ./${GRADLE_PACKAGE} -d /opt/gradle
 
 # This is needed a second time, I have no idea why, because it is the same as above.
-GRADLE_VERSION=`ls ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
+GRADLE_VERSION=`echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 ln -sfnv ${GRADLE_VERSION} /opt/gradle/latest
 
 # Java Home and export for gradle home
