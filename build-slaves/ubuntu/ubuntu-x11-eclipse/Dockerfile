@@ -1,12 +1,12 @@
-FROM adoptopenjdk:11-jre-hotspot-bionic as JAVA
+# FROM adoptopenjdk:11-jre-hotspot-bionic as JAVA
 
 FROM inetsoftware/ubuntu-java-x11
 LABEL maintainer contact@inetsoftware.de
 
-RUN mv /opt/java/openjdk /opt/java/openjdk8
+# RUN mv /opt/java/openjdk /opt/java/openjdk8
 
-# Java 8
-COPY --from=JAVA /opt/java/openjdk /opt/java/openjdk
+# Java 11
+# COPY --from=JAVA /opt/java/openjdk /opt/java/openjdk
 
 RUN apt-get update \
     && apt-get install -y libgtk-3-0 libcanberra-gtk-module libxext-dev libxrender-dev libxtst-dev \
