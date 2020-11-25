@@ -1,4 +1,4 @@
-FROM adoptopenjdk:8-jdk-hotspot-bionic as JAVA
+FROM adoptopenjdk:11-jdk-hotspot as JAVA
 
 # Register Image as copy source for Java 8
 
@@ -19,10 +19,10 @@ RUN mkdir -p /usr/java \
     && ln -s ${JAVA_HOME}/bin/java /usr/local/bin \
     && ln -s ${JAVA_HOME}/bin/javac /usr/local/bin
 
-# Gradle 4.10.2 (Default)
+# Gradle 6.7.1(Default)
 RUN add-apt-repository ppa:cwchien/gradle \
     && apt-get update \
-    && apt-get install -y gradle-4.10.3 \
+    && apt-get install -y gradle-6.7.1 \
     ; apt-get autoclean \
     ; apt-get autoremove \
     ; rm -rf /var/lib/apt/lists/*

@@ -1,5 +1,5 @@
 # FROM openjdk:8-jdk-alpine
-FROM adoptopenjdk/openjdk8:alpine
+FROM adoptopenjdk/openjdk11:alpine
 
 LABEL maintainer contact@inetsoftware.de
 
