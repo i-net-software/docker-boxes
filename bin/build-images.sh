@@ -47,6 +47,15 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
         REGISTRY_ARG="--build-arg REGISTRY=$REGISTRY"
     fi
 
+    FIRST_IMAGE=$(echo $IMAGES | awk '{print $1}')
+    BASE_IMAGE_DOCKERFILE=$(docker-compose -f "$DOCKERCOMPOSEFILE" config | sed -nEe "/$FIRST_IMAGE:/!d;N;:loop" -e 's/.*\n//;${p;d;};N;P;/\n\[/D;bloop' | grep context | awk '{print $2}' | head -n 1)
+    echo "----------------------------------------------------------------------------------"
+    for PULL_CONTAINER in $(cat "$BASE_IMAGE_DOCKERFILE/Dockerfile" | grep "^FROM" | awk '{print $2}'); do
+        echo "Pulling FROM: '$PULL_CONTAINER'"
+        docker pull "${PULL_CONTAINER}" || echo "Could not load newer image '${PULL_CONTAINER}' ..."
+    done
+    echo "----------------------------------------------------------------------------------"
+
     # build the images if nothing else is set
     for IMG in $IMAGES; do
         echo "Building Image for: $IMG"
