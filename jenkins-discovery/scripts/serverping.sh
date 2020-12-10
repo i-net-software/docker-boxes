@@ -12,7 +12,7 @@ if [ -z "$CURL_AUTH_PASS" ]; then
 fi
 
 if [ -z "$BASE_URL" ]; then
-    echo "CURL_REGISTER missing"
+    echo "BASE_URL missing"
 fi
 
 if [ -z "$CURL_REGISTER" ]; then
