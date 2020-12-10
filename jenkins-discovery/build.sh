@@ -28,9 +28,10 @@ if [ ! -f "./docker-compose.yml" ]; then
     # cd back and forth to preserver the history
     cd -
     DOCKER_COMPOSE_OPTS="-f $CHECKOUT_ROOT/jenkins-discovery/docker-compose.yml"
-fi
-
-if [ -n "$EXTERNAL_NETWORK" ]; then
+    if [ -n "$EXTERNAL_NETWORK" ]; then
+        DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f $CHECKOUT_ROOT/jenkins-discovery/docker-compose-external-network.yml"
+    fi
+elif [ -n "$EXTERNAL_NETWORK" ]; then
     DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f docker-compose-external-network.yml"
 fi
 
