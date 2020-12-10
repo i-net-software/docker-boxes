@@ -58,7 +58,7 @@ services:
             CURL_REGISTER: "$CURL_REGISTER"
             CURL_UNREGISTER: "$CURL_UNREGISTER"
             BASE_URL: "$BASE_URL"
-            VIRTUAL_PORT: "${PORT_80}"
+            VIRTUAL_PORT: "80"
             VIRTUAL_HOST: "$VIRTUAL_HOST"
             URL_EXTENSION: /
         networks:
