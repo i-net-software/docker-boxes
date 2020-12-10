@@ -1,0 +1,6 @@
+version: '2'
+
+networks:
+    external-network:
+        external:
+            name: $EXTERNAL_NETWORK

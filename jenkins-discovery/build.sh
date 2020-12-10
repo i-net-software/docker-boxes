@@ -14,7 +14,7 @@ fi
 
 NEEDS_CLEANUP=0
 CHECKOUT_ROOT=/tmp/docker-boxes
-DOCKER_COMPOSE_OPTS=
+DOCKER_COMPOSE_OPTS="-f docker-compose.yml"
 if [ ! -f "./docker-compose.yml" ]; then
     NEEDS_CLEANUP=1
 
@@ -28,12 +28,17 @@ if [ ! -f "./docker-compose.yml" ]; then
     # cd back and forth to preserver the history
     cd -
     DOCKER_COMPOSE_OPTS="-f $CHECKOUT_ROOT/jenkins-discovery/docker-compose.yml"
-    echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 fi
+
+if [ -n "$EXTERNAL_NETWORK" ]; then
+    DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f docker-compose-external-network.yml"
+fi
+
+echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 
 #export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
 #export HOST_ADDRESS=$(ipconfig getifaddr en0)
-if [ -z "HOST_ADDRESS" ]; then
+if [ -z "$HOST_ADDRESS" ]; then
     echo "Host Address missing"
     exit 1
 fi
