@@ -14,7 +14,8 @@ fi
 
 NEEDS_CLEANUP=0
 CHECKOUT_ROOT=/tmp/docker-boxes
-DOCKER_COMPOSE_OPTS="-f docker-compose.yml"
+DOCKER_COMPOSE_OPTS=""
+DOCKER_COMPOSE_PATH=""
 if [ ! -f "./docker-compose.yml" ]; then
     NEEDS_CLEANUP=1
 
@@ -27,12 +28,12 @@ if [ ! -f "./docker-compose.yml" ]; then
     
     # cd back and forth to preserver the history
     cd -
-    DOCKER_COMPOSE_OPTS="-f $CHECKOUT_ROOT/jenkins-discovery/docker-compose.yml"
-    if [ -n "$EXTERNAL_NETWORK" ]; then
-        DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f $CHECKOUT_ROOT/jenkins-discovery/docker-compose-external-network.yml"
-    fi
-elif [ -n "$EXTERNAL_NETWORK" ]; then
-    DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f docker-compose-external-network.yml"
+    DOCKER_COMPOSE_PATH="$CHECKOUT_ROOT/jenkins-discovery/"
+fi
+
+DOCKER_COMPOSE_OPTS=" -f ${DOCKER_COMPOSE_PATH}docker-compose.yml"
+if [ -n "$EXTERNAL_NETWORK" ]; then
+    DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f ${DOCKER_COMPOSE_PATH}docker-compose-external-network.yml"
 fi
 
 echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
