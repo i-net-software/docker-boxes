@@ -10,6 +10,8 @@ services:
         restart: "always"
         volumes:
             - "/tmp/consul-output:/etc/consul-template/output"
+        networks:
+            internal-network:
 
     consul-server:
         container_name: "consul-server"
@@ -21,6 +23,8 @@ services:
             - "8400:8400"
             - "8500:8500"
         command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS"
+        networks:
+            internal-network:
 
     registrator:
         image: "gliderlabs/registrator:latest"
@@ -31,6 +35,8 @@ services:
             - "consul-server"
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
+        networks:
+            internal-network:
 
     router:
         image: "seges/nginx-consul:1.9.9"
@@ -57,6 +63,8 @@ services:
             URL_EXTENSION: /
         networks:
             external-network:
+            internal-network:
 
 networks:
     external-network:
+    internal-network:
