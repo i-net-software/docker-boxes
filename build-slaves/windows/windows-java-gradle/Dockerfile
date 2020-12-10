@@ -13,7 +13,7 @@ RUN choco install -y tortoisesvn
 RUN choco install adoptopenjdk11
 
 # install gradle
-RUN choco install gradle --version 6.7.1
+RUN choco install gradle --version 6.7
 
 # Jenkins will call a gradle.bat file
 ADD gradle.bat /Windows/System32/gradle.bat
