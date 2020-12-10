@@ -54,7 +54,7 @@ services:
             BASE_URL: "$BASE_URL"
             VIRTUAL_PORT: "${PORT_80}"
             VIRTUAL_HOST: "$VIRTUAL_HOST"
-            URL_EXTENSION: ""
+            URL_EXTENSION: /
         networks:
             external-network:
 
