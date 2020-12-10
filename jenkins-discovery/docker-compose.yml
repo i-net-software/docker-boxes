@@ -43,8 +43,8 @@ services:
             - /etc/letsencrypt/live:/etc/letsencrypt/live:ro
             - /etc/letsencrypt/archive:/etc/letsencrypt/archive:ro
         ports:
-            - "${PORT_80:-80}:80"
-            - "${PORT_443:-443}:443"
+            - "${PORT_80-80}:80"
+            - "${PORT_443-443}:443"
         environment:
             LETSENCRYPT_CERTIFICATE: "$LETSENCRYPT_CERTIFICATE"
             CURL_AUTH_USER: "$CURL_AUTH_USER"
@@ -52,7 +52,7 @@ services:
             CURL_REGISTER: "$CURL_REGISTER"
             CURL_UNREGISTER: "$CURL_UNREGISTER"
             BASE_URL: "$BASE_URL"
-            VIRTUAL_PORT: "${PORT_80:-80}"
+            VIRTUAL_PORT: "${PORT_80-80}"
             VIRTUAL_HOST: "$VIRTUAL_HOST"
             URL_EXTENSION: ""
         networks:
