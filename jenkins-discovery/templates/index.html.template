@@ -21,10 +21,10 @@
 </style>
 <script>
 function setHref() {
-    document.getElementById('portainer').href = window.location.protocol + "//" + window.location.hostname + ":9000/";
-    document.getElementById('registry').href = window.location.protocol + "//" + window.location.hostname + ":8080/";
-    document.getElementById('virtualbox').href = window.location.protocol + "//" + window.location.hostname + ":81/";
-    document.getElementById('grafana').href = window.location.protocol + "//" + window.location.hostname + ":3000/";
+    document.getElementById('portainer').href = "http://jenkins:9000/";
+    document.getElementById('registry').href = "http://jenkins:8080/";
+    document.getElementById('virtualbox').href = "http://jenkins:81/";
+    document.getElementById('grafana').href = "http://jenkins:3000/";
 }
 </script>
 </head>
