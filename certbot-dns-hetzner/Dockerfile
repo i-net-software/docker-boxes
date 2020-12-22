@@ -1,3 +1,3 @@
 FROM certbot/certbot
 
-RUN pip install certbot-dns-hetzner
+RUN python -m pip install certbot-dns-hetzner
