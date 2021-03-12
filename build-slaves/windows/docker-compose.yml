@@ -39,3 +39,7 @@ services:
     vs2017:
         build: ./windows-vs-2017
         image: 'inetsoftware/windows-vs-2017'
+
+    cosmosdb:
+        build: ./windows-cosmosdb
+        image: 'inetsoftware/azure-cosmos-emulator'
