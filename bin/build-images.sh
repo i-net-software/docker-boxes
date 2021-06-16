@@ -7,7 +7,7 @@ ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] &
 SDK_TAG=latest
 
 case "$1" in
-    alpine|ubuntu|fedora|windows|vs2017)
+    alpine|ubuntu|fedora|windows|vs2017|vs2019)
         ENVFILE="${ROOT}/build-slaves/$1/build.env"
         shift 1
     ;;
@@ -17,7 +17,7 @@ case "$1" in
     ;;
     *)
         echo "Usage: $0 <type> (push)"
-        echo "Please use the type you want to build first (alpine, ubuntu, fedora, windows or jenkins)"
+        echo "Please use the type you want to build first (alpine, ubuntu, fedora, windows, v2017, vs2019 or jenkins)"
         echo "Use 'push' as second option if you want to push the results to hub.docker"
         echo
         exit 1
