@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+    consul-server:
+        volumes:
+            - "${CONSUL_SERVER_MOUNT}:/consul-mount:ro"
+    

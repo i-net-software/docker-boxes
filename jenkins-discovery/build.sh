@@ -36,7 +36,14 @@ if [ -n "$EXTERNAL_NETWORK" ]; then
     DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f ${DOCKER_COMPOSE_PATH}docker-compose-external-network.yml"
 fi
 
-echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
+export CONSUL_SERVER_OPTIONS=${CONSUL_SERVER_OPTIONS:-}
+if [ -n "$CONSUL_SERVER_OPTIONS" ]; then
+    echo "Using Consul options: '$CONSUL_SERVER_OPTIONS'"
+fi
+
+if [ -n "$CONSUL_SERVER_MOUNT" ]; then
+    DOCKER_COMPOSE_OPTS="${DOCKER_COMPOSE_OPTS} -f ${DOCKER_COMPOSE_PATH}docker-compose-consul-mount.yml"
+fi
 
 #export HOST_ADDRESS=$(hostname -I | awk '{print $1}')
 #export HOST_ADDRESS=$(ipconfig getifaddr en0)
@@ -46,6 +53,8 @@ if [ -z "$HOST_ADDRESS" ]; then
 fi
 
 echo "Using HOST_ADDRESS: '$HOST_ADDRESS'"
+
+echo "Running with options: '$DOCKER_COMPOSE_OPTS'"
 
 if [ $# -eq 0 ]; then
     docker-compose $DOCKER_COMPOSE_OPTS up -d
