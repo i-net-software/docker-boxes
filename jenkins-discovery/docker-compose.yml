@@ -20,9 +20,9 @@ services:
         hostname: "consul-server"
         ports:
             # - "53:53"
-            - "${CONSUL_8400_BIND_HOST:-0.0.0.0}:8400:8400"
-            - "${CONSUL_8500_BIND_HOST:-0.0.0.0}:8500:8500"
-            - "${CONSUL_8501_BIND_HOST:-0.0.0.0}:8501:8501"
+            - "${CONSUL_8400_BIND_HOST}8400:8400"
+            - "${CONSUL_8500_BIND_HOST}8500:8500"
+            - "${CONSUL_8501_BIND_HOST}8501:8501"
         command: "agent -bootstrap-expect=1 -data-dir /data -server -ui-dir /ui -client=0.0.0.0 -advertise=$HOST_ADDRESS $CONSUL_SERVER_OPTIONS"
         networks:
             internal-network:
