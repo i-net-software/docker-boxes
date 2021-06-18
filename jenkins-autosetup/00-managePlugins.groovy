@@ -16,7 +16,7 @@ def updateJenkins = !!(env['UPDATE_JENKINS']?:false)
 
 logger.info("Automatic update of fixed Jenkins Plugin versions to 'latest' is " + (updateJenkins?'enabled':'disabled') + '.')
 def shouldUpdate = { plugin, checkVersion ->
-    return ( updateJenkins && plugin.isOlderThan(checkVersion) ) || checkVersion.toString()=="latest"
+    return ( updateJenkins && plugin.isNewerThan(checkVersion.toString()) ) || checkVersion.toString()=="latest"
 }
 
 uc.updateAllSites()
