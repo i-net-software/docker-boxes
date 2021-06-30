@@ -8,9 +8,9 @@ ENV SWARM_VERSION v1.2.9
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV GIT_VERSION 2.22.0
+ENV GIT_VERSION 2.32.0
 ENV GIT_DOWNLOAD_URL https://github.com/git-for-windows/git/releases/download/v${GIT_VERSION}.windows.1/MinGit-${GIT_VERSION}-64-bit.zip
-ENV GIT_SHA256 308ce95b7de5792bed9d56e1af5d2053052ea6347ea0021f74070056684ce3ee
+ENV GIT_SHA256 e55a73125ea2fd6d1d71470e089a97cf19e6f1c4aaf7c25958d1a9105112a6de
 
 RUN Invoke-WebRequest -UseBasicParsing $env:GIT_DOWNLOAD_URL -OutFile git.zip; `
     if ((Get-FileHash git.zip -Algorithm sha256).Hash -ne $env:GIT_SHA256) {exit 1} ; `
@@ -28,6 +28,8 @@ RUN mkdir src\github.com\docker
 WORKDIR /gopath/src/github.com/docker
 
 RUN git clone https://github.com/docker/swarm
+
+ENV GO111MODULE=auto
 
 WORKDIR /gopath/src/github.com/docker/swarm
 
