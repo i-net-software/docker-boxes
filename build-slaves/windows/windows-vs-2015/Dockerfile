@@ -7,6 +7,7 @@ FROM ${REGISTRY}inetsoftware/windows-tools
 RUN choco install visualstudio2015testagents
 
 # Visual C++ Build Tools - takes very long!
+RUN choco install microsoft-build-tools --version=14.0.25420.1
 RUN choco install visualcppbuildtools
 
 # Set Environment
