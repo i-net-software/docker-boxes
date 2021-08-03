@@ -1,6 +1,7 @@
 import jenkins.model.*
 import hudson.util.VersionNumber
 import java.util.logging.Logger
+import jenkins.RestartRequiredException;
 
 def logger = Logger.getLogger("")
 def installed = false
@@ -55,5 +56,8 @@ if (installed) {
     // Just do it. Plugins are the very earliest.
     if ( uc.isRestartRequiredForCompletion() ) {
         instance.restart()
+
+        // This will trigger an immedate restart since all scripts are stopped
+        throw new RestartRequiredException(null)
     }
 }
