@@ -22,7 +22,7 @@ RUN mkdir -p /usr/java \
 # Gradle 6.7.1(Default)
 RUN add-apt-repository ppa:cwchien/gradle \
     && apt-get update \
-    && apt-get install -y gradle-6.7 \
+    && apt-get install -y gradle-6.8.3 \
     ; apt-get autoclean \
     ; apt-get autoremove \
     ; rm -rf /var/lib/apt/lists/*
