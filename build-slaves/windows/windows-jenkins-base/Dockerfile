@@ -12,6 +12,9 @@ ADD true.bat /WINDOWS/system32/true.bat
 
 RUN mkdir C:\jenkins
 
+#install putty
+RUN choco install putty
+
 #install openssh
 RUN choco install openssh -params '/SSHServerFeature'
 
