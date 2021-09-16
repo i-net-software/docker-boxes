@@ -8,8 +8,8 @@ LABEL maintainer contact@inetsoftware.de
 ENV LC_ALL C
 
 RUN mkdir -p /usr/share/tessdata
-ADD https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata /usr/share/tessdata/eng.traineddata
-ADD https://github.com/tesseract-ocr/tessdata/raw/master/deu.traineddata /usr/share/tessdata/deu.traineddata
+ADD https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata /usr/share/tessdata/eng.traineddata
+ADD https://github.com/tesseract-ocr/tessdata/raw/main/deu.traineddata /usr/share/tessdata/deu.traineddata
 
 COPY --from=builder /tesseract/tesseract-git-4.* /tesseract/
 
