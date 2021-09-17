@@ -16,8 +16,8 @@ To us the binaries in a custom Dockerfile you can do the following:
 
     # add required tessdata
     RUN mkdir -p /usr/share/tessdata
-    ADD https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata /usr/share/tessdata/eng.traineddata
-    ADD https://github.com/tesseract-ocr/tessdata/raw/master/deu.traineddata /usr/share/tessdata/deu.traineddata
+    ADD https://github.com/tesseract-ocr/tessdata/raw/main/eng.traineddata /usr/share/tessdata/eng.traineddata
+    ADD https://github.com/tesseract-ocr/tessdata/raw/main/deu.traineddata /usr/share/tessdata/deu.traineddata
 
     # copy the packages
     COPY --from=builder /tesseract/tesseract-git-* /tesseract/
