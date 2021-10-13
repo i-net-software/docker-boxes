@@ -5,6 +5,7 @@ LABEL maintainer contact@inetsoftware.de
 # INSTALLS THE WINDOWS 10.1 SDK
 # https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-sdk-10.1/Dockerfile
 RUN powershell -Command \
+    mkdir c:\install_logs; \
     Invoke-WebRequest https://coderobin.blob.core.windows.net/public/fakenet/x64/FakeNet.exe -OutFile $env:temp\fakenet64.exe; \
     Invoke-WebRequest https://coderobin.blob.core.windows.net/public/fakenet/x86/FakeNet.exe -OutFile $env:temp\fakenet.exe; \
     Copy C:\Windows\System32\net.exe C:\Windows\System32\net.exe.bak; \
@@ -21,8 +22,9 @@ RUN powershell -Command \
     Set-Acl C:\Windows\SysWOW64\net.exe -AclObject $acl21; \
     Copy $env:temp\fakenet64.exe C:\Windows\System32\net.exe; \
     Copy $env:temp\fakenet.exe C:\Windows\SysWOW64\net.exe; \
-    Install-PackageProvider -Name Chocolatey -Force; \
-    Install-Package -Name windows-sdk-10.1 -ProviderName Chocolatey -Force; \
+    wget http://download.microsoft.com/download/2/1/2/2122BA8F-7EA6-4784-9195-A8CFB7E7388E/StandaloneSDK/sdksetup.exe -OutFile sdksetup.exe; \
+    Start-Process -FilePath "C:\sdksetup.exe" -ArgumentList /Quiet, /NoRestart, /Log, c:\install_logs\sdksetup.log -PassThru -Wait; \
+    rm sdksetup.exe; \
     Remove-Item C:\Windows\System32\net.exe; \
     Remove-Item C:\Windows\SysWOW64\net.exe; \
     Rename-Item C:\Windows\System32\net.exe.bak C:\Windows\System32\net.exe; \

@@ -11,14 +11,14 @@ RUN choco install microsoft-build-tools --version=14.0.25420.1
 RUN choco install visualcppbuildtools
 
 # Set Environment
-RUN @echo off \
-    && call "%VS140COMNTOOLS%\vsvars32.bat" \
-    && set >> C:\environment.properties \ 
-    && @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
-        Get-Content C:\environment.properties | Foreach-Object { \
-            $key = $_.trim() -replace '(.*?)=(.*)','$1' ; \
-            $value = $_.trim() -replace '(.*?)=(.*)','$2' ; \
-            [Environment]::SetEnvironmentVariable("$($key)", "$($value)",'Machine'); \
-        } \
-    " \
-    && del C:\environment.properties
+#RUN @echo off \
+#    && call "%VS140COMNTOOLS%\vsvars32.bat" \
+#    && set >> C:\environment.properties \ 
+#    && @powershell -NoProfile -ExecutionPolicy Bypass -Command " \
+#        Get-Content C:\environment.properties | Foreach-Object { \
+#            $key = $_.trim() -replace '(.*?)=(.*)','$1' ; \
+#            $value = $_.trim() -replace '(.*?)=(.*)','$2' ; \
+#            [Environment]::SetEnvironmentVariable("$($key)", "$($value)",'Machine'); \
+#        } \
+#    " \
+#    && del C:\environment.properties
