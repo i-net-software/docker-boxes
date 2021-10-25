@@ -38,7 +38,7 @@ plugins.each {
             logger.info( "\t" +(pl && pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
             def exec = plugin.deploy()
             def maxCheck = 30
-            while( !exec.isDone() ) {
+            while( !exec.isDone() && maxCheck-- > 0 ) {
                 // wait for maximum of 30s
                 sleep(1000)
             }
