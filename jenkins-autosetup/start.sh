@@ -52,7 +52,7 @@ if [ ! -z "$AUTOSETUP" ]; then
         fi
 
         # install plugins
-        cat /usr/share/jenkins/ref/plugins.txt | xargs /usr/local/bin/install-plugins.sh
+        jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt || exit 1
 
         if [ -d "$AUTOSETUP_TMP/config" ]; then
             echo "Copying configuration files"
