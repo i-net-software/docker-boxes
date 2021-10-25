@@ -37,12 +37,18 @@ plugins.each {
         if (plugin && shouldUpdate( plugin, checkVersion) ) {
             logger.info( "\t" +(pl && pl.hasUpdate()?"Updating ":"Installing ") + pluginName)
             def exec = plugin.deploy()
+            def maxCheck = 30
             while( !exec.isDone() ) {
-                sleep(100)
+                // wait for maximum of 30s
+                sleep(1000)
             }
 
-            logger.info( "\tDone for " + pluginName)
-            installed = true
+            if ( exec.isDone() ) {
+                logger.info( "\tDone for " + pluginName)
+                installed = true
+            } else {
+                logger.error( "\tTimeout error while installing " + pluginName)
+            }
         } else {
             logger.info( "\tDid not update " + pluginName )
         }
