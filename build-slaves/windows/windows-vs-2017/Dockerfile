@@ -7,7 +7,8 @@ FROM ${REGISTRY}inetsoftware/windows-java-gradle:sdk
 RUN choco install -y visualstudio2017testagent
 
 # Visual C++ Build Tools
-RUN choco install -y visualcppbuildtools
+# https://community.chocolatey.org/packages/microsoft-build-tools/14.0.25420.1
+RUN choco install microsoft-build-tools --version=14.0.25420.1
 
 # Set up environment to collect install errors.
 COPY Install.cmd C:\TEMP\
