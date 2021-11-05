@@ -42,6 +42,11 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
 
     echo "Images to build: ${IMAGES}"
     echo "----------------------------------------------------------"
+    for ARTIFACT in $ARTIFACTS; do
+        echo "Reverse Tagging: '${TAG}' with '${ARTIFACT}'"
+        docker tag "${ARTIFACT}:${TAG}" "$ARTIFACT"
+    done
+    echo "----------------------------------------------------------"
 
     if [ ! -z "$REGISTRY" ]; then
         REGISTRY_ARG="--build-arg REGISTRY=$REGISTRY"
@@ -63,8 +68,9 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
     done
 
     for ARTIFACT in $ARTIFACTS; do
-        echo "Tagging: '${ARTIFACT}' with '${TAG}'"
+        echo "Tagging: '${ARTIFACT}' with '${TAG}' and removing '${ARTIFACT}'"
         docker tag "$ARTIFACT" "${ARTIFACT}:${TAG}"
+        docker rmi "${ARTIFACT}:latest"
     done
 fi
 
