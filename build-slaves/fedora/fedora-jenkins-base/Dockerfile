@@ -4,8 +4,9 @@ LABEL maintainer contact@inetsoftware.de
 # Install OpenSSH Server, rpm build tools, git and subversion
 # Create jenkins user and set password
 RUN dnf updateinfo && dnf install -y openssh-server auto-buildrequires git subversion langpacks-en && \
-    mkdir /var/run/sshd && \
-    adduser jenkins && \
+    mkdir /var/run/sshd
+
+RUN adduser jenkins && \
     echo jenkins:jenkins | chpasswd && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
