@@ -11,7 +11,7 @@ RUN choco install -y wixtoolset --version 3.11.1
 # RUN choco install -y microsoft-build-tools --version 14.0.25420.1
 
 #install NAnt
-RUN choco install -y nant --version 0.92.1
+RUN choco install -y nant --version 0.92.2 --allow-empty-checksums
 
 # This monitor is from Microsoft
 # it should already be there but after upgrading the wixtoolset it was gone.
