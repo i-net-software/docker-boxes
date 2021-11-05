@@ -31,6 +31,6 @@ ENV FIREFOX_VERSION=65.0
 ADD https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 firefox.tar.bz2
 RUN tar -xf firefox.tar.bz2 && mv firefox/ /opt/firefox && mv /usr/bin/firefox /usr/bin/firefox-latest && ln -s /opt/firefox/firefox /usr/bin/firefox && rm firefox.tar.bz2
 
-ENV GECKO_DRIVER=v0.24.0
+ENV GECKO_DRIVER=v0.30.0
 ADD https://github.com/mozilla/geckodriver/releases/download/${GECKO_DRIVER}/geckodriver-${GECKO_DRIVER}-linux64.tar.gz geckodriver.tar.gz
 RUN tar -xzf geckodriver.tar.gz && chmod +x geckodriver && mv geckodriver /usr/local/bin/ && rm geckodriver.tar.gz
