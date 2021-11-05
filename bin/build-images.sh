@@ -63,7 +63,7 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
     for ARTIFACT in $ARTIFACTS; do
         echo "Tagging: '${ARTIFACT}' with '${TAG}' and removing '${ARTIFACT}'"
         docker tag "$ARTIFACT" "${ARTIFACT}:${TAG}"
-        docker rm "$ARTIFACT"
+        docker rmi "${ARTIFACT}:latest"
     done
 fi
 
