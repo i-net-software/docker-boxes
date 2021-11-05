@@ -1,4 +1,4 @@
-FROM fedora:34
+FROM fedora:33
 LABEL maintainer contact@inetsoftware.de
 
 # Install OpenSSH Server, rpm build tools, git and subversion
