@@ -19,16 +19,8 @@
         text-transform: capitalize;
     }
 </style>
-<script>
-function setHref() {
-    document.getElementById('portainer').href = "http://jenkins:9000/";
-    document.getElementById('registry').href = "http://jenkins:8080/";
-    document.getElementById('virtualbox').href = "http://jenkins:81/";
-    document.getElementById('grafana').href = "http://jenkins:3000/";
-}
-</script>
 </head>
-<body onload="setHref()">
+<body>
 <h1>Welcome to the Jenkins auto discovery overview!</h1>
 <p>The following contexts are registered.</p>
 
@@ -41,16 +33,14 @@ function setHref() {
 
 <h2>Extra Services</h2>
 <ul>
-    <li><a class="noUC" href="http://repository-server.internal.inetsoftware.de/">Repository Overview</a></li>
-    <li><a class="noUC" href="http://repository-server.internal.inetsoftware.de/repository/inet-snapshot">Repository: i-net Build</a></li>
-    <li><a class="noUC" href="http://repository-server.internal.inetsoftware.de/repository/inet-product">Repository: i-net Produkte</a></li>
+    <li><a class="noUC" href="https://repository-server.internal.inetsoftware.de/">Repository Overview</a></li>
+    <li><a class="noUC" href="https://repository-server.internal.inetsoftware.de/repository/inet-snapshot">Repository: i-net Build</a></li>
+    <li><a class="noUC" href="https://repository-server.internal.inetsoftware.de/repository/inet-product">Repository: i-net Produkte</a></li>
 <ul>
 </ul>
-    <li><a href="/" id="grafana">Grafana - Docker Status</a></li>
-    <li><a href="/" id="virtualbox">VirtualBox Management</a></li>
-    <li><a href="/" id="portainer">Portainer - Docker Container Management</a></li>
-    <li><a href="/" id="registry">Private Docker Repository Management</a></li>
-    <li><a href="http://diskstation.inetsoftware.local:8080" id="deobfuscate">i-net deObfuscation Tool </a></li>
+    <li><a href="https://portainer.internal.inetsoftware.de/">Portainer - Docker Container Management</a></li>
+    <li><a href="https://registry-web.internal.inetsoftware.de/">Private Docker Repository Management</a></li>
+    <li><a href="repository-server.internal.inetsoftware.de:8443/">i-net deObfuscation Tool </a></li>
 </ul>
 </body>
 </html>
