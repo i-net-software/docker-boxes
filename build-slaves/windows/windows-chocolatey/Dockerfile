@@ -24,6 +24,9 @@ RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointMa
 # allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
 
+# Disable download progress bar
+RUN choco feature disable -n=showDownloadProgress
+
 # add the nuget command line
 RUN choco install nuget.commandline
 
