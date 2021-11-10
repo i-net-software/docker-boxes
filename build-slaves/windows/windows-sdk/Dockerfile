@@ -2,6 +2,9 @@ ARG REGISTRY
 FROM ${REGISTRY}inetsoftware/windows-vs-2015
 LABEL maintainer contact@inetsoftware.de
 
+# INSTALLS THE WINDOWS 7.1 SDK for signtool
+RUN choco install windows-sdk-7.1
+
 # INSTALLS THE WINDOWS 10.1 SDK
 # https://github.com/coderobin/windows-container/blob/master/windowsservercore/windows-sdk-10.1/Dockerfile
 RUN powershell -Command \
