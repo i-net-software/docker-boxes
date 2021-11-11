@@ -11,8 +11,17 @@ RUN choco install -y visualstudio2017testagent
 RUN choco install microsoft-build-tools --version=14.0.25420.1
 
 # Set up environment to collect install errors.
-COPY Install.cmd C:\TEMP\
-ADD https://aka.ms/vscollect.exe C:\TEMP\collect.exe
+COPY Install.cmd C:/TEMP/
+ADD https://aka.ms/vscollect.exe C:/TEMP/collect.exe
+
+# http://disq.us/p/2gqaah0
+ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:/TEMP/vs_buildtools.exe
+RUN C:/TEMP/Install.cmd C:/TEMP/vs_buildtools.exe --quiet --wait --norestart --nocache `
+    --add Microsoft.VisualStudio.Workload.MSBuildTools `
+    --add Microsoft.VisualStudio.Workload.VCTools `
+    --add Microsoft.VisualStudio.Component.Windows81SDK `
+    --add Microsoft.VisualStudio.Component.VC.140 `
+    --add Microsoft.Component.VC.Runtime.UCRTSDK
 
 # Install Node.js LTS
 # ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-x64.msi C:\TEMP\node-install.msi
