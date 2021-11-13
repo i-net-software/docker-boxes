@@ -14,15 +14,6 @@ RUN choco install microsoft-build-tools --version=14.0.25420.1
 COPY Install.cmd C:/TEMP/
 ADD https://aka.ms/vscollect.exe C:/TEMP/collect.exe
 
-# http://disq.us/p/2gqaah0
-ADD https://aka.ms/vs/15/release/vs_buildtools.exe C:/TEMP/vs_buildtools.exe
-RUN C:/TEMP/Install.cmd C:/TEMP/vs_buildtools.exe --quiet --wait --norestart --nocache `
-    --add Microsoft.VisualStudio.Workload.MSBuildTools `
-    --add Microsoft.VisualStudio.Workload.VCTools `
-    --add Microsoft.VisualStudio.Component.Windows81SDK `
-    --add Microsoft.VisualStudio.Component.VC.140 `
-    --add Microsoft.Component.VC.Runtime.UCRTSDK
-
 # Install Node.js LTS
 # ADD https://nodejs.org/dist/v8.11.3/node-v8.11.3-x64.msi C:\TEMP\node-install.msi
 # RUN start /wait msiexec.exe /i C:\TEMP\node-install.msi /l*vx "%TEMP%\MSI-node-install.log" /qn ADDLOCAL=ALL
@@ -94,7 +85,12 @@ RUN C:\TEMP\Install.cmd C:\TEMP\vs_buildtools.exe --quiet --wait --norestart --n
     --add Microsoft.Component.Blend.SDK.WPF `
     --add Microsoft.VisualStudio.ComponentGroup.TestTools.TestAgent `
     --add Microsoft.Component.MSBuild `
-    --add Microsoft.Net.Compilers
+    --add Microsoft.Net.Compilers `
+    --add Microsoft.VisualStudio.Workload.MSBuildTools `
+    --add Microsoft.VisualStudio.Workload.VCTools `
+    --add Microsoft.VisualStudio.Component.Windows81SDK `
+#    --add Microsoft.VisualStudio.Component.VC.140 `
+    --add Microsoft.Component.VC.Runtime.UCRTSDK
 
 # DocFX for documentation
 RUN choco install -y docfx
