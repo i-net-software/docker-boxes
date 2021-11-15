@@ -1,4 +1,4 @@
-FROM alpine:3.10 as builder
+FROM alpine:3.12 as builder
 
 RUN set -x \
     # Add testing repository
