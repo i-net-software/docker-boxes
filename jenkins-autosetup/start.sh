@@ -13,6 +13,13 @@ export ATTEMPTS=${ATTEMPTS-1}
 #
 if [ ! -z "$AUTOSETUP" ]; then
 
+    # check if "${JENKINS_REF}/plugins.txt" exists
+    HAS_PLUGINS_TXT=$([ -f "${JENKINS_REF}/plugins.txt" ] && echo 1 || echo 0)
+    if [ HAS_PLUGINS_TXT -eq 1 ] && [ "$IS_DEVELOPMENT" == "true" ] {
+        echo "WARNING: You are running in development mode and have plugins.txt in your jenkins ref folder. Will remove it now."
+        rm -f "${JENKINS_REF}/plugins.txt"
+    }
+
     for SETUP in ${AUTOSETUP[@]}; do
         if [ -d "$AUTOSETUP_TMP" ]; then
             rm -rf "$AUTOSETUP_TMP"
@@ -42,18 +49,17 @@ if [ ! -z "$AUTOSETUP" ]; then
             esac
         done
 
-        # initializep plugins
+        # initialize plugins if HAS_PLUGINS_TXT is false
         if [ "$IS_DEVELOPMENT" == "true" ] && [ -f "$AUTOSETUP_TMP/plugins_dev.txt" ]; then
             echo "Setting up DEVELOPMENT Plugins - will be loaded on startup using the managePlugins.groovy"
-            cp "$AUTOSETUP_TMP/plugins_dev.txt" "${JENKINS_REF}/plugins.txt"
-        elif [ -f "$AUTOSETUP_TMP/plugins.txt" ]; then
+            cat "$AUTOSETUP_TMP/plugins_dev.txt" >> "${JENKINS_REF}/plugins.txt"
+            jenkins-plugin-cli --plugin-file "$AUTOSETUP_TMP/plugins_dev.txt"
+        elif [ -f "$AUTOSETUP_TMP/plugins.txt" ] && [ $HAS_PLUGINS_TXT -eq 0 ]; then
             echo "Setting up Plugins - will be loaded on startup using the managePlugins.groovy"
-            cp "$AUTOSETUP_TMP/plugins.txt" "${JENKINS_REF}"
-        fi
-
-        # install plugins
-        if [ -f "${JENKINS_REF}/plugins.txt" ]; then
-            jenkins-plugin-cli --plugin-file "${JENKINS_REF}/plugins.txt" || exit 1
+            cat "$AUTOSETUP_TMP/plugins.txt" >> "${JENKINS_REF}/plugins.txt"
+            jenkins-plugin-cli --plugin-file "$AUTOSETUP_TMP/plugins_dev.txt"
+        elif [ $HAS_PLUGINS_TXT -eq 1 ]; then
+            echo "Plugins already set up, will not reinitialize"
         fi
 
         if [ -d "$AUTOSETUP_TMP/config" ]; then
