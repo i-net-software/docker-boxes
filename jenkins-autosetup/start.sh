@@ -15,10 +15,10 @@ if [ ! -z "$AUTOSETUP" ]; then
 
     # check if "${JENKINS_REF}/plugins.txt" exists
     HAS_PLUGINS_TXT=$([ -f "${JENKINS_REF}/plugins.txt" ] && echo 1 || echo 0)
-    if [ HAS_PLUGINS_TXT -eq 1 ] && [ "$IS_DEVELOPMENT" == "true" ] {
+    if [ HAS_PLUGINS_TXT -eq 1 ] && [ "$IS_DEVELOPMENT" == "true" ]; then
         echo "WARNING: You are running in development mode and have plugins.txt in your jenkins ref folder. Will remove it now."
         rm -f "${JENKINS_REF}/plugins.txt"
-    }
+    fi
 
     for SETUP in ${AUTOSETUP[@]}; do
         if [ -d "$AUTOSETUP_TMP" ]; then
