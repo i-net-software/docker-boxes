@@ -2,8 +2,44 @@
 
 AUTOSETUP_TMP=/tmp/autosetup
 JENKINS_REF=/usr/share/jenkins/ref/
+JENKINS_PLUGINS_URL=https://get.jenkins.io/plugins
+
 export TINI_SUBREAPER=1
 export ATTEMPTS=${ATTEMPTS-1}
+
+# Installing the plugins requires a preflight check because 
+function installPlugins {
+    local pluginsFile=$1
+    local tmpPluginFile=$(mktemp --suffix=.txt)
+    
+    if [ -f $pluginsFile ]; then
+        echo "Installing plugins from $pluginsFile"
+        while read plugin; do
+            if [ -n "$plugin" ]; then
+                # split at colon
+                pluginName=$(echo $plugin | cut -d: -f1)
+                # split at colon, second part
+                pluginVersion=$(echo $plugin | cut -d: -f2)
+                pluginVersion=${pluginVersion:-latest}
+                if ${UPDATE_JENKINS:-false}; then
+                    actualVersion=latest
+                else
+                    actualVersion=$(curl -fsSL "$JENKINS_PLUGINS_URL/${pluginName}" | grep "\"${pluginVersion}" | awk -F\" '{print $2}' | head -n 1 | cut -d/ -f1)
+                fi
+                # list https://get.jenkins.io/plugins/$pluginName for version
+                echo "Installing plugin $pluginName version $actualVersion"
+                actualVersion=${actualVersion:-$pluginVersion}
+                echo "Plugin ${pluginName}: ${actualVersion} (requested: ${pluginVersion})"
+                echo "${pluginName}:${actualVersion}" >> "${tmpPluginFile}"
+            fi
+        done < $pluginsFile
+    else
+        echo "File $pluginsFile does not exist"
+    fi
+
+    jenkins-plugin-cli --plugin-file "${tmpPluginFile}"
+    rm -f "${tmpPluginFile}"
+}
 
 ######################################################################
 # Check for a configuration URL for startup
@@ -15,7 +51,7 @@ if [ ! -z "$AUTOSETUP" ]; then
 
     # check if "${JENKINS_REF}/plugins.txt" exists
     HAS_PLUGINS_TXT=$([ -f "${JENKINS_REF}/plugins.txt" ] && echo 1 || echo 0)
-    if [ HAS_PLUGINS_TXT -eq 1 ] && [ "$IS_DEVELOPMENT" == "true" ]; then
+    if [ $HAS_PLUGINS_TXT -eq 1 ] && [ "$IS_DEVELOPMENT" == "true" ]; then
         echo "WARNING: You are running in development mode and have plugins.txt in your jenkins ref folder. Will remove it now."
         rm -f "${JENKINS_REF}/plugins.txt"
     fi
@@ -53,11 +89,11 @@ if [ ! -z "$AUTOSETUP" ]; then
         if [ "$IS_DEVELOPMENT" == "true" ] && [ -f "$AUTOSETUP_TMP/plugins_dev.txt" ]; then
             echo "Setting up DEVELOPMENT Plugins - will be loaded on startup using the managePlugins.groovy"
             cat "$AUTOSETUP_TMP/plugins_dev.txt" >> "${JENKINS_REF}/plugins.txt"
-            jenkins-plugin-cli --plugin-file "$AUTOSETUP_TMP/plugins_dev.txt"
+            installPlugins "$AUTOSETUP_TMP/plugins_dev.txt"
         elif [ -f "$AUTOSETUP_TMP/plugins.txt" ] && [ $HAS_PLUGINS_TXT -eq 0 ]; then
             echo "Setting up Plugins - will be loaded on startup using the managePlugins.groovy"
             cat "$AUTOSETUP_TMP/plugins.txt" >> "${JENKINS_REF}/plugins.txt"
-            jenkins-plugin-cli --plugin-file "$AUTOSETUP_TMP/plugins_dev.txt"
+            installPlugins "$AUTOSETUP_TMP/plugins.txt"
         elif [ $HAS_PLUGINS_TXT -eq 1 ]; then
             echo "Plugins already set up, will not reinitialize"
         fi

@@ -2,5 +2,4 @@ version: '2.1'
 
 networks:
     external-network:
-        external:
-            name: $EXTERNAL_NETWORK
+        name: $EXTERNAL_NETWORK
