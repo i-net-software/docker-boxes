@@ -1,8 +1,19 @@
 version: '2.1'
 services:
     base:
+        build: ./alpine-java-base
+        image: 'inetsoftware/alpine-java-base'
+
+    ssh:
         build: ./alpine-jenkins-base
         image: 'inetsoftware/alpine-jenkins-base'
+
+    ssh-docker:
+        build:
+            context: ./alpine-jenkins-base
+            args:
+                - BASE=eclipse-temurin:11-jdk-alpine
+        image: 'inetsoftware/alpine-jenkins-base:ssh-docker'
 
     docker:
         build: ./alpine-docker-compose
