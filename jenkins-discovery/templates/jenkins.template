@@ -16,13 +16,14 @@ server {
     }
 
     # Nginx configuration specific to Jenkins
+    # http://gliderlabs.github.io/registrator/latest/user/services/
     # Note that regex takes precedence, so use of "^~" ensures earlier evaluation
     {{ range services }}{{ if .Tags | contains "jenkins" }}
     location ^~ /{{ .Name }} {
-        
+
         # Convert inbound WAN requests for https://domain.tld/jenkins/ to 
         # local network requests for http://10.0.0.100:8080/jenkins/
-        proxy_pass http://{{ .Name }}/{{ .Name }};
+        proxy_pass http://{{ .Name | regexReplaceAll "[^a-zA-Z0-9_-]" "-" }}/{{ .Name }};
         
         {{ file "/etc/consul-template/templates/jenkins/proxy-settings.txt" }}
     }
@@ -59,7 +60,7 @@ server {
         
         # Convert inbound WAN requests for https://domain.tld/jenkins/ to 
         # local network requests for http://10.0.0.100:8080/jenkins/
-        proxy_pass http://{{ .Name }}/{{ .Name }};
+        proxy_pass http://{{ .Name | regexReplaceAll "[^a-zA-Z0-9_-]" "-" }}/{{ .Name }};
         
         {{ file "/etc/consul-template/templates/jenkins/proxy-settings.txt" }}
     }
