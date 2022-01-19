@@ -1,5 +1,5 @@
 {{ range services }}{{ if .Tags | contains "jenkins" }}
-upstream {{ .Name }} {
+upstream {{ .Name | regexReplaceAll "[^a-zA-Z0-9_-]" "-" }} {
     {{ range service .Name }}server {{ .NodeAddress }}:{{ .Port }};{{ end }}
     keepalive 32;
 }
