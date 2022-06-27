@@ -24,7 +24,7 @@ function installPlugins {
                 if ${UPDATE_JENKINS:-false}; then
                     actualVersion=latest
                 else
-                    actualVersion=$(curl -fsSL "$JENKINS_PLUGINS_URL/${pluginName}" | grep "\"${pluginVersion}" | awk -F\" '{print $2}' | head -n 1 | cut -d/ -f1)
+                    actualVersion=$(curl -fsSL "$JENKINS_PLUGINS_URL/${pluginName}/" | grep "\"${pluginVersion}" | awk -F\" '{print $2}' | head -n 1 | cut -d/ -f1)
                 fi
                 # list https://get.jenkins.io/plugins/$pluginName for version
                 echo "Installing plugin $pluginName version $actualVersion"
