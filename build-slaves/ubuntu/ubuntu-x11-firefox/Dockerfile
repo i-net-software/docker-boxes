@@ -27,10 +27,10 @@ COPY install-phantomjs.sh /tmp/
 RUN bash /tmp/install-phantomjs.sh && rm /tmp/install-phantomjs.sh
 
 # ENV FIREFOX_VERSION=46.0.1
-ENV FIREFOX_VERSION=94.0
+ENV FIREFOX_VERSION=99.0.1
 RUN curl -Lso firefox.tar.bz2 https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 ; \
     tar -xf firefox.tar.bz2 && mv firefox/ /opt/firefox && mv /usr/bin/firefox /usr/bin/firefox-latest && ln -s /opt/firefox/firefox /usr/bin/firefox && rm firefox.tar.bz2
 
-ENV GECKO_DRIVER=v0.30.0
+ENV GECKO_DRIVER=v0.31.0
 RUN curl -Lso geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/${GECKO_DRIVER}/geckodriver-${GECKO_DRIVER}-linux64.tar.gz ; \
     tar -xzf geckodriver.tar.gz && chmod +x geckodriver && mv geckodriver /usr/local/bin/ && rm geckodriver.tar.gz
