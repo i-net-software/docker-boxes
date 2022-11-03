@@ -11,7 +11,12 @@
 # This can cause the Kernel to kill the container if the JVM memory grows over the cgroups limit
 # because the JVM is not aware of that limit and doesn't invoke the GC
 # Setting it by default to 0.5 times the memory limited by cgroups, customizable with JVM_HEAP_RATIO
-CGROUPS_MEM=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
+CGROUPS_MEMORY_FILE=/sys/fs/cgroup/memory/memory.limit_in_bytes
+if [ ! -f "${CGROUPS_MEMORY_FILE}" ]; then
+    exit 0
+fi
+
+CGROUPS_MEM=$(cat "${CGROUPS_MEMORY_FILE}")
 MEMINFO_MEM=$(($(awk '/MemTotal/ {print $2}' /proc/meminfo)*1024))
 MEM=$(($MEMINFO_MEM>$CGROUPS_MEM?$CGROUPS_MEM:$MEMINFO_MEM))
 JVM_HEAP_RATIO=${JVM_HEAP_RATIO:-0.5}
