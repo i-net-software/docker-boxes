@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /root
+cd /home/${PRODUCT}
 
 # find the most recent version
 GRADLE_VERSION_DESIRED="6.7.1"
