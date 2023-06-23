@@ -1,4 +1,4 @@
-FROM alpine:3.12 as builder
+FROM alpine:3.18 as builder
 
 RUN set -x \
     # Add testing repository
@@ -12,6 +12,7 @@ RUN set -x \
     && echo dev:dev | chpasswd \
     && echo "dev ALL=(ALL) ALL" >> /etc/sudoers \
     && echo "dev ALL=NOPASSWD: ALL" >> /etc/sudoers \
+    && echo "permit nopass :dev" >> /etc/doas.conf \
     && addgroup dev abuild \
     && mkdir -p /var/cache/distfiles \
     && chmod a+w /var/cache/distfiles
@@ -21,7 +22,7 @@ RUN set -x \
     && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     # Install SDK
     && apk update \
-    && apk add --no-cache autoconf-archive
+    && apk add --no-cache autoconf-archive doas sudo
 
 # Add the APKBUILD File from
 # https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD

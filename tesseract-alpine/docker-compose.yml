@@ -8,6 +8,15 @@ services:
                 SHA: master
                 PKGVER: 4.1.1
                 PKGREL: 2
+    tesseract513:
+        image: 'inetsoftware/alpine-tesseract'
+        tty: true
+        build:
+            context: '.'
+            args:
+                SHA: 71af4542990adae6d9f31d6657068bc0139c6ec4
+                PKGVER: 5.3.1
+                PKGREL: 1
     tesseract412:
         image: 'inetsoftware/alpine-tesseract:4.1.2'
         build:
