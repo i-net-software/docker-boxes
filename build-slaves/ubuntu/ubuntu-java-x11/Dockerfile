@@ -13,7 +13,7 @@ RUN apt-get update \
             x11-utils \
             x11-xserver-utils \
             gtk2-engines-murrine \
-            ttf-ubuntu-font-family \
+            fonts-ubuntu \
             imagemagick \
             ghostscript \
     && apt-get autoclean \

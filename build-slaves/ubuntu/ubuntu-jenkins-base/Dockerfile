@@ -1,10 +1,10 @@
-FROM ubuntu:bionic
+FROM eclipse-temurin:17-jdk-jammy
 LABEL maintainer contact@inetsoftware.de
 
 # Install basic components: open ssh, git, svn and PPA abilities.
 RUN apt-get update \
     && apt-get install -y software-properties-common apt-transport-https apt-utils \
-    && apt-get install -y openssh-server git subversion fakeroot rpmbuild language-pack-en-base netcat net-tools sudo rsync sshpass jq \
+    && apt-get install -y openssh-server git subversion fakeroot language-pack-en-base netcat net-tools sudo rsync sshpass jq \
     && dpkg-reconfigure locales \
     && apt-get autoclean \
     && apt-get autoremove \

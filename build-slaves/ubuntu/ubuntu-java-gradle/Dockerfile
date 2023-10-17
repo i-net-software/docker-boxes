@@ -1,17 +1,8 @@
-FROM adoptopenjdk:11-jdk-hotspot as JAVA
-
-# Register Image as copy source for Java 8
-
 FROM inetsoftware/ubuntu-jenkins-base
 LABEL maintainer contact@inetsoftware.de
 
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
-
-# Java 11
-COPY --from=JAVA /opt/java/openjdk /opt/java/openjdk
-ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH"
 
 # The link is required for jenkins to start the VM
 RUN mkdir -p /usr/java \
@@ -22,7 +13,7 @@ RUN mkdir -p /usr/java \
 # Gradle 6.7.1(Default)
 RUN add-apt-repository ppa:cwchien/gradle \
     && apt-get update \
-    && apt-get install -y gradle-6.8.3 \
+    && apt-get install -y gradle-8.3 \
     ; apt-get autoclean \
     ; apt-get autoremove \
     ; rm -rf /var/lib/apt/lists/*

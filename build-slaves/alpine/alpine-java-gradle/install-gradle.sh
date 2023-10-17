@@ -2,7 +2,7 @@
 cd /home/${PRODUCT}
 
 # find the most recent version
-GRADLE_VERSION_DESIRED="6.8.3"
+GRADLE_VERSION_DESIRED="8.4"
 GRADLE_PACKAGE=`curl -fsSL https://services.gradle.org/distributions --list-only | sed -n 's/.*\(gradle-.*.all.zip\).*/\1/p' | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1`
 GRADLE_VERSION=`echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2`
 

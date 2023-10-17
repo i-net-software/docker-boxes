@@ -3,26 +3,43 @@ services:
     base:
         build: ./alpine-java-base
         image: 'inetsoftware/alpine-java-base'
+        networks:
+            - default
 
     ssh:
         build: ./alpine-jenkins-base
         image: 'inetsoftware/alpine-jenkins-base'
+        networks:
+            - default
 
     ssh-docker:
         build:
             context: ./alpine-jenkins-base
             args:
-                - BASE=eclipse-temurin:11-jdk-alpine
+                - BASE=eclipse-temurin:17-jdk-alpine
         image: 'inetsoftware/alpine-jenkins-base:ssh-docker'
+        networks:
+            - default
 
     docker:
         build: ./alpine-docker-compose
         image: 'inetsoftware/alpine-docker-compose'
+        networks:
+            - default
 
     gradle:
         build: ./alpine-java-gradle
         image: 'inetsoftware/alpine-java-gradle'
+        networks:
+            - default
 
     tesseract:
         build: ./alpine-gradle-tesseract
         image: 'inetsoftware/alpine-gradle-tesseract'
+        networks:
+            - default
+
+networks:
+    default:
+        driver:  bridge
+        enable_ipv6: false

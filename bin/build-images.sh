@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="v5"
+TAG="v6"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 # greadlink: brew install coreutils
 ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))

@@ -2,8 +2,8 @@ ARG BASE=inetsoftware/alpine-java-base
 
 FROM ${BASE}
 
-ENV JAVA_HOME=/opt/java/openjdk
-ENV PATH="/opt/java/openjdk/bin:$PATH"
+# ENV JAVA_HOME=/opt/java/openjdk
+# ENV PATH="/opt/java/openjdk/bin:$PATH"
 
 # jenkins has specific paths to check for java
 RUN ln -s $(which java) /usr/bin/java
