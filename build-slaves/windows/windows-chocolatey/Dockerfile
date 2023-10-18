@@ -18,8 +18,8 @@ LABEL maintainer contact@inetsoftware.de
 
 SHELL ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
 
-# install chocolaty
-RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+# install chocolaty. We're using a very old version due to the requirement of .NET 3.5 in our build system
+RUN $env:chocolateyVersion = '0.10.15' ; Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
 # allow global confirmation for choco
 RUN choco feature enable -n allowGlobalConfirmation
