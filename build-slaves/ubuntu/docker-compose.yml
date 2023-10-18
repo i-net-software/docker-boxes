@@ -24,11 +24,11 @@ services:
         build: ./ubuntu-x11-firefox
         image: 'inetsoftware/ubuntu-x11-firefox'
 
-    eclipse:
-        build: ./ubuntu-x11-eclipse
-        image: 'inetsoftware/ubuntu-x11-eclipse'
+#    eclipse:
+#        build: ./ubuntu-x11-eclipse
+#        image: 'inetsoftware/ubuntu-x11-eclipse'
 
-    virtualbox:
-        build: ./ubuntu-x11-virtualbox
-        image: 'inetsoftware/ubuntu-x11-virtualbox'
-        privileged: true
+#    virtualbox:
+#        build: ./ubuntu-x11-virtualbox
+#        image: 'inetsoftware/ubuntu-x11-virtualbox'
+#        privileged: true
