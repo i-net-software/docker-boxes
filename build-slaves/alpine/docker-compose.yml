@@ -28,7 +28,11 @@ services:
             - default
 
     gradle:
-        build: ./alpine-java-gradle
+        build:
+            context: ./alpine-java-gradle
+            extra_hosts:
+                - "downloads.sourceforge.net:204.68.111.105"
+
         image: 'inetsoftware/alpine-java-gradle'
         networks:
             - default
