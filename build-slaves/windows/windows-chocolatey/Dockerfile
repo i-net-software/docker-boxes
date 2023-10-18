@@ -30,6 +30,12 @@ RUN choco feature disable -n=showDownloadProgress
 # add the nuget command line
 RUN choco install nuget.commandline
 
+# Install .Net 4.6 for later use
+RUN  choco install netfx-4.6-devpack
+
+# Install newer version. We have to stay on 1.4 due to .NET 4.8 not being available for our windowsservercore image
+RUN choco upgrade chocolatey --version 1.4.0
+
 # Reset the shell.
 SHELL ["cmd", "/S", "/C"]
 
