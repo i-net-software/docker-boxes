@@ -5,7 +5,7 @@ FROM ${REGISTRY}inetsoftware/windows-sdk
 LABEL maintainer contact@inetsoftware.de
 
 # install wixtoolset
-RUN choco install -y wixtoolset --version 3.11.1
+RUN choco install -y wixtoolset --version 3.11.2
 
 # install msbuild - already done in dotnet layer
 # RUN choco install -y microsoft-build-tools --version 14.0.25420.1
