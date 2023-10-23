@@ -22,7 +22,10 @@ services:
             - default
 
     docker:
-        build: ./alpine-docker-compose
+        build:
+            context: ./alpine-docker-compose
+            extra_hosts:
+                - "registry.npmjs.org:104.16.26.34"
         image: 'inetsoftware/alpine-docker-compose'
         networks:
             - default
