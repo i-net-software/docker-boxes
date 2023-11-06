@@ -1,6 +1,7 @@
-FROM mcr.microsoft.com/cosmosdb/winsrv2019/azure-cosmos-emulator:latest
-
-ENTRYPOINT [ "powershell", "-NoExit", "-NoLogo" ]
+ARG REGISTRY
+ARG SDK_TAG=latest
+FROM ${REGISTRY}inetsoftware/windows-chocolatey:${SDK_TAG}
+LABEL maintainer contact@inetsoftware.de
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -18,5 +19,15 @@ RUN Invoke-WebRequest -UseBasicParsing $env:NSSM -OutFile nssm.zip; \
     Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\' -Name Path -Value $env:PATH; \
     nssm.exe install pause C:\\pause.bat
 
+EXPOSE 10250-10255 10350 8081 8900-8903     
+
+# RUN choco install -y azure-cosmosdb-emulator --version=2.14.12
+RUN choco install -y azure-cosmosdb-emulator
+
+ADD profile.ps1 C:/Windows/System32/WindowsPowerShell/v1.0/
+ADD Start.ps1 C:/CosmosDB.Emulator/
+
 # run endlessly
-CMD ["powershell", "-Command", "C:\\CosmosDB.Emulator\\Start.ps1; C:\\ServiceMonitor.exe pause"]
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
+CMD ["powershell.exe", "-NoExit", "-NoLogo", "-Command", "C:\\CosmosDB.Emulator\\Start.ps1; C:\\ServiceMonitor.exe pause"]
