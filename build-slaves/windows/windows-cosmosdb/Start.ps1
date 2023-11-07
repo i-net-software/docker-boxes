@@ -1,190 +1,189 @@
-#----------------------------------------------------------                                                                                                                                                         
-# Copyright (C) Microsoft Corporation. All rights reserved.                                                                                                                                                         
-#----------------------------------------------------------                                                                                                                                                         
-                                                                                                                                                                                                                    
-using namespace System.IO                                                                                                                                                                                           
-                                                                                                                                                                                                                    
-[CmdletBinding(PositionalBinding = $false)]                                                                                                                                                                         
-param(                                                                                                                                                                                                              
-    [ValidateSet('BoundedStaleness', 'Eventual', 'Session', 'Strong')]                                                                                                                                              
-    [Parameter()]                                                                                                                                                                                                   
-    [string]                                                                                                                                                                                                        
-    $Consistency = 'Session',                                                                                                                                                                                       
-                                                                                                                                                                                                                    
-    [ValidateRange(1, 200)]                                                                                                                                                                                         
-    [Parameter()]                                                                                                                                                                                                   
-    [UInt32]                                                                                                                                                                                                        
-    $DefaultPartitionCount = 0,                                                                                                                                                                                     
-                                                                                                                                                                                                                    
-    [ValidateRange(0, 200)]                                                                                                                                                                                         
-    [Parameter()]                                                                                                                                                                                                   
-    [UInt32]                                                                                                                                                                                                        
-    $PartitionCount = 0,                                                                                                                                                                                            
-                                                                                                                                                                                                                    
-    [Parameter()]                                                                                                                                                                                                   
-    [switch]                                                                                                                                                                                                        
-    $SimulateRateLimiting,                                                                                                                                                                                          
-                                                                                                                                                                                                                    
-    [Parameter()]                                                                                                                                                                                                   
-    [UInt32]                                                                                                                                                                                                        
-    $Timeout = 300,                                                                                                                                                                                                 
-                                                                                                                                                                                                                    
-    [Parameter()]                                                                                                                                                                                                   
-    [switch]                                                                                                                                                                                                        
-    $Trace                                                                                                                                                                                                          
-)                                                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-[Console]::BufferWidth = 32766                                                                                                                                                                                      
-                                                                                                                                                                                                                    
-New-Variable Key -Scope Global -Value 'C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=='                                                                                    
-New-Variable HostDirectory -Scope Global -Option Constant -Value ((Get-Item $PSScriptRoot).CreateSubdirectory('bind-mount'))                                                                                        
-New-Variable DiagnosticsDirectory -Scope Global -Option Constant -Value ($HostDirectory.CreateSubdirectory('Diagnostics'))                                                                                          
-                                                                                                                                                                                                                    
-Start-Transcript -IncludeInvocationHeader "$DiagnosticsDirectory\Transcript.log"                                                                                                                                    
-$ErrorActionPreference = "Stop"; $DebugPreference = "Continue"                                                                                                                                                      
-                                                                                                                                                                                                                    
-function Copy-Diagnostics {                                                                                                                                                                                         
-    [CmdletBinding()]                                                                                                                                                                                               
-    param(                                                                                                                                                                                                          
-        [Parameter()]                                                                                                                                                                                               
-        [DirectoryInfo]                                                                                                                                                                                             
-        $DiagnosticsDirectory = $DiagnosticsDirectory                                                                                                                                                               
-    )                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    Stop-CosmosDbEmulator; Get-Process CosmosDB.Emulator, DocumentDB.* | Stop-Process                                                                                                                               
-                                                                                                                                                                                                                    
-    Get-Item -ErrorAction SilentlyContinue "$env:ProgramFiles\Azure Cosmos DB Emulator\*.etl" | ForEach-Object {                                                                                                    
-        Copy-File $_ $DiagnosticsDirectory                                                                                                                                                                          
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    Get-Item -ErrorAction SilentlyContinue "$env:LOCALAPPDATA\CrashDumps\CosmosDB.*.dmp", "$env:LOCALAPPDATA\CrashDumps\DocumentDB.*.dmp" | ForEach-Object {                                                        
-        Copy-File $_ $DiagnosticsDirectory                                                                                                                                                                          
-    }                                                                                                                                                                                                               
-}                                                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-function DoStart {                                                                                                                                                                                                  
-    [CmdletBinding()]                                                                                                                                                                                               
-    param()                                                                                                                                                                                                         
-                                                                                                                                                                                                                    
-    $stopEmulatorCmd = "Stop-CosmosDbEmulator"                                                                                                                                                                      
-                                                                                                                                                                                                                    
-    Write-Information $stopEmulatorCmd                                                                                                                                                                              
-    Invoke-Expression -Command $stopEmulatorCmd                                                                                                                                                                     
-                                                                                                                                                                                                                    
-    $startEmulatorOptions = " -Consistency $Consistency -Timeout $Timeout"                                                                                                                                          
-                                                                                                                                                                                                                    
-    if ($DefaultPartitionCount) {                                                                                                                                                                                   
-        $startEmulatorOptions += " -DefaultPartitionCount $DefaultPartitionCount"                                                                                                                                   
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($PartitionCount) {                                                                                                                                                                                          
-        $startEmulatorOptions += " -PartitionCount $PartitionCount"                                                                                                                                                 
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($SimulateRateLimiting) {                                                                                                                                                                                    
-        $startEmulatorOptions += " -SimulateRateLimiting"                                                                                                                                                           
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($Trace) {                                                                                                                                                                                                   
-        $startEmulatorOptions += " -Trace"                                                                                                                                                                          
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    $startEmulatorCmd = "Start-CosmosDbEmulator -AllowNetworkAccess -NoFirewall -NoUI -Key $Key $startEmulatorOptions"                                                                                              
-    Write-Information $startEmulatorCmd                                                                                                                                                                             
-    Invoke-Expression -Command $startEmulatorCmd                                                                                                                                                                    
-                                                                                                                                                                                                                    
-    # Export two forms of the Emulator's certificate (CERT and PFX) and provide a script for importing the PFX form to the                                                                                          
-    # user's trusted certificate store                                                                                                                                                                              
-                                                                                                                                                                                                                    
-    $password = ConvertTo-SecureString -String $Key -Force -AsPlainText                                                                                                                                             
-    $cert = Get-ChildItem cert:\LocalMachine\My | Where-Object { $_.FriendlyName -eq "DocumentDbEmulatorCertificate" }                                                                                              
-    Export-PfxCertificate -Cert $cert -FilePath "$HostDirectory\CosmosDbEmulatorCert.pfx" -Password $password | Out-Null                                                                                            
-                                                                                                                                                                                                                    
-    $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2                                                                                                                               
-    $cert.Import("$HostDirectory\CosmosDbEmulatorCert.pfx", $Key, "DefaultKeySet")                                                                                                                                  
-    $cert | Export-Certificate -FilePath "$HostDirectory\CosmosDbEmulatorCert.cer" -Type CERT                                                                                                                       
-                                                                                                                                                                                                                    
-    if (-not (Test-Path "$HostDirectory\importcert.ps1")) {                                                                                                                                                         
-        [void](New-Item -ItemType File "$HostDirectory\importcert.ps1")                                                                                                                                             
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    Set-Content "$HostDirectory\importcert.ps1" -Value @"                                                                                                                                                           
-# Generated by: $($MyInvocation.PSCommandPath)                                                                                                                                                                      
-# Date: $([DateTimeOffset]::Now.ToString('s'))                                                                                                                                                                      
-[CmdletBinding()]                                                                                                                                                                                                   
-param()                                                                                                                                                                                                             
-Write-Information -InformationAction Continue ""                                                                                                                                                                    
-Write-Information -InformationAction Continue "Importing self-signed certificate generated by the Azure Cosmos DB Emulator runnning in container $(hostname) to the certificate store on `$(hostname)"              
-`$certMy = Import-Certificate -FilePath "`$PSScriptRoot\CosmosDBEmulatorCert.cer" -CertStoreLocation Cert:\LocalMachine\My                                                                                          
-`$certMy.FriendlyName = "CosmosEmulatorContainerCertificate"                                                                                                                                                        
-`$certRoot = Import-Certificate -FilePath "`$PSScriptRoot\CosmosDBEmulatorCert.cer" -CertStoreLocation Cert:\LocalMachine\Root                                                                                      
-`$certRoot.FriendlyName = "CosmosEmulatorContainerCertificate"                                                                                                                                                      
-"@                                                                                                                                                                                                                  
-                                                                                                                                                                                                                    
-    # Pipe an emulator info object to the output stream                                                                                                                                                             
-                                                                                                                                                                                                                    
-    $Emulator = Get-Item "$env:ProgramFiles\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe"                                                                                                                         
-    $IPAddress = Get-NetIPAddress -AddressFamily IPV4 -AddressState Preferred -PrefixOrigin Manual | Select-Object IPAddress                                                                                        
-                                                                                                                                                                                                                    
-    New-Object PSObject @{                                                                                                                                                                                          
-        Emulator           = $Emulator.BaseName                                                                                                                                                                     
-        Version            = $Emulator.VersionInfo.ProductVersion                                                                                                                                                   
-        Endpoint           = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "https://${_}:8081/" }                                                                                                         
-        MongoDBEndpoint    = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "mongodb://${_}:10255/" }                                                                                                      
-        CassandraEndpoint  = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "tcp://${_}:10350/" }                                                                                                          
-        GremlinEndpoint    = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "http://${_}:8901/" }                                                                                                          
-        TableEndpoint      = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "https://${_}:8902/" }                                                                                                         
-        IPAddress          = $IPAddress.IPAddress                                                                                                                                                                   
-        Key                = $Key                                                                                                                                                                                   
-    }                                                                                                                                                                                                               
-}                                                                                                                                                                                                                   
-                                                                                                                                                                                                                    
-try {                                                                                                                                                                                                               
-    if ($env:AZURE_COSMOS_EMULATOR_START_TIMEOUT) {                                                                                                                                                                 
-        Write-Information "Using timeout $env:AZURE_COSMOS_EMULATOR_START_TIMEOUT"                                                                                                                                  
-        $Timeout = $env:AZURE_COSMOS_EMULATOR_START_TIMEOUT                                                                                                                                                         
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_TRACE) {                                                                                                                                                                   
-        Write-Information "Enable traces is true."                                                                                                                                                                  
-        $Trace = $true                                                                                                                                                                                              
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_SIMULATERATELIMITING) {                                                                                                                                                    
-        Write-Information "Simulate rate limiting is true."                                                                                                                                                         
-        $SimulateRateLimiting = $true                                                                                                                                                                               
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT) {                                                                                                                                                   
-        Write-Information "Set default partition count to $env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT"                                                                                                   
-        $DefaultPartitionCount = $env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT                                                                                                                             
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT) {                                                                                                                                                          
-        Write-Information "Set partition count to $env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT"                                                                                                                  
-        $PartitionCount = $env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT                                                                                                                                           
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY) {                                                                                                                                                             
-        Write-Information "Set consistency to $env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY"                                                                                                                         
-        $Consistency = $env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY                                                                                                                                                 
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($env:AZURE_COSMOS_EMULATOR_START_KEY) {                                                                                                                                                                     
-        Write-Information "Set key to $env:AZURE_COSMOS_EMULATOR_START_KEY"                                                                                                                                         
-        $Key = $env:AZURE_COSMOS_EMULATOR_START_KEY                                                                                                                                                                 
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    if ($Trace) {                                                                                                                                                                                                   
-        Register-EngineEvent PowerShell.Exiting -SupportEvent -Action (Get-Item function:\Copy-Diagnostics).ScriptBlock                                                                                             
-        Set-PSDebug -Strict -Trace 1                                                                                                                                                                                
-    }                                                                                                                                                                                                               
-                                                                                                                                                                                                                    
-    $result = DoStart                                                                                                                                                                                               
-}                                                                                                                                                                                                                   
+#----------------------------------------------------------
+# Copyright (C) Microsoft Corporation. All rights reserved.
+#----------------------------------------------------------
+
+using namespace System.IO
+
+[CmdletBinding(PositionalBinding = $false)]
+param(
+    [ValidateSet('BoundedStaleness', 'Eventual', 'Session', 'Strong')]
+    [Parameter()]
+    [string]
+    $Consistency = 'Session',
+
+    [ValidateRange(1, 200)]
+    [Parameter()]
+    [UInt32]
+    $DefaultPartitionCount = 0,
+
+    [ValidateRange(0, 200)]
+    [Parameter()]
+    [UInt32]
+    $PartitionCount = 0,
+
+    [Parameter()]
+    [switch]
+    $SimulateRateLimiting,
+
+    [Parameter()]
+    [UInt32]
+    $Timeout = 300,
+
+    [Parameter()]
+    [switch]
+    $Trace
+)
+
+[Console]::BufferWidth = 32766
+
+New-Variable Key -Scope Global -Value 'C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=='
+New-Variable HostDirectory -Scope Global -Option Constant -Value ((Get-Item $PSScriptRoot).CreateSubdirectory('bind-mount'))
+New-Variable DiagnosticsDirectory -Scope Global -Option Constant -Value ($HostDirectory.CreateSubdirectory('Diagnostics'))
+
+Start-Transcript -IncludeInvocationHeader "$DiagnosticsDirectory\Transcript.log"
+$ErrorActionPreference = "Stop"; $DebugPreference = "Continue"
+
+function Copy-Diagnostics {
+    [CmdletBinding()]
+    param(
+        [Parameter()]
+        [DirectoryInfo]
+        $DiagnosticsDirectory = $DiagnosticsDirectory
+    )
+
+    Stop-CosmosDbEmulator; Get-Process CosmosDB.Emulator, DocumentDB.* | Stop-Process
+
+    Get-Item -ErrorAction SilentlyContinue "$env:ProgramFiles\Azure Cosmos DB Emulator\*.etl" | ForEach-Object {
+        Copy-File $_ $DiagnosticsDirectory
+    }
+
+    Get-Item -ErrorAction SilentlyContinue "$env:LOCALAPPDATA\CrashDumps\CosmosDB.*.dmp", "$env:LOCALAPPDATA\CrashDumps\DocumentDB.*.dmp" | ForEach-Object {
+        Copy-File $_ $DiagnosticsDirectory
+    }
+}
+
+function DoStart {
+    [CmdletBinding()]
+    param()
+
+    $stopEmulatorCmd = "Stop-CosmosDbEmulator"
+
+    Write-Information $stopEmulatorCmd
+    Invoke-Expression -Command $stopEmulatorCmd
+
+    $startEmulatorOptions = " -Consistency $Consistency -Timeout $Timeout"
+
+    if ($DefaultPartitionCount) {
+        $startEmulatorOptions += " -DefaultPartitionCount $DefaultPartitionCount"
+    }
+
+    if ($PartitionCount) {
+        $startEmulatorOptions += " -PartitionCount $PartitionCount"
+    }
+
+    if ($SimulateRateLimiting) {
+        $startEmulatorOptions += " -SimulateRateLimiting"
+    }
+
+    if ($Trace) {
+        $startEmulatorOptions += " -Trace"
+    }
+
+    $startEmulatorCmd = "Start-CosmosDbEmulator -AllowNetworkAccess -NoFirewall -NoUI -Key $Key $startEmulatorOptions"
+    Write-Information $startEmulatorCmd
+    Invoke-Expression -Command $startEmulatorCmd
+
+    # Export two forms of the Emulator's certificate (CERT and PFX) and provide a script for importing the PFX form to the
+    # user's trusted certificate store
+
+    $password = ConvertTo-SecureString -String $Key -Force -AsPlainText
+    $cert = Get-ChildItem cert:\LocalMachine\My | Where-Object { $_.FriendlyName -eq "DocumentDbEmulatorCertificate" }
+    Export-PfxCertificate -Cert $cert -FilePath "$HostDirectory\CosmosDbEmulatorCert.pfx" -Password $password | Out-Null
+
+    $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+    $cert.Import("$HostDirectory\CosmosDbEmulatorCert.pfx", $Key, "DefaultKeySet")
+    $cert | Export-Certificate -FilePath "$HostDirectory\CosmosDbEmulatorCert.cer" -Type CERT
+
+    if (-not (Test-Path "$HostDirectory\importcert.ps1")) {
+        [void](New-Item -ItemType File "$HostDirectory\importcert.ps1")
+    }
+
+    Set-Content "$HostDirectory\importcert.ps1" -Value @"
+# Generated by: $($MyInvocation.PSCommandPath)
+# Date: $([DateTimeOffset]::Now.ToString('s'))
+[CmdletBinding()]
+param()
+Write-Information -InformationAction Continue ""
+Write-Information -InformationAction Continue "Importing self-signed certificate generated by the Azure Cosmos DB Emulator runnning in container $(hostname) to the certificate store on `$(hostname)"
+`$certMy = Import-Certificate -FilePath "`$PSScriptRoot\CosmosDBEmulatorCert.cer" -CertStoreLocation Cert:\LocalMachine\My
+`$certMy.FriendlyName = "CosmosEmulatorContainerCertificate"
+`$certRoot = Import-Certificate -FilePath "`$PSScriptRoot\CosmosDBEmulatorCert.cer" -CertStoreLocation Cert:\LocalMachine\Root
+`$certRoot.FriendlyName = "CosmosEmulatorContainerCertificate"
+"@
+
+    # Pipe an emulator info object to the output stream
+
+    $Emulator = Get-Item "$env:ProgramFiles\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe"
+    $IPAddress = Get-NetIPAddress -AddressFamily IPV4 -AddressState Preferred -PrefixOrigin Manual | Select-Object IPAddress
+
+    New-Object PSObject @{
+        Emulator           = $Emulator.BaseName
+        Version            = $Emulator.VersionInfo.ProductVersion
+        Endpoint           = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "https://${_}:8081/" }
+        MongoDBEndpoint    = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "mongodb://${_}:10255/" }
+        CassandraEndpoint  = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "tcp://${_}:10350/" }
+        GremlinEndpoint    = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "http://${_}:8901/" }
+        TableEndpoint      = @($(hostname), $IPAddress.IPAddress) | ForEach-Object { "https://${_}:8902/" }
+        IPAddress          = $IPAddress.IPAddress
+        Key                = $Key
+    }
+}
+
+try {
+    if ($env:AZURE_COSMOS_EMULATOR_START_TIMEOUT) {
+        Write-Information "Using timeout $env:AZURE_COSMOS_EMULATOR_START_TIMEOUT"
+        $Timeout = $env:AZURE_COSMOS_EMULATOR_START_TIMEOUT
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_TRACE) {
+        Write-Information "Enable traces is true."
+        $Trace = $true
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_SIMULATERATELIMITING) {
+        Write-Information "Simulate rate limiting is true."
+        $SimulateRateLimiting = $true
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT) {
+        Write-Information "Set default partition count to $env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT"
+        $DefaultPartitionCount = $env:AZURE_COSMOS_EMULATOR_START_DEFAULTPARTITIONCOUNT
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT) {
+        Write-Information "Set partition count to $env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT"
+        $PartitionCount = $env:AZURE_COSMOS_EMULATOR_START_PARTITIONCOUNT
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY) {
+        Write-Information "Set consistency to $env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY"
+        $Consistency = $env:AZURE_COSMOS_EMULATOR_START_CONSISTENCY
+    }
+
+    if ($env:AZURE_COSMOS_EMULATOR_START_KEY) {
+        Write-Information "Set key to $env:AZURE_COSMOS_EMULATOR_START_KEY"
+        $Key = $env:AZURE_COSMOS_EMULATOR_START_KEY
+    }
+
+    if ($Trace) {
+        Register-EngineEvent PowerShell.Exiting -SupportEvent -Action (Get-Item function:\Copy-Diagnostics).ScriptBlock
+        Set-PSDebug -Strict -Trace 1
+    }
+
+    $result = DoStart
+}
 catch {
-    type "$DiagnosticsDirectory\Transcript.log"                                                                                                                                                                                                             
-    [Environment]::Exit(1)                                                                                                                                                                                          
-}                                                                                                                                                                                                                   
-                                                                                                                                                                                                                    
+    [Environment]::Exit(1)
+}
+
 $result
