@@ -15,7 +15,7 @@ ln -sfnv ${GRADLE_VERSION} /opt/gradle/latest
 
 # Java Home and export for gradle home
 JAVA_HOME=$(dirname $(dirname $(readlink -e $(which java))))
-printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin\nexport JAVA_HOME=${JAVA_HOME}" > /etc/profile.d/gradle.sh
+printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=${PATH}:\$GRADLE_HOME/bin\nexport JAVA_HOME=${JAVA_HOME}" > /etc/profile.d/gradle.sh
 . /etc/profile.d/gradle.sh
 hash -r ; sync
 # check installation
