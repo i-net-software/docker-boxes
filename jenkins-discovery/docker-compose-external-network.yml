@@ -1,5 +1,6 @@
-version: '2.1'
+# version: '2.1'
 
 networks:
     external-network:
         name: $EXTERNAL_NETWORK
+        external: true
