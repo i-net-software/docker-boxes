@@ -3,8 +3,13 @@ FROM adoptopenjdk/openjdk8:alpine
 
 LABEL maintainer contact@inetsoftware.de
 
+ARG YQ_VERSION=4.44.3
+
 # Tools
-RUN apk add --update --no-cache linux-pam openssh openssl sshpass rsync git subversion bash curl jq yq sudo
+RUN apk add --update --no-cache linux-pam openssh openssl sshpass rsync git subversion bash curl jq sudo
+RUN wget https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64 -O /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
+
 # RUN apk add --update --no-cache cyrus-sasl cyrus-sasl-plain cyrus-sasl-digestmd5
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
