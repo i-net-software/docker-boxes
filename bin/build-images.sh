@@ -57,7 +57,7 @@ if [ -z "$COMMAND" ] || [ "build" == "$COMMAND" ] || [ "push" == "$COMMAND" ]; t
     # build the images if nothing else is set
     for IMG in $IMAGES; do
         echo "Building Image for: $IMG"
-        docker-compose -f "$DOCKERCOMPOSEFILE" build --no-cache $REGISTRY_ARG "$@" "$IMG"
+        docker compose -f "$DOCKERCOMPOSEFILE" build --no-cache $REGISTRY_ARG "$@" "$IMG"
         if [ $? -ne 0 ]; then
             echo "ERROR - could not build image"
             break;
