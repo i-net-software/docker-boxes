@@ -27,7 +27,9 @@ RUN set -x ; \
 ENV DISPLAY_RESOLUTION="1920x1080"
 
 ADD run.sh /usr/local/bin/eclipse
+RUN true
 ADD eclipse.conf /etc/supervisor/conf.d/
+RUN true
 
 RUN chmod +x /usr/local/bin/eclipse && \
     echo "jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins && \

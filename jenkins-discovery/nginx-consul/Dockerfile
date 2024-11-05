@@ -13,6 +13,7 @@ RUN wget "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSI
     && unzip -d /usr/local/bin "consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" && rm "consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip"
 
 ADD nginx.service /etc/service/nginx/run
+RUN true
 ADD consul-template.service /etc/service/consul-template/run
 
 RUN mkdir /etc/consul-template && chmod +x /etc/service/nginx/run && chmod +x /etc/service/consul-template/run

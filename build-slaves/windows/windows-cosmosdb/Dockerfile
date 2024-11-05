@@ -6,6 +6,7 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 
 #This monitor is from Microsoft 
 ADD ServiceMonitor.exe /ServiceMonitor.exe
+RUN true
 
 ADD pause.bat /pause.bat
 
