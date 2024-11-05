@@ -1,11 +1,16 @@
 # version: '2.1'
 services:
     base:
-        build: ./alpine-java-base
+        build:
+            context: ./alpine-java-base
         image: 'inetsoftware/alpine-java-base'
 
     ssh:
-        build: ./alpine-jenkins-base
+        build:
+            context: ./alpine-jenkins-base
+            extra_hosts:
+                - "github.com:140.82.121.3"
+                - "objects.githubusercontent.com:185.199.111.133"
         image: 'inetsoftware/alpine-jenkins-base'
 
     ssh-docker:
@@ -31,9 +36,9 @@ services:
             context: ./alpine-java-gradle
             extra_hosts:
                 - "downloads.sourceforge.net:204.68.111.105"
-
         image: 'inetsoftware/alpine-java-gradle'
 
     tesseract:
-        build: ./alpine-gradle-tesseract
+        build:
+            context: ./alpine-gradle-tesseract
         image: 'inetsoftware/alpine-gradle-tesseract'
