@@ -24,8 +24,10 @@ RUN mkdir -p "/root/.docker/cli-plugins" ; \
 
 # add cosing
 COPY --from=cosign-bin /ko-app/cosign /usr/local/bin/cosign
-
-ADD "start.sh" "start.sh"
-ADD "merge-sbom.sh" "/bin/merge-sbom"
+RUN true
+COPY ./start.sh "start.sh"
+RUN true
+COPY ./merge-sbom.sh "/bin/merge-sbom"
+RUN true
 
 ENTRYPOINT [ "/bin/bash", "./start.sh" ]
