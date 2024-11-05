@@ -11,15 +11,18 @@ services:
     ssh-docker:
         build:
             context: ./alpine-jenkins-base
+            extra_hosts:
+                - "github.com:140.82.121.3"
+                - "objects.githubusercontent.com:185.199.111.133"
             args:
                 - BASE=eclipse-temurin:11-jdk-alpine
-        image: 'inetsoftware/alpine-jenkins-base:ssh-docker'
+        image: 'inetsoftware/alpine-jenkins-ssh-docker'
 
     docker:
         build:
             context: ./alpine-docker-compose
             extra_hosts:
-                - "registry.npmjs.org:104.16.26.34"
+                - "github.com:140.82.121.3"
         image: 'inetsoftware/alpine-docker-compose'
 
     gradle:

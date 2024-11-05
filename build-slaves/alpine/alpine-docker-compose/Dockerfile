@@ -1,5 +1,5 @@
 FROM ghcr.io/sigstore/cosign/cosign:v2.4.1 as cosign-bin
-FROM inetsoftware/alpine-jenkins-base:ssh-docker
+FROM inetsoftware/alpine-jenkins-ssh-docker
 LABEL maintainer contact@inetsoftware.de
 
 # Docker and Compose scripts. This requires a newer version of alpine
