@@ -9,7 +9,7 @@ ENV PATH="/opt/java/openjdk/bin:$PATH"
 RUN ln -s $(which java) /usr/bin/java
 
 # Tools
-RUN apk add --update --no-cache linux-pam openssh openssl sshpass rsync git subversion bash curl jq sudo
+RUN apk add --update --no-cache linux-pam openssh openssl sshpass rsync git subversion bash curl jq yq sudo
 # RUN apk add --update --no-cache cyrus-sasl cyrus-sasl-plain cyrus-sasl-digestmd5
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N "" && \
