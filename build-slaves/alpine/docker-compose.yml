@@ -19,6 +19,7 @@ services:
             context: ./alpine-docker-compose
             extra_hosts:
                 - "github.com:140.82.121.3"
+                - "objects.githubusercontent.com:185.199.111.133"
         image: 'inetsoftware/alpine-docker-compose'
 
     gradle:
