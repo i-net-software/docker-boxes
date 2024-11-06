@@ -1,4 +1,4 @@
-FROM adoptopenjdk:8-jdk-hotspot-bionic as JAVA
+FROM adoptopenjdk:11-jdk-hotspot as JAVA
 
 # Register Image as copy source for Java 8
 
