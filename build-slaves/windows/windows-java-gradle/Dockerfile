@@ -10,7 +10,7 @@ RUN choco install -y git
 RUN choco install -y tortoisesvn
 
 # install java
-RUN choco install -y jdk8 -params "both=true"
+RUN choco install -y jdk11 -params "both=true"
 
 # install gradle
 RUN choco install gradle --version 4.10.3
