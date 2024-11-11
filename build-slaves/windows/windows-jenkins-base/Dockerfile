@@ -7,7 +7,7 @@ EXPOSE 22
 
 #This monitor is from Microsoft 
 ADD ServiceMonitor.exe /ServiceMonitor.exe
-RUN true
+RUN powershell -Command $true
 
 ADD true.bat /WINDOWS/system32/true.bat
 

@@ -7,10 +7,10 @@ LABEL maintainer contact@inetsoftware.de
 RUN choco install -y git
 
 #install svn - tortoisesvn because svn package is broken
-RUN choco install -y tortoisesvn
+RUN choco install -y tortoisesvn --version 1.14.1.29085
 
 # install java
-RUN choco install -y jdk11 -params "both=true"
+RUN choco install -y temurin11 --params="/both"
 
 # install gradle
 RUN choco install gradle --version 4.10.3
