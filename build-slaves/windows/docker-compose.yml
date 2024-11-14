@@ -1,5 +1,9 @@
 # version: '2.1'
 services:
+    net-base:
+        build: ./windows-net-base
+        image: 'inetsoftware/windows-net-base'
+
     choco:
         build: ./windows-chocolatey
         image: 'inetsoftware/windows-chocolatey'

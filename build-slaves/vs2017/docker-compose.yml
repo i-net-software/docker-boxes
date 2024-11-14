@@ -1,5 +1,12 @@
 # version: '2.1'
 services:
+    net-base:
+        build:
+            context: ../windows/windows-net-base
+            args:
+                SDK_TAG: ${SDK_TAG}
+        image: 'inetsoftware/windows-net-base'
+
     choco:
         build:
             context: ../windows/windows-chocolatey

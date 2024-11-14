@@ -4,8 +4,11 @@ ARG REGISTRY
 FROM ${REGISTRY}inetsoftware/windows-sdk
 LABEL maintainer contact@inetsoftware.de
 
+# Spoof 3.5 to be installed, which should be the case since base
+RUN powershell -Command "New-Item -Path 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP' -Name 'v3.5' -Force"
+
 # install wixtoolset
-RUN choco install -y wixtoolset --version 3.11.1
+RUN choco install -y wixtoolset --version 3.14.1
 
 # install msbuild - already done in dotnet layer
 # RUN choco install -y microsoft-build-tools --version 14.0.25420.1

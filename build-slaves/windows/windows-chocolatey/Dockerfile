@@ -10,10 +10,6 @@ FROM inetsoftware/windows-fonts as FONTS_BASE
 # CAREFUL!!! THIS IS A PSEUDO TAG, DEFINED BY build.env
 FROM mcr.microsoft.com/dotnet/framework:3.5${SDK_TAG}
 
-
-# FROM microsoft/dotnet-framework:3.5-sdk
-# FROM microsoft/dotnet-framework:4.7.2-sdk
-# FROM microsoft/dotnet-framework:4.7.1-sdk
 LABEL maintainer contact@inetsoftware.de
 
 SHELL ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
