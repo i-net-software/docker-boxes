@@ -1,23 +1,23 @@
-FROM adoptopenjdk:11-jdk-hotspot as JAVA
-
-# Register Image as copy source for Java 8
-
 FROM inetsoftware/ubuntu-jenkins-base
 LABEL maintainer contact@inetsoftware.de
 
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
 
-# Java 8
-COPY --from=JAVA /opt/java/openjdk /opt/java/openjdk
-ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH"
+# Java 8 for compilation
+# Java 11 for Jenkins client
+RUN wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add - ; \
+    echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list ; \
+    apt update ; apt install -y temurin-8-jdk temurin-11-jdk temurin-11-jre ; \
+    update-alternatives --set java $(update-alternatives --display java | grep 8-jdk | grep priority | awk '{print $1}') ;
 
 # The link is required for jenkins to start the VM
 RUN mkdir -p /usr/java \
-    && ln -s ${JAVA_HOME}/jre /usr/java/default \
-    && ln -s ${JAVA_HOME}/bin/java /usr/local/bin \
-    && ln -s ${JAVA_HOME}/bin/javac /usr/local/bin
+    && JAVA_HOME_11_JDK="$(update-alternatives --display java | grep 11-jdk | grep priority | awk '{print $1}' | xargs dirname | xargs dirname)" \
+    && JAVA_HOME_11_JRE="$(update-alternatives --display java | grep 11-jre | grep priority | awk '{print $1}' | xargs dirname | xargs dirname)" \
+    && ln -s ${JAVA_HOME_11_JRE}/bin /usr/java/default \
+    && ln -s ${JAVA_HOME_11_JDK}/bin/java /usr/local/bin \
+    && ln -s ${JAVA_HOME_11_JDK}/bin/javac /usr/local/bin
 
 # Gradle 4.10.2 (Default)
 RUN add-apt-repository ppa:cwchien/gradle \

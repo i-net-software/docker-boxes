@@ -10,6 +10,8 @@ RUN choco install -y git
 RUN choco install -y tortoisesvn --version 1.14.1.29085
 
 # install java
+RUN choco install -y temurin8 --params="/both"
+# Java 11 second so it will be in the path
 RUN choco install -y temurin11 --params="/both"
 
 # install gradle
