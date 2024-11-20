@@ -8,6 +8,10 @@ services:
                 SHA: master
                 PKGVER: 4.1.1
                 PKGREL: 2
+            extra_hosts:
+                - "github.com:140.82.121.3"
+                - "codeload.github.com:140.82.121.9"
+                - "objects.githubusercontent.com:185.199.111.133"
     tesseract411:
         image: 'inetsoftware/alpine-tesseract:4.1.1'
         build:
@@ -16,6 +20,10 @@ services:
                 SHA: 75103040c94ffd7fe5e4e3dfce0a7e67a8420849
                 PKGVER: 4.1.1
                 PKGREL: 1
+            extra_hosts:
+                - "github.com:140.82.121.3"
+                - "codeload.github.com:140.82.121.9"
+                - "objects.githubusercontent.com:185.199.111.133"
     tesseract410:
         image: 'inetsoftware/alpine-tesseract:4.1.0'
         build:
@@ -24,3 +32,7 @@ services:
                 SHA: 5280bbcade4e2dec5eef439a6e189504c2eadcd9
                 PKGVER: 4.1.0
                 PKGREL: 1
+            extra_hosts:
+                - "github.com:140.82.121.3"
+                - "codeload.github.com:140.82.121.9"
+                - "objects.githubusercontent.com:185.199.111.133"

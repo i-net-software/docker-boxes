@@ -1,8 +1,8 @@
-FROM alpine:3.10 as builder
+FROM alpine:3.15 as builder
 
 RUN set -x \
     # Add testing repository
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    # && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
     # Install SDK
     && apk update \
     && apk upgrade --no-cache apk-tools \
@@ -18,10 +18,10 @@ RUN set -x \
 
 RUN set -x \
     # Add community repository
-    && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
+    # && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     # Install SDK
     && apk update \
-    && apk add --no-cache autoconf-archive
+    && apk add --no-cache autoconf-archive sudo
 
 # Add the APKBUILD File from
 # https://git.alpinelinux.org/cgit/aports/tree/testing/tesseract-git/APKBUILD
