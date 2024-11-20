@@ -5,7 +5,10 @@ services:
         image: 'inetsoftware/ubuntu-jenkins-base'
 
     java:
-        build: ./ubuntu-java-gradle
+        build:
+            context: ./ubuntu-java-gradle
+            extra_hosts:
+                - "packages.adoptium.net:104.18.20.66"
         image: 'inetsoftware/ubuntu-java-gradle'
 
     tesseract:
@@ -17,7 +20,10 @@ services:
         image: 'inetsoftware/ubuntu-java-x11'
 
     firefox:
-        build: ./ubuntu-x11-firefox
+        build:
+            context: ./ubuntu-x11-firefox
+            extra_hosts:
+                - "bitbucket.org:185.166.143.49"
         image: 'inetsoftware/ubuntu-x11-firefox'
 
     eclipse:
