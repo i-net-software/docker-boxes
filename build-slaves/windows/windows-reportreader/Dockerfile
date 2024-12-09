@@ -17,3 +17,6 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process 'C:/v
 #
 ADD https://repository-server.internal.inetsoftware.de/repository/inet-snapshot/lib/CrystalReports/13.0.4/install-cr4vs.ps1 /install-cr4vs.ps1
 RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "C:/install-cr4vs.ps1 ; del C:/install-cr4vs.ps1"
+
+# Install .NET 3.5
+RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-Service -Name wuauserv -StartupType Manual ; Start-Service -Name wuauserv ; Set-Service -Name bits -StartupType Manual ; Start-Service -Name bits ; DISM /Online /Enable-Feature /FeatureName:NetFx3 /All"
