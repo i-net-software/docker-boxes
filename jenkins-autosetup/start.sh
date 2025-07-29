@@ -37,7 +37,10 @@ function installPlugins {
         echo "File $pluginsFile does not exist"
     fi
 
+    echo "Done with preparation, installing the plugins now."
     jenkins-plugin-cli --plugin-file "${tmpPluginFile}"
+    
+    echo "Done."
     rm -f "${tmpPluginFile}"
 }
 
