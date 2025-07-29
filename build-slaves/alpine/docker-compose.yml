@@ -41,6 +41,7 @@ services:
                 - "deac-riga.dl.sourceforge.net:89.111.52.100"
                 - "deac-ams.dl.sourceforge.net:185.34.27.55"
                 - "altushost-swe.dl.sourceforge.net:79.142.76.130"
+                - "altushost-bul.dl.sourceforge.net:37.46.114.7"
                 - "jaist.dl.sourceforge.net:150.65.7.130"
                 - "dl-cdn.alpinelinux.org:146.75.122.132"
 
