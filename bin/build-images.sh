@@ -8,6 +8,7 @@ GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 READLINK=$(command -v greadlink >/dev/null && echo greadlink || echo readlink)
 # Resolve root path
 ROOT=$(dirname "$($READLINK -f "$0")")
+ROOT=$(dirname "${ROOT}")
 
 SDK_TAG=latest
 
