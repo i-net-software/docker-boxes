@@ -3,7 +3,12 @@
 TAG="v6"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 # greadlink: brew install coreutils
-ROOT=$(eval $(printf "%s -f %s/ | xargs dirname" $([ ! -z $(which greadlink) ] && echo readlink | echo greadlink) $(dirname $0)))
+
+# Check if greadlink exists, fallback to readlink
+READLINK=$(command -v greadlink >/dev/null && echo greadlink || echo readlink)
+# Resolve root path
+ROOT=$(dirname "$($READLINK -f "$0")")
+
 SDK_TAG=latest
 
 case "$1" in
