@@ -35,6 +35,14 @@ services:
             context: ./alpine-java-gradle
             extra_hosts:
                 - "downloads.sourceforge.net:204.68.111.105"
+                - "vorboss.dl.sourceforge.net:5.10.152.194"
+                - "ufpr.dl.sourceforge.net:200.17.212.49"
+                - "netcologne.dl.sourceforge.net:78.35.24.122"
+                - "deac-riga.dl.sourceforge.net:89.111.52.100"
+                - "deac-ams.dl.sourceforge.net:185.34.27.55"
+                - "altushost-swe.dl.sourceforge.net:79.142.76.130"
+                - "jaist.dl.sourceforge.net:150.65.7.130"
+                - "dl-cdn.alpinelinux.org:146.75.122.132"
 
         image: 'inetsoftware/alpine-java-gradle'
         networks:
