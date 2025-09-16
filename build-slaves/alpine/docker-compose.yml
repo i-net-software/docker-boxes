@@ -54,6 +54,10 @@ services:
         image: 'inetsoftware/alpine-gradle-tesseract'
         networks:
             - default
+    
+    pandoc:
+        build: ./alpine-pandoc
+        image: 'inetsoftware/alpine-pandoc'
 
 networks:
     default:
