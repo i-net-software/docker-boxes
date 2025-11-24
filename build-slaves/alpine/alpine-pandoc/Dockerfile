@@ -1,13 +1,12 @@
 # Use the official Pandoc image as base
 FROM pandoc/latex:latest
 
-# Install Python, pip, and WeasyPrint dependencies using apk (Alpine Linux)
+# Install system dependencies for WeasyPrint and Pillow with WebP support
 RUN apk add --no-cache \
     python3 \
     py3-pip \
     py3-setuptools \
     py3-wheel \
-    py3-weasyprint \
     pango \
     cairo \
     gdk-pixbuf \
@@ -18,10 +17,30 @@ RUN apk add --no-cache \
     font-noto-emoji \
     font-dejavu \
     font-liberation \
+    # Build deps for Pillow with WebP
+    build-base \
+    python3-dev \
+    zlib-dev \
+    jpeg-dev \
+    freetype-dev \
+    harfbuzz-dev \
+    cairo-dev \
+    pango-dev \
+    gdk-pixbuf-dev \
     libwebp \
-    libwebp-dev \
-    freetype \
-    harfbuzz
+    libwebp-dev
 
-# Verify WeasyPrint installation
-RUN weasyprint --version
+# Create a virtual environment for Python packages
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Pillow from source (with WebP support) + WeasyPrint
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir --no-binary :all: Pillow \
+ && pip install --no-cache-dir WeasyPrint
+
+ENV PILLOW_ONLY=1
+
+# Verify installation
+RUN weasyprint --version \
+ && python3 -c "from PIL import features; print('WebP support:', features.check('webp'))"
