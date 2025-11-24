@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="v6"
+TAG="v7"
 GITBRANCH=`git rev-parse --abbrev-ref HEAD`
 # greadlink: brew install coreutils
 
