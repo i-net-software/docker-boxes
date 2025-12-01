@@ -33,10 +33,13 @@ RUN $gs=dir $env:ProgramFiles/gs | select Name | select -ExpandProperty Name ; \
     SETX Path $env:ProgramFiles\gs\$gs\bin';%PATH%' \
     ;
 
-SHELL ["cmd", "/S", "/C"]
-
 # Access treiber for mdb
-RUN choco install MSAccess2010-redist-x64
+# RUN choco install access2016runtime
+RUN Invoke-WebRequest https://download.microsoft.com/download/3/5/C/35C84C36-661A-44E6-9324-8786B8DBE231/accessdatabaseengine_X64.exe -OutFile $env:temp\accessdatabaseengine_X64.exe ; \
+    Start-Process -FilePath $env:temp\accessdatabaseengine_X64.exe -ArgumentList /quiet, /norestart -PassThru -Wait ; \
+    rm $env:temp\accessdatabaseengine_X64.exe
+
+SHELL ["cmd", "/S", "/C"]
 
 # ODBC Driver for SQL-Server
 RUN choco install sqlserver-odbcdriver --version 17.8.1.1
