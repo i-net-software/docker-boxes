@@ -16,7 +16,7 @@ services:
         build:
             context: ./alpine-jenkins-base
             args:
-                - BASE=eclipse-temurin:17-jdk-alpine
+                - BASE=eclipse-temurin:25-jdk-alpine
         image: 'inetsoftware/alpine-jenkins-base:ssh-docker'
         networks:
             - default

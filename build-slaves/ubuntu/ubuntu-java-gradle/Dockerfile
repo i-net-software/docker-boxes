@@ -10,13 +10,21 @@ RUN mkdir -p /usr/java \
     && ln -s ${JAVA_HOME}/bin/java /usr/local/bin \
     && ln -s ${JAVA_HOME}/bin/javac /usr/local/bin
 
-# Gradle 6.7.1(Default)
-RUN add-apt-repository ppa:cwchien/gradle \
-    && apt-get update \
-    && apt-get install -y gradle-8.3 \
-    ; apt-get autoclean \
-    ; apt-get autoremove \
-    ; rm -rf /var/lib/apt/lists/*
+# Install Gradle 9 manually for version control
+RUN apt-get update \
+    && apt-get install -y wget unzip curl \
+    && bash -c 'GRADLE_VERSION_DESIRED="9.2.1" \
+    && GRADLE_PACKAGE=$(curl -fsSL https://services.gradle.org/distributions --list-only | sed -n "s/.*\(gradle-.*.all.zip\).*/\1/p" | egrep -v "milestone|rc" | grep "${GRADLE_VERSION_DESIRED}" | head -1) \
+    && GRADLE_VERSION=$(echo ${GRADLE_PACKAGE} | cut -d "-" -f 1,2) \
+    && mkdir -p /opt/gradle \
+    && wget -N "https://services.gradle.org/distributions/${GRADLE_PACKAGE}" -O /tmp/${GRADLE_PACKAGE} \
+    && unzip -oq /tmp/${GRADLE_PACKAGE} -d /opt/gradle \
+    && ln -sfnv ${GRADLE_VERSION} /opt/gradle/latest \
+    && printf "export GRADLE_HOME=/opt/gradle/latest\nexport PATH=\$PATH:\$GRADLE_HOME/bin\n" > /etc/profile.d/gradle.sh \
+    && rm /tmp/${GRADLE_PACKAGE}' \
+    && apt-get autoclean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/*
 
 # mudraw
 RUN apt-get update \
@@ -43,8 +51,8 @@ RUN echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula selec
 COPY docker-jvm-opts.sh /usr/local/bin/docker-jvm-opts.sh
 
 # Hack Gradle. This is needed to inject the actual maximum memory for java processes and be able to set the JVM_HEAP_RATIO with jenkins
-RUN awk 'NR==2{print "echo \"Updating JAVA_TOOL_OPTIONS ...\""}NR==3{print "export JAVA_TOOL_OPTIONS=$(/usr/local/bin/docker-jvm-opts.sh)"}1' $(which gradle) > /tmp/gradle \
-    && cat /tmp/gradle > $(which gradle) && rm /tmp/gradle
+RUN awk 'NR==2{print "echo \"Updating JAVA_TOOL_OPTIONS ...\""}NR==3{print "export JAVA_TOOL_OPTIONS=$(/usr/local/bin/docker-jvm-opts.sh)"}1' /opt/gradle/latest/bin/gradle > /tmp/gradle \
+    && cat /tmp/gradle > /opt/gradle/latest/bin/gradle && rm /tmp/gradle
 
 # Add JAVA_HOME to profile.d
 RUN printf "export JAVA_HOME=${JAVA_HOME}\nexport PATH=\$JAVA_HOME/bin:\$PATH:/bin" > /etc/profile.d/java-env.sh

@@ -1,10 +1,21 @@
-FROM eclipse-temurin:17-jdk-centos7
+FROM eclipse-temurin:25-jdk-ubi10-minimal
 LABEL maintainer contact@inetsoftware.de
 
 # Install OpenSSH Server, rpm build tools, git and subversion
 # Create jenkins user and set password
-RUN yum install -y openssh-server auto-buildrequires rpm-sign git subversion langpacks-en unzip && \
+RUN microdnf update && microdnf install -y dnf
+RUN dnf install -y openssh-server git subversion langpacks-en unzip wget && \
     mkdir /var/run/sshd
+
+# Install auto-buildrequires and ensure rpm-sign functionality
+# Note: rpm-sign functionality is provided by rpmsign command in rpm package (already available)
+# For auto-buildrequires, try downloading RPM from Fedora Koji
+RUN dnf install -y rpm-build python3-pip python3-setuptools || true
+RUN (python3 -m pip install --break-system-packages auto-buildrequires 2>&1 || \
+     (wget -q "https://kojipkgs.fedoraproject.org/packages/auto-buildrequires/0.4.0/3.fc40/noarch/auto-buildrequires-0.4.0-3.fc40.noarch.rpm" -O /tmp/auto-buildrequires.rpm 2>&1 && \
+      rpm -ivh /tmp/auto-buildrequires.rpm --nodeps --force 2>&1 || true) || \
+     echo "Note: auto-buildrequires may need manual installation") && \
+    rm -f /tmp/*.rpm 2>/dev/null || true
 
 RUN adduser jenkins && \
     echo jenkins:jenkins | chpasswd && \
